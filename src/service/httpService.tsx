@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 type loginRequest = {
   email: string;
@@ -11,12 +11,16 @@ type loginResponse = {
   expirationDate: string;
 };
 
-export const api = axios.create({
-  baseURL: "localhost:8080",
-});
+interface ApiInstance extends AxiosInstance {
+  login: (data: loginRequest) => Promise<void>;
+}
 
-export const login = async (data: loginRequest) => {
-  const response = (await api.post("/auth/login", data)).data as loginResponse;
+export const api = axios.create({
+  baseURL: "http://localhost:8080",
+}) as ApiInstance;
+
+api.login = async function (data: loginRequest) {
+  const response = (await this.post("/auth/login", data)).data as loginResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
 };
@@ -30,7 +34,11 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     // If the server returns a 403 error (Forbidden) and the error message is 'jwt expired'
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if (
+      error.response &&
+      error.response.status === 403 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
 
       // Attempt to refresh the token

@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import api from "../service/httpService";
 import {
   Formik,
   Field,
@@ -32,11 +33,16 @@ export default function SimpleCard() {
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          await api.login(values);
           alert(JSON.stringify(values, null, 2));
+        } catch (error) {
+          alert("An error occurred. Please try again later.");
+          console.error(error);
+        } finally {
           setSubmitting(false);
-        }, 400);
+        }
       }}
     >
       {({ isSubmitting }) => (
