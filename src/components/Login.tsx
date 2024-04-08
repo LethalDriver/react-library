@@ -36,7 +36,7 @@ export default function SimpleCard() {
       onSubmit={async (values, { setSubmitting }) => {
         try {
           await api.login(values);
-          alert(JSON.stringify(values, null, 2));
+          console.log("Logged in successfully");
         } catch (error) {
           alert("An error occurred. Please try again later.");
           console.error(error);
