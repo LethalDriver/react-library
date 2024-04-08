@@ -22,12 +22,12 @@ api.interceptors.response.use(
       const originalRequest = error.config;
   
       // If the server returns a 403 error (Forbidden) and the error message is 'jwt expired'
-      if (error.response.status === 403 && error.response.data.message === 'jwt expired' && !originalRequest._retry) {
+      if (error.response.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true;
   
         // Attempt to refresh the token
         const refreshToken = localStorage.getItem('refreshToken'); // replace with your refresh token
-        const res = await axios.post('/refresh_token', { token: refreshToken }); // replace with your refresh token endpoint
+        const res = await axios.post('auth/refresh', { token: refreshToken }); // replace with your refresh token endpoint
   
         // If refresh is successful, update the token in localStorage and in the axios headers
         if (res.status === 200) {
