@@ -7,6 +7,7 @@ import {
   ErrorMessage,
   FieldInputProps,
   FormikProps,
+  FormikHelpers
 } from "formik";
 
 import {
@@ -33,7 +34,7 @@ export default function SimpleCard() {
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={validationSchema}
-      onSubmit={async (values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
           await api.login(values);
           alert(JSON.stringify(values, null, 2));
