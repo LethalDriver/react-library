@@ -53,7 +53,7 @@ export default function SimpleCard() {
     >
       {({ isSubmitting }) => (
         <Flex
-          minH={"calc(100vh - 18rem)"}
+          minH={"calc(100vh - 14rem)"}
           align={"center"}
           justify={"center"}
           bg={useColorModeValue("gray.50", "gray.800")}
