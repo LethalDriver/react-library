@@ -1,5 +1,6 @@
 import * as Yup from "yup";
-import api from "../service/httpService";
+import {api, userDto} from "../service/httpService";
+import { useAuth } from "../service/authProvider";
 import {
   Formik,
   Field,
@@ -30,13 +31,17 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SimpleCard() {
+  const { setUser } = useAuth();
+
+
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
-          await api.login(values);
+          const user = await api.login(values) as userDto;
+          setUser(user);
           alert(JSON.stringify(values, null, 2));
         } catch (error) {
           alert("An error occurred. Please try again later.");
