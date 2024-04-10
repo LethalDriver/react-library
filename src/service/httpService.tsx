@@ -21,6 +21,7 @@ type loginResponse = {
 
 interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDto>;
+  userInfo: () => Promise<userDto | null>;
 }
 
 export const api = axios.create({
@@ -40,6 +41,14 @@ api.login = async function (data: loginRequest) {
   localStorage.setItem("refreshToken", response.refreshToken);
   return response.userDto;
 };
+ api.userInfo = async function () {
+  try {
+    return (await this.get("/auth/user-info")).data as userDto;
+  }
+  catch (error) {
+    return null;
+}
+ }
 
 api.interceptors.response.use(
   (response) => {
