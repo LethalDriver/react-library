@@ -43,9 +43,10 @@ api.login = async function (data: loginRequest) {
 };
  api.userInfo = async function () {
   try {
-    return (await this.get("/auth/user-info")).data as userDto;
+    return (await this.get("/users")).data as userDto;
   }
   catch (error) {
+    console.error(error);
     return null;
 }
  }
