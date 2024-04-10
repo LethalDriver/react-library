@@ -1,43 +1,40 @@
-import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { userDto, api } from "./httpService";
 
 type AuthContextType = {
-    token: string | null;
-    setToken: (newToken: string) => void;
+    user: userDto | null;
+    setUser: (newUser: userDto) => void;
     };
 
 
 const AuthContext = createContext<AuthContextType>({
-    token: null,
-    setToken: (newToken: string) => {},
+    user: null,
+    setUser: (newUser: userDto) => {},
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // State to hold the authentication token
-  const [token, setToken_] = useState(localStorage.getItem("token"));
 
-  // Function to set the authentication token
-  const setToken = (newToken: string) => {
-    setToken_(newToken);
+const [user, setUser_] = useState<userDto | null>(null);
+
+const setUser = (newUser: userDto) => {
+  setUser_(newUser);
+}
+
+useEffect(() => {
+  const fetchUser = async () => {
+    const userInfo = await api.userInfo();
+    setUser_(userInfo);
   };
 
-  useEffect(() => {
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      localStorage.setItem('token',token);
-    } else {
-      delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem('token')
-    }
-  }, [token]);
+  fetchUser();
+}, []);
 
-  // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({
-      token,
-      setToken,
+      user,
+      setUser,
     }),
-    [token]
+    [user]
   );
 
   return (
