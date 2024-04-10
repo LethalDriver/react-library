@@ -8,21 +8,37 @@ type loginRequest = {
 type loginResponse = {
   token: string;
   refreshToken: string;
-  expirationDate: string;
-};
+  userDto: userDto
+  }
+
+  export type userDto = {
+    id: number;
+    email: string;
+    username: string;
+    name: string;
+    role: string;
+  };
 
 interface ApiInstance extends AxiosInstance {
-  login: (data: loginRequest) => Promise<void>;
+  login: (data: loginRequest) => Promise<userDto>;
 }
 
 export const api = axios.create({
   baseURL: "http://localhost:8080",
 }) as ApiInstance;
 
+export const initializeAxios = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    api.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+  }
+};
+
 api.login = async function (data: loginRequest) {
   const response = (await this.post("/auth/login", data)).data as loginResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
+  return response.userDto;
 };
 
 api.interceptors.response.use(
@@ -61,4 +77,5 @@ api.interceptors.response.use(
   }
 );
 
+initializeAxios();
 export default api;
