@@ -41,12 +41,12 @@ api.login = async function (data: loginRequest) {
   localStorage.setItem("refreshToken", response.refreshToken);
   return response.userDto;
 };
+
  api.userInfo = async function () {
   try {
     return (await this.get("/users")).data as userDto;
   }
   catch (error) {
-    console.error(error);
     return null;
 }
  }
