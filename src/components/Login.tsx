@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function SimpleCard() {
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
 
   return (
@@ -40,9 +40,9 @@ export default function SimpleCard() {
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
-          const user = await api.login(values) as userDto;
-          setUser(user);
-          alert(JSON.stringify(values, null, 2));
+          const userDto = await api.login(values) as userDto;
+          setUser(userDto);
+          console.log("Loggined in as", user?.email)
         } catch (error) {
           alert("An error occurred. Please try again later.");
           console.error(error);
