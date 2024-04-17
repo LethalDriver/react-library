@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { Book } from "../components/Books";
 
 type loginRequest = {
   email: string;
@@ -22,6 +23,7 @@ type loginResponse = {
 interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDto>;
   userInfo: () => Promise<userDto | null>;
+  fetchBooks: () => Promise<Book[]>;
 }
 
 export const api = axios.create({
@@ -50,6 +52,10 @@ api.login = async function (data: loginRequest) {
     return null;
 }
  }
+
+ api.fetchBooks = async function () {
+  return (await this.get("/books")).data as Book[];
+}
 
 api.interceptors.response.use(
   (response) => {

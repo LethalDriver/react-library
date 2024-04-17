@@ -1,6 +1,6 @@
-import React from 'react'
+import { useState } from 'react'
 
-type Book = {
+export type Book = {
     id: number;
     title: string;
     author: string;
@@ -10,14 +10,15 @@ type Book = {
     bookDetails: BookDetails;
 }
 
-type BookDetails = {
+export type BookDetails = {
     genre: string;
     summary: string;
     coverImage: string;
 }
 
 const Books = () => {
-    []
+    const [books, setBooks] = useState<Book[]>([]);
+
   return (
     <div>Books</div>
   )
