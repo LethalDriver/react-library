@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { Book } from "../components/Books";
 
 type loginRequest = {
   email: string;
@@ -8,22 +9,53 @@ type loginRequest = {
 type loginResponse = {
   token: string;
   refreshToken: string;
-  expirationDate: string;
-};
+  userDto: userDto
+  }
+
+  export type userDto = {
+    id: number;
+    email: string;
+    username: string;
+    name: string;
+    role: string;
+  };
 
 interface ApiInstance extends AxiosInstance {
-  login: (data: loginRequest) => Promise<void>;
+  login: (data: loginRequest) => Promise<userDto>;
+  userInfo: () => Promise<userDto | null>;
+  fetchBooks: () => Promise<Book[]>;
 }
 
 export const api = axios.create({
   baseURL: "http://localhost:8080",
 }) as ApiInstance;
 
+export const initializeAxios = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    api.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+  }
+};
+
 api.login = async function (data: loginRequest) {
   const response = (await this.post("/auth/login", data)).data as loginResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
+  return response.userDto;
 };
+
+ api.userInfo = async function () {
+  try {
+    return (await this.get("/users")).data as userDto;
+  }
+  catch (error) {
+    return null;
+}
+ }
+
+ api.fetchBooks = async function () {
+  return (await this.get("/books")).data as Book[];
+}
 
 api.interceptors.response.use(
   (response) => {
@@ -61,4 +93,5 @@ api.interceptors.response.use(
   }
 );
 
+initializeAxios();
 export default api;
