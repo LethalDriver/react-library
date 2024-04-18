@@ -9,7 +9,7 @@ type loginRequest = {
 type loginResponse = {
   token: string;
   refreshToken: string;
-  userDto: userDto;
+  user: userDto;
 };
 
 export type userDto = {
@@ -42,7 +42,7 @@ api.login = async function (data: loginRequest) {
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
   api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
-  return response.userDto;
+  return response.user;
 };
 
 api.userInfo = async function () {

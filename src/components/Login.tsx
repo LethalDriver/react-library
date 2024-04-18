@@ -42,6 +42,7 @@ export default function SimpleCard() {
       onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
           const userDto = (await api.login(values)) as userDto;
+          console.log(userDto);
           setUser(userDto);
           console.log("Loggined in as", user?.email);
         } catch (error) {
