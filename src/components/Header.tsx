@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuth } from "../service/authProvider";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
@@ -47,6 +48,14 @@ const NavLink = (props: Props) => {
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignInClick = () => {
+    navigate("/login");
+  };
+  const handleSignUpClick = () => {
+    navigate("/register");
+  };
 
   return (
     <>
@@ -109,6 +118,7 @@ export default function Simple() {
                 fontWeight={400}
                 variant={"link"}
                 href={"#"}
+                onClick={handleSignInClick}
               >
                 Sign In
               </Button>
@@ -121,6 +131,7 @@ export default function Simple() {
                 _hover={{
                   bg: "blue.300",
                 }}
+                onClick={handleSignUpClick}
               >
                 Sign Up
               </Button>
