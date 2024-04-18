@@ -9,16 +9,16 @@ type loginRequest = {
 type loginResponse = {
   token: string;
   refreshToken: string;
-  userDto: userDto
-  }
+  userDto: userDto;
+};
 
-  export type userDto = {
-    id: number;
-    email: string;
-    username: string;
-    name: string;
-    role: string;
-  };
+export type userDto = {
+  id: number;
+  email: string;
+  username: string;
+  name: string;
+  role: string;
+};
 
 interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDto>;
@@ -31,9 +31,9 @@ export const api = axios.create({
 }) as ApiInstance;
 
 export const initializeAxios = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (token) {
-    api.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    api.defaults.headers.common["Authorization"] = "Bearer " + token;
   }
 };
 
@@ -41,21 +41,21 @@ api.login = async function (data: loginRequest) {
   const response = (await this.post("/auth/login", data)).data as loginResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
+  api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
   return response.userDto;
 };
 
- api.userInfo = async function () {
+api.userInfo = async function () {
   try {
     return (await this.get("/users")).data as userDto;
-  }
-  catch (error) {
+  } catch (error) {
     return null;
-}
- }
+  }
+};
 
- api.fetchBooks = async function () {
+api.fetchBooks = async function () {
   return (await this.get("/books")).data as Book[];
-}
+};
 
 api.interceptors.response.use(
   (response) => {
@@ -86,6 +86,10 @@ api.interceptors.response.use(
         // Retry the original request
         return api(originalRequest);
       }
+    } else if (error.response && error.response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      delete api.defaults.headers.common["Authorization"];
     }
 
     // If the error is due to other reasons, we just throw it back to axios
