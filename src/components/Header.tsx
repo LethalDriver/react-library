@@ -17,13 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuth } from "../service/authProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
 }
-
-const Links = ["Dashboard", "Projects", "Team"];
 
 const NavLink = (props: Props) => {
   const { children } = props;
@@ -50,6 +48,11 @@ export default function Simple() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  const links = ["Home"];
+  if (user) {
+    links.push("Books", "Loans");
+  }
+
   const handleSignInClick = () => {
     navigate("/login");
   };
@@ -75,8 +78,10 @@ export default function Simple() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+              {links.map((link) => (
+                <Link key={link} to={`/${link.toLowerCase()}`}>
+                  <NavLink>{link}</NavLink>
+                </Link>
               ))}
             </HStack>
           </HStack>
@@ -142,8 +147,10 @@ export default function Simple() {
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+              {links.map((link) => (
+                <Link key={link} to={`/${link.toLowerCase()}`}>
+                  <NavLink key={link}>{link}</NavLink>
+                </Link>
               ))}
             </Stack>
           </Box>
