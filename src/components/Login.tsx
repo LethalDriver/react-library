@@ -26,8 +26,10 @@ import {
 } from "@chakra-ui/react";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required("Required"),
-  password: Yup.string().required("Required"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Invalid email address."),
+  password: Yup.string().required("Password is required"),
 });
 
 export default function SimpleCard() {
@@ -76,13 +78,25 @@ export default function SimpleCard() {
                     }: {
                       field: FieldInputProps<any>;
                       form: FormikProps<any>;
-                    }) => (
-                      <FormControl id="email">
-                        <FormLabel>Email address</FormLabel>
-                        <Input {...field} type="email" />
-                        <ErrorMessage name="email" component="div" />
-                      </FormControl>
-                    )}
+                    }) => {
+                      const error = form.errors.email && form.touched.email;
+                      return (
+                        <FormControl id="email" isInvalid={!!error}>
+                          <FormLabel>Email address</FormLabel>
+                          <Input {...field} type="email" />
+                          <ErrorMessage
+                            name="email"
+                            component={(props) => (
+                              <Text
+                                color="red.500"
+                                align={"start"}
+                                {...props}
+                              />
+                            )}
+                          />
+                        </FormControl>
+                      );
+                    }}
                   </Field>
                   <Field name="password">
                     {({
@@ -91,13 +105,22 @@ export default function SimpleCard() {
                     }: {
                       field: FieldInputProps<any>;
                       form: FormikProps<any>;
-                    }) => (
-                      <FormControl id="password">
-                        <FormLabel>Password</FormLabel>
-                        <Input {...field} type="password" />
-                        <ErrorMessage name="password" component="div" />
-                      </FormControl>
-                    )}
+                    }) => {
+                      const error =
+                        form.errors.password && form.touched.password;
+                      return (
+                        <FormControl id="password" isInvalid={!!error}>
+                          <FormLabel>Password</FormLabel>
+                          <Input {...field} type="password" />
+                          <ErrorMessage
+                            name="password"
+                            component={(props) => (
+                              <Text color="red.500" align="start" {...props} />
+                            )}
+                          />
+                        </FormControl>
+                      );
+                    }}
                   </Field>
                   <Stack spacing={10}>
                     <Stack
