@@ -85,11 +85,11 @@ api.interceptors.response.use(
 
         // Retry the original request
         return api(originalRequest);
+      } else if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        delete api.defaults.headers.common["Authorization"];
       }
-    } else if (error.response && error.response.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("refreshToken");
-      delete api.defaults.headers.common["Authorization"];
     }
 
     // If the error is due to other reasons, we just throw it back to axios
