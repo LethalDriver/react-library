@@ -58,7 +58,7 @@ const Books = () => {
           Search
         </Button>
       </Stack>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+      <Grid templateColumns="repeat(5, 1fr)" gap={6}>
         {books.map((book) => (
           <BookCard
             key={book.id}
