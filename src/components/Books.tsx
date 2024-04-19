@@ -31,16 +31,17 @@ export type BookDetails = {
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [search, setSearch] = useState<string>("");
-  useEffect(() => {
-    const fetchBooks = async () => {
-      const fetchedBooks = await api.fetchBooks();
-      setBooks(fetchedBooks);
-    };
-    fetchBooks();
-  }, [search]);
+  const fetchBooks = async () => {
+    const fetchedBooks = await api.fetchBooks(search);
+    setBooks(fetchedBooks);
+  };
+
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
-    console.log(search);
+  };
+
+  const onSearchButtonClick = () => {
+    fetchBooks();
   };
 
   return (
@@ -53,12 +54,16 @@ const Books = () => {
             onChange={onSearchChange}
             placeholder="Search books"
           />
+          <Button
+            bg={"blue.400"}
+            textColor={"white"}
+            onClick={onSearchButtonClick}
+          >
+            Search
+          </Button>
         </InputGroup>
-        <Button bg={"blue.400"} textColor={"white"}>
-          Search
-        </Button>
       </Stack>
-      <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+      <Grid templateColumns="repeat(4, 1fr)" gap={6}>
         {books.map((book) => (
           <BookCard
             key={book.id}
