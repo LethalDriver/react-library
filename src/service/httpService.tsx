@@ -72,7 +72,7 @@ api.interceptors.response.use(
     // If the server returns a 403 error (Forbidden) and the error message is 'jwt expired'
     if (
       error.response &&
-      error.response.status === 403 &&
+      error.response.status === 401 &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
