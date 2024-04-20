@@ -1,28 +1,10 @@
 import axios, { AxiosInstance } from "axios";
 import { Book } from "../components/Books";
-
-type loginRequest = {
-  email: string;
-  password: string;
-};
-
-type loginResponse = {
-  token: string;
-  refreshToken: string;
-  user: userDto;
-};
-
-export type userDto = {
-  id: number;
-  email: string;
-  username: string;
-  name: string;
-  role: string;
-};
+import { loginRequest, loginResponse, userDetails } from "../types/authTypes";
 
 interface ApiInstance extends AxiosInstance {
-  login: (data: loginRequest) => Promise<userDto>;
-  userInfo: () => Promise<userDto | null>;
+  login: (data: loginRequest) => Promise<userDetails>;
+  userInfo: () => Promise<userDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
 }
 
@@ -47,7 +29,7 @@ api.login = async function (data: loginRequest) {
 
 api.userInfo = async function () {
   try {
-    return (await this.get("/users")).data as userDto;
+    return (await this.get("/users")).data as userDetails;
   } catch (error) {
     return null;
   }

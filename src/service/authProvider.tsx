@@ -1,20 +1,21 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { userDto, api } from "./httpService";
+import { api } from "./httpService";
+import { userDetails } from "../types/authTypes";
 
 type AuthContextType = {
-  user: userDto | null;
-  setUser: (newUser: userDto) => void;
+  user: userDetails | null;
+  setUser: (newUser: userDetails) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  setUser: (newUser: userDto) => {},
+  setUser: (newUser: userDetails) => {},
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser_] = useState<userDto | null>(null);
+  const [user, setUser_] = useState<userDetails | null>(null);
 
-  const setUser = (newUser: userDto) => {
+  const setUser = (newUser: userDetails) => {
     setUser_(newUser);
   };
 
