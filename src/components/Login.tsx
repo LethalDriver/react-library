@@ -1,6 +1,7 @@
 import * as Yup from "yup";
-import { api, userDto } from "../service/httpService";
+import { api } from "../service/httpService";
 import { useAuth } from "../service/authProvider";
+import { userDetails } from "../types/authTypes";
 import {
   Formik,
   Field,
@@ -41,7 +42,7 @@ export default function SimpleCard() {
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
-          const userDto = (await api.login(values)) as userDto;
+          const userDto = (await api.login(values)) as userDetails;
           console.log(userDto);
           setUser(userDto);
           console.log("Loggined in as", user?.email);
