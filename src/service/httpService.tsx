@@ -23,7 +23,7 @@ export type userDto = {
 interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDto>;
   userInfo: () => Promise<userDto | null>;
-  fetchBooks: () => Promise<Book[]>;
+  fetchBooks: (title: string) => Promise<Book[]>;
 }
 
 export const api = axios.create({
@@ -53,8 +53,12 @@ api.userInfo = async function () {
   }
 };
 
-api.fetchBooks = async function () {
-  return (await this.get("/books")).data as Book[];
+api.fetchBooks = async function (title: string) {
+  return (
+    await this.get("/books/title", {
+      params: { title },
+    })
+  ).data as Book[];
 };
 
 api.interceptors.response.use(

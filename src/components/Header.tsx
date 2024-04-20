@@ -104,9 +104,7 @@ export default function Simple() {
                 </MenuButton>
                 <MenuList>
                   <MenuItem>{user.email}</MenuItem>
-                  <MenuItem>Link 2</MenuItem>
-                  <MenuDivider />
-                  <MenuItem>Link 3</MenuItem>
+                  <MenuItem>Logout</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

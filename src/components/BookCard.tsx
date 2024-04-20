@@ -28,12 +28,7 @@ export default function BookCard({ title, author, imageUrl }: BookCardProps) {
         pos={"relative"}
         zIndex={1}
       >
-        <Center // Center component to center the image
-          rounded={"lg"}
-          mt={-12}
-          pos={"relative"}
-          height={"192px"}
-        >
+        <Center rounded={"lg"} pos={"relative"} height={"192px"}>
           <Image
             rounded={"lg"}
             height={192}
@@ -43,11 +38,22 @@ export default function BookCard({ title, author, imageUrl }: BookCardProps) {
             alt="#"
           />
         </Center>
-        <Stack pt={10} align={"center"}>
+        <Stack pt={10} align={"center"} height={"148px"} overflow={"hidden"}>
           <Text color={"gray.500"} fontSize={"sm"} textTransform={"uppercase"}>
             {author}
           </Text>
-          <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
+          <Heading
+            fontSize={"2xl"}
+            fontFamily={"body"}
+            fontWeight={500}
+            lineHeight={"1.2"}
+            style={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 2,
+              overflow: "hidden",
+            }}
+          >
             {title}
           </Heading>
         </Stack>
