@@ -53,7 +53,7 @@ export default function SimpleCard() {
         }
       }}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, errors, touched }) => (
         <Flex
           minH={"calc(100vh - 14rem)"}
           align={"center"}
@@ -73,55 +73,40 @@ export default function SimpleCard() {
               <Form>
                 <Stack spacing={4}>
                   <Field name="email">
-                    {({
-                      field,
-                      form,
-                    }: {
-                      field: FieldInputProps<any>;
-                      form: FormikProps<any>;
-                    }) => {
-                      const error = form.errors.email && form.touched.email;
-                      return (
-                        <FormControl id="email" isInvalid={!!error}>
-                          <FormLabel>Email address</FormLabel>
-                          <Input {...field} type="email" />
-                          <ErrorMessage
-                            name="email"
-                            component={(props) => (
-                              <Text
-                                color="red.500"
-                                align={"start"}
-                                {...props}
-                              />
-                            )}
-                          />
-                        </FormControl>
-                      );
-                    }}
+                    {({ field }: { field: FieldInputProps<any> }) => (
+                      <FormControl
+                        id="email"
+                        isInvalid={Boolean(errors.email && touched?.email)}
+                      >
+                        <FormLabel>Email address</FormLabel>
+                        <Input {...field} type="email" />
+                        <ErrorMessage
+                          name="email"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
                   </Field>
                   <Field name="password">
-                    {({
-                      field,
-                      form,
-                    }: {
-                      field: FieldInputProps<any>;
-                      form: FormikProps<any>;
-                    }) => {
-                      const error =
-                        form.errors.password && form.touched.password;
-                      return (
-                        <FormControl id="password" isInvalid={!!error}>
-                          <FormLabel>Password</FormLabel>
-                          <Input {...field} type="password" />
-                          <ErrorMessage
-                            name="password"
-                            component={(props) => (
-                              <Text color="red.500" align="start" {...props} />
-                            )}
-                          />
-                        </FormControl>
-                      );
-                    }}
+                    {({ field }: { field: FieldInputProps<any> }) => (
+                      <FormControl
+                        id="password"
+                        isInvalid={Boolean(
+                          errors.password && touched?.password
+                        )}
+                      >
+                        <FormLabel>Password</FormLabel>
+                        <Input {...field} type="password" />
+                        <ErrorMessage
+                          name="password"
+                          component={(props) => (
+                            <Text color="red.500" align="start" {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
                   </Field>
                   <Stack spacing={10}>
                     <Stack
