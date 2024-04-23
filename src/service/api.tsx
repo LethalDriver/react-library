@@ -59,9 +59,13 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      // Attempt to refresh the token
-      const refreshToken = localStorage.getItem("refreshToken"); // replace with your refresh token
-      const res = await axios.post("auth/refresh", { token: refreshToken }); // replace with your refresh token endpoint
+      delete api.defaults.headers.common["Authorization"];
+      const token = localStorage.getItem("token");
+      const refreshToken = localStorage.getItem("refreshToken");
+      const res = await axios.post("http://localhost:8080/auth/refresh", {
+        token: token,
+        refreshToken: refreshToken,
+      });
 
       // If refresh is successful, update the token in localStorage and in the axios headers
       if (res.status === 200) {
@@ -74,7 +78,6 @@ api.interceptors.response.use(
       } else if (error.response && error.response.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
-        delete api.defaults.headers.common["Authorization"];
       }
     }
 

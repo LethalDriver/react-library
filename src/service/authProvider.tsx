@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { api } from "./httpService";
+import { api } from "./api";
 import { userDetails } from "../types/authTypes";
 
 type AuthContextType = {

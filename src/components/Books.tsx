@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api } from "../service/httpService";
+import { api } from "../service/api";
 import {
   Button,
   Grid,

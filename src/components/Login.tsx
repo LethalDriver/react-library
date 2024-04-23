@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { api } from "../service/httpService";
+import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
 import { userDetails } from "../types/authTypes";
 import {
