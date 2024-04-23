@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Book } from "../components/Books";
+import { Book } from "../types/bookTypes";
 import { loginRequest, loginResponse, userDetails } from "../types/authTypes";
 
 interface ApiInstance extends AxiosInstance {
