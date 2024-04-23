@@ -73,6 +73,8 @@ api.interceptors.response.use(
         api.defaults.headers.common["Authorization"] =
           "Bearer " + res.data.token;
 
+        originalRequest.headers["Authorization"] = "Bearer " + res.data.token;
+
         // Retry the original request
         return api(originalRequest);
       } else if (error.response && error.response.status === 401) {
