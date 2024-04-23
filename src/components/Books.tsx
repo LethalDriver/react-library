@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../service/api";
 import {
   Button,
@@ -6,27 +6,11 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
   Stack,
 } from "@chakra-ui/react";
 import BookCard from "./BookCard";
 import { SearchIcon } from "@chakra-ui/icons";
-
-export type Book = {
-  id: number;
-  title: string;
-  author: string;
-  isbn: string;
-  publisher: string;
-  avaiableCopies: number;
-  bookDetails: BookDetails;
-};
-
-export type BookDetails = {
-  genre: string;
-  summary: string;
-  coverImageUrl: string;
-};
+import { Book } from "../types/bookTypes";
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
