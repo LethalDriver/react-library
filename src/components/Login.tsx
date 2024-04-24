@@ -2,6 +2,7 @@ import * as Yup from "yup";
 import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
 import { userDetails } from "../types/authTypes";
+import { useNavigate } from "react-router-dom";
 import {
   Formik,
   Field,
@@ -35,6 +36,7 @@ const validationSchema = Yup.object().shape({
 
 export default function SimpleCard() {
   const { user, setUser } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Formik
@@ -43,9 +45,8 @@ export default function SimpleCard() {
       onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
           const userDto = (await api.login(values)) as userDetails;
-          console.log(userDto);
           setUser(userDto);
-          console.log("Loggined in as", user?.email);
+          navigate("/books");
         } catch (error) {
           alert("An error occurred. Please try again later.");
           console.error(error);
