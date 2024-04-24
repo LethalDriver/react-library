@@ -22,14 +22,15 @@ import { MdLocalShipping } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../service/api";
+import { Book } from "../types/bookTypes";
 
 export default function BookDetails() {
   const { bookId } = useParams();
-  const [book, setBook] = useState(null);
+  const [book, setBook] = useState<Book | null>(null);
 
   const fetchBookDetails = async () => {
     try {
-      const response = await api.fetchBookDetails(bookId);
+      const response = await api.fetchBookDetails(Number(bookId));
       setBook(response);
     } catch (error) {
       console.error("Error fetching book details: ", error);
@@ -45,39 +46,23 @@ export default function BookDetails() {
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 18, md: 24 }}
+        py={{ base: 0, lg: 24 }}
       >
-        <Flex>
+        <Flex justifyContent="center" alignItems="center">
           <Image
             rounded={"md"}
             alt={"product image"}
-            src={
-              "https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080"
-            }
-            fit={"cover"}
-            align={"center"}
-            w={"100%"}
-            h={{ base: "100%", sm: "400px", lg: "500px" }}
+            src={book?.bookDetails.coverImageUrl.replace(/zoom=1/, "zoom=0")}
+            maxW={"100%"}
+            maxH={"100%"}
+            objectFit="contain"
           />
         </Flex>
-        <Stack spacing={{ base: 6, md: 10 }}>
-          <Box as={"header"}>
-            <Heading
-              lineHeight={1.1}
-              fontWeight={600}
-              fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
-            >
-              Automatic Watch
-            </Heading>
-            <Text
-              color={useColorModeValue("gray.900", "gray.400")}
-              fontWeight={300}
-              fontSize={"2xl"}
-            >
-              $350.00 USD
-            </Text>
-          </Box>
-
+        <Stack
+          spacing={{ base: 6, md: 10 }}
+          justifyContent={"space-between"}
+          py={{ base: 0, md: 16 }}
+        >
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={"column"}
@@ -87,45 +72,19 @@ export default function BookDetails() {
               />
             }
           >
-            <VStack spacing={{ base: 4, sm: 6 }}>
-              <Text
-                color={useColorModeValue("gray.500", "gray.400")}
-                fontSize={"2xl"}
-                fontWeight={"300"}
+            <Box as={"header"}>
+              <Heading
+                lineHeight={1.1}
+                fontWeight={600}
+                fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
               >
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
-              </Text>
-              <Text fontSize={"lg"}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                maxime modi nam officiis porro, quae, quisquam quos
-                reprehenderit velit? Natus, totam.
-              </Text>
-            </VStack>
+                {book?.title}
+              </Heading>
+            </Box>
             <Box>
-              <Text
-                fontSize={{ base: "16px", lg: "18px" }}
-                color={useColorModeValue("yellow.500", "yellow.300")}
-                fontWeight={"500"}
-                textTransform={"uppercase"}
-                mb={"4"}
-              >
-                Features
+              <Text fontSize={"lg"} textAlign="justify">
+                {book?.bookDetails.summary}
               </Text>
-
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{" "}
-                  <ListItem>Tachymeter</ListItem>
-                </List>
-                <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
-                </List>
-              </SimpleGrid>
             </Box>
             <Box>
               <Text
@@ -135,52 +94,39 @@ export default function BookDetails() {
                 textTransform={"uppercase"}
                 mb={"4"}
               >
-                Product Details
+                Book Details
               </Text>
 
               <List spacing={2}>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Between lugs:
+                    Author:
                   </Text>{" "}
-                  20 mm
+                  {book?.author}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Bracelet:
+                    Genre:
                   </Text>{" "}
-                  leather strap
+                  {book?.bookDetails.genre}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Case:
+                    Publisher:
                   </Text>{" "}
-                  Steel
+                  {book?.publisher}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Case diameter:
+                    Isbn:
                   </Text>{" "}
-                  42 mm
+                  {book?.isbn}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Dial color:
+                    Avaiable copies:
                   </Text>{" "}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Crystal:
-                  </Text>{" "}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Water resistance:
-                  </Text>{" "}
-                  5 bar (50 metres / 167 feet){" "}
+                  {book?.avaiableCopies}
                 </ListItem>
               </List>
             </Box>
@@ -200,13 +146,8 @@ export default function BookDetails() {
               boxShadow: "lg",
             }}
           >
-            Add to cart
+            Borrow book
           </Button>
-
-          <Stack direction="row" alignItems="center" justifyContent={"center"}>
-            <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
-          </Stack>
         </Stack>
       </SimpleGrid>
     </Container>
