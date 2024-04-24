@@ -11,6 +11,7 @@ import {
 import BookCard from "./BookCard";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Book } from "../types/bookTypes";
+import { Link } from "react-router-dom";
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -30,7 +31,7 @@ const Books = () => {
 
   return (
     <Stack spacing={4}>
-      <Stack direction="row" spacing={4} px={4}>
+      <Stack direction="row" spacing={4} px={4} py={4}>
         <InputGroup>
           <InputLeftElement children={<SearchIcon />} />
           <Input
@@ -38,23 +39,24 @@ const Books = () => {
             onChange={onSearchChange}
             placeholder="Search books"
           />
-          <Button
-            bg={"blue.400"}
-            textColor={"white"}
-            onClick={onSearchButtonClick}
-          >
-            Search
-          </Button>
         </InputGroup>
+        <Button
+          bg={"blue.400"}
+          textColor={"white"}
+          onClick={onSearchButtonClick}
+        >
+          Search
+        </Button>
       </Stack>
       <Grid templateColumns="repeat(4, 1fr)" gap={6}>
         {books.map((book) => (
-          <BookCard
-            key={book.id}
-            title={book.title}
-            author={book.author}
-            imageUrl={book.bookDetails.coverImageUrl}
-          />
+          <Link to={`/books/${book.id}`} key={book.id}>
+            <BookCard
+              title={book.title}
+              author={book.author}
+              imageUrl={book.bookDetails.coverImageUrl}
+            />
+          </Link>
         ))}
       </Grid>
     </Stack>
