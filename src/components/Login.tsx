@@ -54,7 +54,7 @@ export default function SimpleCard() {
         }
       }}
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting, errors, touched, isValid, dirty }) => (
         <Flex
           minH={"calc(100vh - 14rem)"}
           align={"center"}
@@ -125,7 +125,8 @@ export default function SimpleCard() {
                       _hover={{
                         bg: "blue.500",
                       }}
-                      disabled={isSubmitting}
+                      isDisabled={!isValid || !dirty}
+                      isLoading={isSubmitting}
                     >
                       Sign in
                     </Button>
