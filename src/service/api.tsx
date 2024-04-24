@@ -6,6 +6,7 @@ interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDetails>;
   userInfo: () => Promise<userDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
+  fetchBookDetails: (bookId: number) => Promise<Book>;
 }
 
 export const api = axios.create({
@@ -41,6 +42,10 @@ api.fetchBooks = async function (title: string) {
       params: { title },
     })
   ).data as Book[];
+};
+
+api.fetchBookDetails = async function (bookId: number) {
+  return (await this.get(`/books/${bookId}`)).data as Book;
 };
 
 api.interceptors.response.use(
