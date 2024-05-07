@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Review, ReviewPostRequest } from "../types/reviewTypes";
 import { api } from "../service/api";
-import { HStack, VStack } from "@chakra-ui/react";
+import { HStack, Textarea, VStack } from "@chakra-ui/react";
 import ReviewComponent from "./ReviewComponent";
 import { Stack } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
@@ -27,7 +27,9 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
     }
   };
 
-  const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleReviewChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setNewReview(event.target.value);
   };
 
@@ -55,25 +57,29 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   return (
     <Stack spacing={4}>
       <HStack spacing={4}>
-        <Input
+        <Textarea
           value={newReview}
           onChange={handleReviewChange}
           placeholder="Add a review"
         />
-        <Stack direction="row">
-          {[1, 2, 3, 4, 5].map((rating) => (
-            <IconButton
-              key={rating}
-              icon={<StarIcon />}
-              colorScheme={rating <= newReviewRating ? "teal" : "gray"}
-              onClick={() => handleStarClick(rating)}
-              aria-label={`Rate ${rating}`}
-            />
-          ))}
-        </Stack>
+        <VStack>
+          <Stack direction="row">
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <IconButton
+                key={rating}
+                icon={<StarIcon />}
+                colorScheme={rating <= newReviewRating ? "teal" : "gray"}
+                onClick={() => handleStarClick(rating)}
+                aria-label={`Rate ${rating}`}
+              />
+            ))}
+          </Stack>
+          <Button onClick={handleReviewSubmit} w="full">
+            Submit Review
+          </Button>
+        </VStack>
       </HStack>
 
-      <Button onClick={handleReviewSubmit}>Submit Review</Button>
       <Stack spacing={4}>
         {reviews.map((review) => (
           <ReviewComponent
