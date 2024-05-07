@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Review } from "../types/reviewTypes";
+import { Review, ReviewPostRequest } from "../types/reviewTypes";
 import { api } from "../service/api";
 import { HStack, VStack } from "@chakra-ui/react";
 import ReviewComponent from "./ReviewComponent";
@@ -36,8 +36,15 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   };
 
   const handleReviewSubmit = () => {
-    // Submit the new review
-    // You need to implement the logic for submitting the review
+    if (newReview === "" || newReviewRating === 0) {
+      return;
+    }
+    const reviewPostRequest: ReviewPostRequest = {
+      bookId: Number(bookId),
+      rating: newReviewRating,
+      review: newReview,
+    };
+    api.postReview(reviewPostRequest);
   };
 
   useEffect(() => {

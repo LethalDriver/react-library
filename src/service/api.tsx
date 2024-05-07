@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { Book } from "../types/bookTypes";
 import { loginRequest, loginResponse, userDetails } from "../types/authTypes";
-import { Review } from "../types/reviewTypes";
+import { Review, ReviewPostRequest } from "../types/reviewTypes";
 
 interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDetails>;
@@ -9,6 +9,7 @@ interface ApiInstance extends AxiosInstance {
   fetchBooks: (title: string) => Promise<Book[]>;
   fetchBookDetails: (bookId: number) => Promise<Book>;
   fetchReviewsForBook: (bookId: number) => Promise<Review[]>;
+  postReview: (reviewPostRequest: ReviewPostRequest) => Promise<Review>;
 }
 
 export const api = axios.create({
@@ -52,6 +53,10 @@ api.fetchBookDetails = async function (bookId: number) {
 
 api.fetchReviewsForBook = async function (bookId: number) {
   return (await this.get(`/reviews/book/${bookId}`)).data as Review[];
+};
+
+api.postReview = async function (reviewPostRequest: ReviewPostRequest) {
+  return (await this.post(`/reviews`, reviewPostRequest)).data as Review;
 };
 
 api.interceptors.response.use(

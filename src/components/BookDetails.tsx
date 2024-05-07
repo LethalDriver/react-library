@@ -45,7 +45,7 @@ export default function BookDetails() {
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 0, lg: 24 }}
+        py={{ base: 0, lg: 16 }}
       >
         <Flex justifyContent="center" alignItems="center">
           <Image
@@ -147,7 +147,6 @@ export default function BookDetails() {
             Borrow book
           </Button>
         </Stack>
-        
       </SimpleGrid>
       <ReviewsComponent bookId={Number(bookId)} />
     </Container>

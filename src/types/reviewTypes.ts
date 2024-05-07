@@ -6,3 +6,9 @@ export type Review = {
   bookId: number;
   username: string;
 };
+
+export type ReviewPostRequest = {
+    review: string;
+    rating: number;
+    bookId: number;
+    };
