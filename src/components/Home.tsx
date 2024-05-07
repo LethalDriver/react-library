@@ -13,6 +13,8 @@ import {
   createIcon,
 } from "@chakra-ui/react";
 
+import Review from "./Review";
+
 export default function CallToActionWithAnnotation() {
   return (
     <>
@@ -62,6 +64,7 @@ export default function CallToActionWithAnnotation() {
           </Stack>
         </Stack>
       </Container>
+      <Review />
     </>
   );
 }

@@ -23,6 +23,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../service/api";
 import { Book } from "../types/bookTypes";
+import Review from "./Review";
 
 export default function BookDetails() {
   const { bookId } = useParams();
@@ -131,7 +132,6 @@ export default function BookDetails() {
               </List>
             </Box>
           </Stack>
-
           <Button
             rounded={"none"}
             w={"full"}

@@ -16,7 +16,7 @@ type BookCardProps = {
 
 export default function BookCard({ title, author, imageUrl }: BookCardProps) {
   return (
-    <Center py={12}>
+    <Center my={6}>
       <Box
         role={"group"}
         p={6}

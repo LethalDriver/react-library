@@ -31,7 +31,14 @@ const Books = () => {
 
   return (
     <Stack spacing={4}>
-      <Stack direction="row" spacing={4} px={4} py={4}>
+      <Stack
+        direction="row"
+        spacing={4}
+        p={4}
+        boxShadow="base"
+        borderRadius="md"
+        bg="white"
+      >
         <InputGroup>
           <InputLeftElement children={<SearchIcon />} />
           <Input
@@ -48,7 +55,7 @@ const Books = () => {
           Search
         </Button>
       </Stack>
-      <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+      <Grid templateColumns="repeat(4, 1fr)" gap={4}>
         {books.map((book) => (
           <Link to={`/books/${book.id}`} key={book.id}>
             <BookCard
