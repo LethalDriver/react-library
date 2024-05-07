@@ -45,11 +45,12 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
       review: newReview,
     };
     api.postReview(reviewPostRequest);
+    fetchReviews();
   };
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [reviews]);
 
   return (
     <Stack spacing={4}>
