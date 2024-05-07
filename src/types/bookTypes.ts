@@ -4,7 +4,7 @@ export type Book = {
   author: string;
   isbn: string;
   publisher: string;
-  avaiableCopies: number;
+  availableCopies: number;
   bookDetails: BookDetails;
 };
 
