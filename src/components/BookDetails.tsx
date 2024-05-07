@@ -18,7 +18,6 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { MdLocalShipping } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../service/api";
