@@ -9,7 +9,7 @@ type ReviewProps = {
   username: string;
 };
 
-const Review: React.FC<ReviewProps> = ({
+const ReviewComponent: React.FC<ReviewProps> = ({
   review,
   reviewDate,
   rating,
@@ -36,4 +36,4 @@ const Review: React.FC<ReviewProps> = ({
   );
 };
 
-export default Review;
+export default ReviewComponent;

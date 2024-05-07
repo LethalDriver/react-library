@@ -1,12 +1,14 @@
 import axios, { AxiosInstance } from "axios";
 import { Book } from "../types/bookTypes";
 import { loginRequest, loginResponse, userDetails } from "../types/authTypes";
+import { Review } from "../types/reviewTypes";
 
 interface ApiInstance extends AxiosInstance {
   login: (data: loginRequest) => Promise<userDetails>;
   userInfo: () => Promise<userDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
   fetchBookDetails: (bookId: number) => Promise<Book>;
+  fetchReviewsForBook: (bookId: number) => Promise<Review[]>;
 }
 
 export const api = axios.create({
@@ -46,6 +48,10 @@ api.fetchBooks = async function (title: string) {
 
 api.fetchBookDetails = async function (bookId: number) {
   return (await this.get(`/books/${bookId}`)).data as Book;
+};
+
+api.fetchReviewsForBook = async function (bookId: number) {
+  return (await this.get(`/reviews/book/${bookId}`)).data as Review[];
 };
 
 api.interceptors.response.use(
