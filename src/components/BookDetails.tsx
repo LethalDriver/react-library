@@ -22,14 +22,11 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../service/api";
 import { Book } from "../types/bookTypes";
-import { Review } from "../types/reviewTypes";
-import ReviewComponent from "./ReviewComponent";
+import ReviewsComponent from "./ReviewsComponent";
 
 export default function BookDetails() {
   const { bookId } = useParams();
   const [book, setBook] = useState<Book | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
-
   const fetchBookDetails = async () => {
     try {
       const response = await api.fetchBookDetails(Number(bookId));
@@ -39,18 +36,8 @@ export default function BookDetails() {
     }
   };
 
-  const fetchReviews = async () => {
-    try {
-      const response = await api.fetchReviewsForBook(Number(bookId));
-      setReviews(response);
-    } catch (error) {
-      console.error("Error fetching reviews: ", error);
-    }
-  };
-
   useEffect(() => {
     fetchBookDetails();
-    fetchReviews();
   }, []);
 
   return (
@@ -138,7 +125,7 @@ export default function BookDetails() {
                   <Text as={"span"} fontWeight={"bold"}>
                     Avaiable copies:
                   </Text>{" "}
-                  {book?.avaiableCopies.toString()}
+                  {book?.availableCopies}
                 </ListItem>
               </List>
             </Box>
@@ -159,19 +146,10 @@ export default function BookDetails() {
           >
             Borrow book
           </Button>
-          <Stack spacing={4}>
-            {reviews.map((review) => (
-              <ReviewComponent
-                key={review.id}
-                rating={review.rating}
-                review={review.review}
-                username={review.username}
-                reviewDate={review.reviewDate}
-              />
-            ))}
-          </Stack>
         </Stack>
+        
       </SimpleGrid>
+      <ReviewsComponent bookId={Number(bookId)} />
     </Container>
   );
 }
