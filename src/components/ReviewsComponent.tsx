@@ -5,10 +5,10 @@ import { api } from "../service/api";
 import { HStack, Textarea, VStack } from "@chakra-ui/react";
 import ReviewComponent from "./ReviewComponent";
 import { Stack } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
+import { useBreakpointValue } from "@chakra-ui/react";
 
 type ReviewsProps = {
   bookId: number;
@@ -18,6 +18,8 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(0);
+  const StackComponent =
+    useBreakpointValue({ base: VStack, md: HStack }) ?? Stack;
   const fetchReviews = async () => {
     try {
       const response = await api.fetchReviewsForBook(Number(bookId));
@@ -56,7 +58,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
 
   return (
     <Stack spacing={4}>
-      <HStack spacing={4}>
+      <StackComponent spacing={4} borderRadius="md" boxShadow="base" p={4}>
         <Textarea
           value={newReview}
           onChange={handleReviewChange}
@@ -78,7 +80,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
             Submit Review
           </Button>
         </VStack>
-      </HStack>
+      </StackComponent>
 
       <Stack spacing={4}>
         {reviews.map((review) => (
