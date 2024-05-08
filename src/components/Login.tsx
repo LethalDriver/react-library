@@ -25,6 +25,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 
 const validationSchema = Yup.object().shape({
@@ -37,6 +38,7 @@ const validationSchema = Yup.object().shape({
 export default function SimpleCard() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast();
 
   return (
     <Formik
@@ -48,8 +50,16 @@ export default function SimpleCard() {
           setUser(userDto);
           navigate("/books");
         } catch (error) {
-          alert("An error occurred. Please try again later.");
-          console.error(error);
+          if (error instanceof Error) {
+            toast({
+              title: "An error occurred.",
+              description:
+                error.message || "Please check your email and password.",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
         } finally {
           setSubmitting(false);
         }
