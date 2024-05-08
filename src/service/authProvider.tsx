@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { api } from "./api";
-import { userDetails } from "../types/authTypes";
+import { UserDetails } from "../types/authTypes";
 
 type AuthContextType = {
-  user: userDetails | null;
-  setUser: (newUser: userDetails | null) => void;
+  user: UserDetails | null;
+  setUser: (newUser: UserDetails | null) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<userDetails | null>(null);
+  const [user, setUser] = useState<UserDetails | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {

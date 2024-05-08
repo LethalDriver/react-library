@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
-import { userDetails } from "../types/authTypes";
+import { UserDetails } from "../types/authTypes";
 import { useNavigate } from "react-router-dom";
 import {
   Formik,
@@ -46,7 +46,7 @@ export default function SimpleCard() {
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
         try {
-          const userDto = (await api.login(values)) as userDetails;
+          const userDto = (await api.login(values)) as UserDetails;
           setUser(userDto);
           navigate("/books");
         } catch (error) {

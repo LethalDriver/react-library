@@ -3,21 +3,21 @@ import {
   Flex,
   Avatar,
   HStack,
-  Text,
   IconButton,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuth } from "../service/authProvider";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../service/api";
 
 interface Props {
   children: React.ReactNode;
@@ -45,8 +45,9 @@ const NavLink = (props: Props) => {
 
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const links = ["Home"];
   if (user) {
@@ -58,6 +59,28 @@ export default function Simple() {
   };
   const handleSignUpClick = () => {
     navigate("/register");
+  };
+
+  const clearUser = () => {
+    setUser(null);
+  };
+
+  const handleLogoutClick = async () => {
+    try {
+      await api.logout();
+      clearUser();
+      navigate("/login");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: "An error occurred.",
+          description: error.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   return (
@@ -104,7 +127,7 @@ export default function Simple() {
                 </MenuButton>
                 <MenuList>
                   <MenuItem>{user.email}</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

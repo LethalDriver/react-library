@@ -24,7 +24,7 @@ import {
   FormikHelpers,
   FieldInputProps,
 } from "formik";
-import { registerRequest } from "../types/authTypes";
+import { RegisterRequest } from "../types/authTypes";
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -58,8 +58,8 @@ export default function SignupCard() {
       }}
       validationSchema={validationSchema}
       onSubmit={(
-        values: registerRequest,
-        { setSubmitting }: FormikHelpers<registerRequest>
+        values: RegisterRequest,
+        { setSubmitting }: FormikHelpers<RegisterRequest>
       ) => {
         console.log(values);
         setSubmitting(false);

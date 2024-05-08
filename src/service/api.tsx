@@ -1,11 +1,17 @@
 import axios, { AxiosInstance } from "axios";
 import { Book } from "../types/bookTypes";
-import { loginRequest, loginResponse, userDetails } from "../types/authTypes";
+import {
+  LoginRequest,
+  LoginResponse,
+  UserDetails,
+  LogoutRequest,
+} from "../types/authTypes";
 import { Review, ReviewPostRequest } from "../types/reviewTypes";
 
 interface ApiInstance extends AxiosInstance {
-  login: (data: loginRequest) => Promise<userDetails>;
-  userInfo: () => Promise<userDetails | null>;
+  login: (data: LoginRequest) => Promise<UserDetails>;
+  logout: () => Promise<void>;
+  userInfo: () => Promise<UserDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
   fetchBookDetails: (bookId: number) => Promise<Book>;
   fetchReviewsForBook: (bookId: number) => Promise<Review[]>;
@@ -23,8 +29,8 @@ export const initializeAxios = () => {
   }
 };
 
-api.login = async function (data: loginRequest) {
-  const response = (await this.post("/auth/login", data)).data as loginResponse;
+api.login = async function (data: LoginRequest) {
+  const response = (await this.post("/auth/login", data)).data as LoginResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
   api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
@@ -33,7 +39,7 @@ api.login = async function (data: loginRequest) {
 
 api.userInfo = async function () {
   try {
-    return (await this.get("/users")).data as userDetails;
+    return (await this.get("/users")).data as UserDetails;
   } catch (error) {
     return null;
   }
@@ -57,6 +63,18 @@ api.fetchReviewsForBook = async function (bookId: number) {
 
 api.postReview = async function (reviewPostRequest: ReviewPostRequest) {
   return (await this.post(`/reviews`, reviewPostRequest)).data as Review;
+};
+
+api.logout = async function () {
+  const logoutRequest: LogoutRequest = {
+    token: localStorage.getItem("token") || "",
+    refreshToken: localStorage.getItem("refreshToken") || "",
+  };
+  await this.post("/auth/logout", logoutRequest);
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
+  delete this.defaults.headers.common["Authorization"];
+  return;
 };
 
 api.interceptors.response.use(

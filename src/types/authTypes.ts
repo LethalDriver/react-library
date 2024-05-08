@@ -1,15 +1,15 @@
-export type loginRequest = {
+export type LoginRequest = {
   email: string;
   password: string;
 };
 
-export type loginResponse = {
+export type LoginResponse = {
   token: string;
   refreshToken: string;
-  user: userDetails;
+  user: UserDetails;
 };
 
-export type userDetails = {
+export type UserDetails = {
   id: number;
   email: string;
   username: string;
@@ -17,9 +17,14 @@ export type userDetails = {
   role: string;
 };
 
-export type registerRequest = {
+export type RegisterRequest = {
   fullName: string;
   email: string;
   password: string;
   username: string;
+};
+
+export type LogoutRequest = {
+  token: string;
+  refreshToken: string;
 };
