@@ -50,16 +50,17 @@ export default function SimpleCard() {
           setUser(userDto);
           navigate("/books");
         } catch (error) {
-          if (error instanceof Error) {
-            toast({
-              title: "An error occurred.",
-              description:
-                error.message || "Please check your email and password.",
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-            });
+          let errorMessage = "Please check your email and password.";
+          if ((error as any).response && (error as any).response.data && (error as any).response.data.detail) {
+            errorMessage = (error as any).response.data.detail;
           }
+          toast({
+            title: "An error occurred.",
+            description: errorMessage,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
         } finally {
           setSubmitting(false);
         }
