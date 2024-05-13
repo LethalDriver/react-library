@@ -7,11 +7,19 @@ import {
   Box,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { Loan } from "../../types/loanTypes";
+import { Loan, LoanStatus } from "../../types/loanTypes";
 import React from "react";
 
 type LoanProps = {
   loan: Loan;
+};
+const status: Record<LoanStatus, string> = {
+  PENDING_APPROVAL: "Pending Approval",
+  APPROVED: "Approved",
+  REJECTED: "Rejected",
+  RETURNED: "Returned",
+  RETURNED_ACCEPTED: "Returned Accepted",
+  RETURNED_REJECTED: "Returned Rejected",
 };
 
 const LoanComponent: React.FC<LoanProps> = ({ loan }) => {
@@ -31,7 +39,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan }) => {
         <Text>Loan Date: {loan.loanDate}</Text>
         <Text>Return Date: {loan.returnDate}</Text>
         <Text>Due Date: {loan.dueDate}</Text>
-        <Text>Status: {loan.status}</Text>
+        <Text>Status: {status[loan.status]}</Text>
       </AccordionPanel>
     </AccordionItem>
   );
