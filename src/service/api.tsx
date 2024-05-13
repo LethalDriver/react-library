@@ -7,6 +7,8 @@ import {
   LogoutRequest,
 } from "../types/authTypes";
 import { Review, ReviewPostRequest } from "../types/reviewTypes";
+import { Loan } from "../types/loanTypes";
+import { number } from "yup";
 
 interface ApiInstance extends AxiosInstance {
   login: (data: LoginRequest) => Promise<UserDetails>;
@@ -16,6 +18,8 @@ interface ApiInstance extends AxiosInstance {
   fetchBookDetails: (bookId: number) => Promise<Book>;
   fetchReviewsForBook: (bookId: number) => Promise<Review[]>;
   postReview: (reviewPostRequest: ReviewPostRequest) => Promise<Review>;
+  fetchLoans: () => Promise<Loan[]>;
+  requestBookLoan: (bookId: number) => Promise<Loan>;
 }
 
 export const api = axios.create({
@@ -75,6 +79,14 @@ api.logout = async function () {
   localStorage.removeItem("refreshToken");
   delete this.defaults.headers.common["Authorization"];
   return;
+};
+
+api.fetchLoans = async function () {
+  return (await this.get("/loans/user")).data as Loan[];
+};
+
+api.requestBookLoan = async function (bookId: number) {
+  return (await this.post("/loans", null, { params: { bookId } })).data as Loan;
 };
 
 api.interceptors.response.use(

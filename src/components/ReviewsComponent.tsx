@@ -54,7 +54,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
 
   useEffect(() => {
     fetchReviews();
-  }, [reviews]);
+  }, []);
 
   return (
     <Stack spacing={4}>

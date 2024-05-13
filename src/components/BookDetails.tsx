@@ -19,7 +19,7 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import api from "../service/api";
 import { Book } from "../types/bookTypes";
 import ReviewsComponent from "./ReviewsComponent";
@@ -28,17 +28,17 @@ export default function BookDetails() {
   const { bookId } = useParams();
   const [book, setBook] = useState<Book | null>(null);
   const fetchBookDetails = async () => {
-    try {
-      const response = await api.fetchBookDetails(Number(bookId));
-      setBook(response);
-    } catch (error) {
-      console.error("Error fetching book details: ", error);
-    }
+    const response = await api.fetchBookDetails(Number(bookId));
+    setBook(response);
+  };
+
+  const requestLoan = async () => {
+    await api.requestBookLoan(Number(bookId));
   };
 
   useEffect(() => {
     fetchBookDetails();
-  }, []);
+  }, [bookId]);
 
   return (
     <Container maxW={"7xl"}>
@@ -143,6 +143,7 @@ export default function BookDetails() {
               transform: "translateY(2px)",
               boxShadow: "lg",
             }}
+            onClick={requestLoan}
           >
             Borrow book
           </Button>

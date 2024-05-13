@@ -11,6 +11,7 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import BookDetails from "./components/BookDetails";
 import { Container } from "@chakra-ui/react";
+import LoansComponent from "./components/LoansComponent";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/books" element={<Books />} />
           <Route path="/register" element={<Register />} />
           <Route path="/books/:bookId" element={<BookDetails />} />
+          <Route path="/loans" element={<LoansComponent />} />
         </Routes>
       </Container>
     </Router>
