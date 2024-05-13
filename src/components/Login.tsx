@@ -35,8 +35,15 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
+const getErrorMessage = (error: any): string => {
+  if (error.response && error.response.data && error.response.data.detail) {
+    return error.response.data.detail;
+  }
+  return "Unknown error occurred.";
+};
+
 export default function SimpleCard() {
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -50,10 +57,7 @@ export default function SimpleCard() {
           setUser(userDto);
           navigate("/books");
         } catch (error) {
-          let errorMessage = "Please check your email and password.";
-          if ((error as any).response && (error as any).response.data && (error as any).response.data.detail) {
-            errorMessage = (error as any).response.data.detail;
-          }
+          const errorMessage = getErrorMessage(error);
           toast({
             title: "An error occurred.",
             description: errorMessage,
