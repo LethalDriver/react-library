@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { api } from "../service/api";
+import { api } from "../../service/api";
 import {
   Button,
   Grid,
@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import BookCard from "./BookCard";
 import { SearchIcon } from "@chakra-ui/icons";
-import { Book } from "../types/bookTypes";
+import { Book } from "../../types/bookTypes";
 import { Link } from "react-router-dom";
 
 const Books = () => {

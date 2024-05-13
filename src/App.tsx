@@ -6,12 +6,12 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import Login from "./components/Login";
-import Books from "./components/Books";
+import Books from "./components/book/Books";
 import Register from "./components/Register";
 import Home from "./components/Home";
-import BookDetails from "./components/BookDetails";
+import BookDetails from "./components/book/BookDetails";
 import { Container } from "@chakra-ui/react";
-import LoansComponent from "./components/LoansComponent";
+import LoansComponent from "./components/loan/LoansComponent";
 
 function App() {
   return (

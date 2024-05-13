@@ -20,9 +20,9 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import api from "../service/api";
-import { Book } from "../types/bookTypes";
-import ReviewsComponent from "./ReviewsComponent";
+import api from "../../service/api";
+import { Book } from "../../types/bookTypes";
+import ReviewsComponent from "../review/ReviewsComponent";
 
 export default function BookDetails() {
   const { bookId } = useParams();

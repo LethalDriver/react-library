@@ -5,8 +5,9 @@ import {
   Text,
   AccordionPanel,
   Box,
+  AccordionIcon,
 } from "@chakra-ui/react";
-import { Loan } from "../types/loanTypes";
+import { Loan } from "../../types/loanTypes";
 import React from "react";
 
 type LoanProps = {
@@ -21,6 +22,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan }) => {
           <Box flex="1" textAlign="left">
             <Text>Loan ID: {loan.id}</Text>
           </Box>
+          <AccordionIcon />
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>

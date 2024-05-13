@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Review, ReviewPostRequest } from "../types/reviewTypes";
-import { api } from "../service/api";
+import { Review, ReviewPostRequest } from "../../types/reviewTypes";
+import { api } from "../../service/api";
 import { HStack, Textarea, VStack } from "@chakra-ui/react";
 import ReviewComponent from "./ReviewComponent";
 import { Stack } from "@chakra-ui/react";

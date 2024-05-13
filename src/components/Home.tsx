@@ -10,7 +10,7 @@ import {
   createIcon,
 } from "@chakra-ui/react";
 
-import Review from "./ReviewComponent";
+import Review from "./review/ReviewComponent";
 
 export default function CallToActionWithAnnotation() {
   return (
