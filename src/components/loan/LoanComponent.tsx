@@ -33,13 +33,13 @@ const LoanComponent: React.FC<LoanProps> = ({ loan }) => {
       <h2>
         <AccordionButton>
           <Box flex="1" textAlign="left">
-            <Text>Loan ID: {loan.id}</Text>
+            <Text>{loan.book.title}</Text>
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>
-        <Text>Book: {loan.book.title}</Text>
+        <Text>Loan ID: {loan.id}</Text>
         <Text>User: {loan.user.name}</Text>
         <Text>Loan Date: {loan.loanDate}</Text>
         <Text>Return Date: {loan.returnDate}</Text>
