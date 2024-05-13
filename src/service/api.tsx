@@ -20,6 +20,7 @@ interface ApiInstance extends AxiosInstance {
   postReview: (reviewPostRequest: ReviewPostRequest) => Promise<Review>;
   fetchLoans: () => Promise<Loan[]>;
   requestBookLoan: (bookId: number) => Promise<Loan>;
+  returnBookLoan: (loanId: number) => Promise<Loan>;
 }
 
 export const api = axios.create({
@@ -88,6 +89,10 @@ api.fetchLoans = async function () {
 api.requestBookLoan = async function (bookId: number) {
   return (await this.post("/loans", null, { params: { bookId } })).data as Loan;
 };
+
+api.returnBookLoan = async function (loanId: number) {
+  return (await this.patch(`/loans/${loanId}/return`)).data as Loan;
+}
 
 api.interceptors.response.use(
   (response) => {

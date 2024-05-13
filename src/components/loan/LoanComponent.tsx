@@ -9,6 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { Loan, LoanStatus } from "../../types/loanTypes";
 import React from "react";
+import { Button } from "@chakra-ui/react";
+import { api } from "../../service/api";
 
 type LoanProps = {
   loan: Loan;
@@ -23,6 +25,9 @@ const status: Record<LoanStatus, string> = {
 };
 
 const LoanComponent: React.FC<LoanProps> = ({ loan }) => {
+  const handleReturn = async () => {
+    api.returnBookLoan(loan.id);
+  };
   return (
     <AccordionItem>
       <h2>
@@ -40,6 +45,11 @@ const LoanComponent: React.FC<LoanProps> = ({ loan }) => {
         <Text>Return Date: {loan.returnDate}</Text>
         <Text>Due Date: {loan.dueDate}</Text>
         <Text>Status: {status[loan.status]}</Text>
+        {loan.status === "APPROVED" && (
+          <Button colorScheme="blue" size="sm" onClick={handleReturn}>
+            Return
+          </Button>
+        )}
       </AccordionPanel>
     </AccordionItem>
   );
