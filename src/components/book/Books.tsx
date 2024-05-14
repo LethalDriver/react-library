@@ -12,6 +12,7 @@ import BookCard from "./BookCard";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Book } from "../../types/bookTypes";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -19,6 +20,9 @@ const Books = () => {
   const fetchBooks = async () => {
     const fetchedBooks = await api.fetchBooks(search);
     setBooks(fetchedBooks);
+    // Save the books and search input to localStorage
+    localStorage.setItem("books", JSON.stringify(fetchedBooks));
+    localStorage.setItem("search", search);
   };
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +32,21 @@ const Books = () => {
   const onSearchButtonClick = () => {
     fetchBooks();
   };
+
+  useEffect(() => {
+    // Check if there's any data in localStorage for the books and search input
+    const cachedBooks = localStorage.getItem("books");
+    const cachedSearch = localStorage.getItem("search");
+
+    if (cachedBooks && cachedSearch) {
+      // If there is, use that data to set the state
+      setBooks(JSON.parse(cachedBooks));
+      setSearch(cachedSearch);
+    } else {
+      // If there isn't, fetch the books from the API
+      fetchBooks();
+    }
+  }, []);
 
   return (
     <Stack spacing={4}>
