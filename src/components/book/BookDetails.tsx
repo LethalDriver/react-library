@@ -24,8 +24,11 @@ import { useState, useEffect, useMemo } from "react";
 import api from "../../service/api";
 import { Book } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
+import { useAuth } from "../../service/authProvider";
 
 export default function BookDetails() {
+  const { user } = useAuth();
+  const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
   const toast = useToast();
   const { bookId } = useParams();
   const [book, setBook] = useState<Book | null>(null);
@@ -65,7 +68,7 @@ export default function BookDetails() {
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 0, lg: 16 }}
+        py={{ base: 0, lg: 8 }}
       >
         <Flex justifyContent="center" alignItems="center">
           <Image
@@ -150,23 +153,58 @@ export default function BookDetails() {
               </List>
             </Box>
           </Stack>
-          <Button
-            rounded={"none"}
-            w={"full"}
-            mt={8}
-            size={"lg"}
-            py={"7"}
-            bg={useColorModeValue("gray.900", "gray.50")}
-            color={useColorModeValue("white", "gray.900")}
-            textTransform={"uppercase"}
-            _hover={{
-              transform: "translateY(2px)",
-              boxShadow: "lg",
-            }}
-            onClick={requestLoan}
-          >
-            Borrow book
-          </Button>
+          {isAdmin ? (
+            <Stack spacing={4}>
+              <Button
+                rounded={"none"}
+                w={"full"}
+                size={"lg"}
+                bg={useColorModeValue("gray.900", "gray.50")}
+                color={useColorModeValue("white", "gray.900")}
+                textTransform={"uppercase"}
+                _hover={{
+                  transform: "translateY(2px)",
+                  boxShadow: "lg",
+                }}
+                onClick={requestLoan}
+              >
+                Edit Book
+              </Button>
+              <Button
+                rounded={"none"}
+                w={"full"}
+                size={"lg"}
+                bg={useColorModeValue("gray.900", "gray.50")}
+                color={useColorModeValue("white", "gray.900")}
+                textTransform={"uppercase"}
+                _hover={{
+                  transform: "translateY(2px)",
+                  boxShadow: "lg",
+                }}
+                onClick={requestLoan}
+              >
+                Delete Book
+              </Button>
+            </Stack>
+          ) : (
+            <Button
+              rounded={"none"}
+              w={"full"}
+              mt={8}
+              size={"lg"}
+              py={"7"}
+              bg={useColorModeValue("gray.900", "gray.50")}
+              color={useColorModeValue("white", "gray.900")}
+              textTransform={"uppercase"}
+              _hover={{
+                transform: "translateY(2px)",
+                boxShadow: "lg",
+              }}
+              onClick={requestLoan}
+            >
+              Borrow book
+            </Button>
+          )}
         </Stack>
       </SimpleGrid>
       <ReviewsComponent bookId={Number(bookId)} />
