@@ -17,6 +17,7 @@ import {
   VisuallyHidden,
   List,
   ListItem,
+  useToast,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
@@ -25,6 +26,7 @@ import { Book } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
 
 export default function BookDetails() {
+  const toast = useToast();
   const { bookId } = useParams();
   const [book, setBook] = useState<Book | null>(null);
   const fetchBookDetails = async () => {
@@ -33,7 +35,25 @@ export default function BookDetails() {
   };
 
   const requestLoan = async () => {
-    await api.requestBookLoan(Number(bookId));
+    try {
+      await api.requestBookLoan(Number(bookId));
+      toast({
+        title: "Loan request sent",
+        description: "Your request has been sent to the librarian",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "An error occurred.",
+        description: "Failed to request loan",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+    fetchBookDetails();
   };
 
   useEffect(() => {
