@@ -23,10 +23,15 @@ export default function BookCard({ title, author, imageUrl }: BookCardProps) {
         maxW={"330px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
-        boxShadow={"2xl"}
+        boxShadow={"lg"}
         rounded={"lg"}
         pos={"relative"}
         zIndex={1}
+        transition={"all 0.3s ease"} // Add a transition effect
+        _hover={{
+          transform: "scale(1.05)", // Scale the component on hover
+          boxShadow: "2xl", // Increase the shadow on hover
+        }}
       >
         <Center rounded={"lg"} pos={"relative"} height={"192px"}>
           <Image
