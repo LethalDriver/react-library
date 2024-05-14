@@ -14,7 +14,7 @@ export type UserDetails = {
   email: string;
   username: string;
   name: string;
-  role: string;
+  role: Role;
 };
 
 export type RegisterRequest = {
@@ -28,3 +28,5 @@ export type LogoutRequest = {
   token: string;
   refreshToken: string;
 };
+
+export type Role = "READER" | "LIBRARIAN";

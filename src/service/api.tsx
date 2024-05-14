@@ -8,7 +8,6 @@ import {
 } from "../types/authTypes";
 import { Review, ReviewPostRequest } from "../types/reviewTypes";
 import { Loan } from "../types/loanTypes";
-import { number } from "yup";
 
 interface ApiInstance extends AxiosInstance {
   login: (data: LoginRequest) => Promise<UserDetails>;
@@ -21,6 +20,8 @@ interface ApiInstance extends AxiosInstance {
   fetchLoans: () => Promise<Loan[]>;
   requestBookLoan: (bookId: number) => Promise<Loan>;
   returnBookLoan: (loanId: number) => Promise<Loan>;
+  approveLoan: (loanId: number) => Promise<Loan>;
+  approveReturn: (loanId: number) => Promise<Loan>;
 }
 
 export const api = axios.create({
@@ -92,6 +93,14 @@ api.requestBookLoan = async function (bookId: number) {
 
 api.returnBookLoan = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/return`)).data as Loan;
+}
+
+api.approveLoan = async function (loanId: number) {
+  return (await this.patch(`/loans/${loanId}/approve`)).data as Loan;
+}
+
+api.approveReturn = async function (loanId: number) {
+  return (await this.patch(`/loans/${loanId}/approve-return`)).data as Loan;
 }
 
 api.interceptors.response.use(
