@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Review, ReviewPostRequest } from "../../types/reviewTypes";
 import { api } from "../../service/api";
-import { HStack, Textarea, VStack } from "@chakra-ui/react";
+import { HStack, Textarea, useColorModeValue, VStack } from "@chakra-ui/react";
 import ReviewComponent from "./ReviewComponent";
 import { Stack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
@@ -58,11 +58,19 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
 
   return (
     <Stack spacing={4}>
-      <StackComponent spacing={4} borderRadius="md" boxShadow="base" p={4}>
+      <StackComponent
+        spacing={4}
+        borderRadius="lg"
+        boxShadow="base" // Increase boxShadow to "xl" for a larger shadow
+        p={4}
+        border="1px" // Add a border
+        borderColor={useColorModeValue("gray.900", "whiteAlpha.300")}
+      >
         <Textarea
           value={newReview}
           onChange={handleReviewChange}
           placeholder="Add a review"
+          borderColor={useColorModeValue("gray.200", "whiteAlpha.900")} // Set the border color explicitly
         />
         <VStack>
           <Stack direction="row">

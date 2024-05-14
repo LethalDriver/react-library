@@ -15,7 +15,6 @@ const ReviewComponent: React.FC<ReviewProps> = ({
   rating,
   username,
 }) => {
-
   return (
     <Stack spacing={4} p={4} boxShadow="base" borderRadius="md" bg="white">
       <Stack spacing={1}>
@@ -29,9 +28,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
           ))}
         </HStack>
       </Stack>
-      <Text>
-        {review}
-      </Text>
+      <Text>{review}</Text>
     </Stack>
   );
 };
