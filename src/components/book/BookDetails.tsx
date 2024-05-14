@@ -2,39 +2,86 @@
 
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
   Image,
   Flex,
-  VStack,
   Button,
   Heading,
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
   List,
   ListItem,
   useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import api from "../../service/api";
 import { Book } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
 import { useAuth } from "../../service/authProvider";
+import EditBookModal from "./EditBookModal";
 
 export default function BookDetails() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { bookId } = useParams();
   const [book, setBook] = useState<Book | null>(null);
   const fetchBookDetails = async () => {
     const response = await api.fetchBookDetails(Number(bookId));
     setBook(response);
+  };
+
+  const handleBookDelete = async () => {
+    try {
+      await api.deleteBook(Number(bookId));
+      toast({
+        title: "Book deleted",
+        description: "The book has been deleted",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      navigate("/books");
+    } catch (error) {
+      toast({
+        title: "An error occurred.",
+        description: "Failed to delete book",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleBookEdit = async (book: Book) => {
+    try {
+      await api.editBook(Number(bookId), book);
+      fetchBookDetails();
+      toast({
+        title: "Book updated",
+        description: "The book has been updated",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "An error occurred.",
+        description: "Failed to update book",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      onClose();
+    }
   };
 
   const requestLoan = async () => {
@@ -166,10 +213,18 @@ export default function BookDetails() {
                   transform: "translateY(2px)",
                   boxShadow: "lg",
                 }}
-                onClick={requestLoan}
+                onClick={onOpen}
               >
                 Edit Book
               </Button>
+              {book && (
+                <EditBookModal
+                  book={book}
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  updateBook={handleBookEdit}
+                />
+              )}
               <Button
                 rounded={"none"}
                 w={"full"}
@@ -181,7 +236,7 @@ export default function BookDetails() {
                   transform: "translateY(2px)",
                   boxShadow: "lg",
                 }}
-                onClick={requestLoan}
+                onClick={handleBookDelete}
               >
                 Delete Book
               </Button>

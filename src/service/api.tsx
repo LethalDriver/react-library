@@ -22,6 +22,8 @@ interface ApiInstance extends AxiosInstance {
   returnBookLoan: (loanId: number) => Promise<Loan>;
   approveLoan: (loanId: number) => Promise<Loan>;
   approveReturn: (loanId: number) => Promise<Loan>;
+  editBook: (bookId: number, book: Book) => Promise<Book>;
+  deleteBook: (bookId: number) => Promise<void>;
 }
 
 export const api = axios.create({
@@ -93,15 +95,23 @@ api.requestBookLoan = async function (bookId: number) {
 
 api.returnBookLoan = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/return`)).data as Loan;
-}
+};
 
 api.approveLoan = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/approve`)).data as Loan;
-}
+};
 
 api.approveReturn = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/approve-return`)).data as Loan;
-}
+};
+
+api.editBook = async function (bookId: number, book: Book) {
+  return (await this.put(`/books/${bookId}`, book)).data as Book;
+};
+
+api.deleteBook = async function (bookId: number) {
+  return await this.delete(`/books/${bookId}`);
+};
 
 api.interceptors.response.use(
   (response) => {
