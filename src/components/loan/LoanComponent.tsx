@@ -8,13 +8,13 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 import { Loan, LoanStatus } from "../../types/loanTypes";
-import React from "react";
+import React, { useMemo } from "react";
 import { Button } from "@chakra-ui/react";
 import { api } from "../../service/api";
+import { useAuth } from "../../service/authProvider";
 
 type LoanProps = {
   loan: Loan;
-  isAdmin: boolean;
   refetch: () => void;
 };
 const status: Record<LoanStatus, string> = {
@@ -26,7 +26,9 @@ const status: Record<LoanStatus, string> = {
   RETURNED_REJECTED: "Returned Rejected",
 };
 
-const LoanComponent: React.FC<LoanProps> = ({ loan, isAdmin, refetch }) => {
+const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
+  const { user } = useAuth();
+  const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
   const handleReturn = async () => {
     await api.returnBookLoan(loan.id);
     refetch();
