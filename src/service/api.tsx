@@ -2,9 +2,10 @@ import axios, { AxiosInstance } from "axios";
 import { Book } from "../types/bookTypes";
 import {
   LoginRequest,
-  LoginResponse,
+  AuthenticationResponse,
   UserDetails,
   LogoutRequest,
+  RegisterRequest,
 } from "../types/authTypes";
 import { Review, ReviewPostRequest } from "../types/reviewTypes";
 import { Loan } from "../types/loanTypes";
@@ -12,6 +13,7 @@ import { Loan } from "../types/loanTypes";
 interface ApiInstance extends AxiosInstance {
   login: (data: LoginRequest) => Promise<UserDetails>;
   logout: () => Promise<void>;
+  register: (data: RegisterRequest) => Promise<UserDetails>;
   userInfo: () => Promise<UserDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
   fetchBookDetails: (bookId: number) => Promise<Book>;
@@ -41,7 +43,17 @@ export const initializeAxios = () => {
 };
 
 api.login = async function (data: LoginRequest) {
-  const response = (await this.post("/auth/login", data)).data as LoginResponse;
+  const response = (await this.post("/auth/login", data))
+    .data as AuthenticationResponse;
+  localStorage.setItem("token", response.token);
+  localStorage.setItem("refreshToken", response.refreshToken);
+  api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
+  return response.user;
+};
+
+api.register = async function (data: RegisterRequest) {
+  const response = (await this.post("/auth/register", data))
+    .data as AuthenticationResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
   api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
@@ -118,15 +130,15 @@ api.deleteBook = async function (bookId: number) {
 
 api.editReview = async function (reviewId: number, review: Review) {
   return (await this.put(`/reviews/${reviewId}`, review)).data as Review;
-}
+};
 
 api.deleteReview = async function (reviewId: number) {
   return await this.delete(`/reviews/${reviewId}`);
-}
+};
 
 api.searchLoansByUsernames = async function (username: string) {
   return (await this.get("/loans", { params: { username } })).data as Loan[];
-}
+};
 
 api.interceptors.response.use(
   (response) => {

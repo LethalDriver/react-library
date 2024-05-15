@@ -13,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   useToken,
+  useToast,
 } from "@chakra-ui/react";
 import {
   ErrorMessage,
@@ -20,11 +21,14 @@ import {
   FieldInputProps,
   Formik,
   FormikHelpers,
+  Form,
 } from "formik";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
+import { useAuth } from "../service/authProvider";
+import api from "../service/api";
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string()
@@ -44,9 +48,18 @@ const validationSchema = Yup.object().shape({
     .max(20, "Username should be at most 20 characters long."),
 });
 
+const getErrorMessage = (error: any): string => {
+  if (error.response && error.response.data && error.response.data.detail) {
+    return error.response.data.detail;
+  }
+  return "Unknown error occurred.";
+};
+
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [blue400] = useToken("colors", ["blue.400"]);
+  const { setUser } = useAuth();
+  const toast = useToast();
 
   return (
     <Formik
@@ -57,15 +70,36 @@ export default function SignupCard() {
         username: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(
+      onSubmit={async (
         values: RegisterRequest,
         { setSubmitting }: FormikHelpers<RegisterRequest>
       ) => {
-        console.log(values);
-        setSubmitting(false);
+        console.log("triggered");
+        try {
+          const userDetails = await api.register(values);
+          setUser(userDetails);
+          toast({
+            title: "Account created.",
+            description: "Your account has been created.",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+        } catch (error) {
+          const errorMessage = getErrorMessage(error);
+          toast({
+            title: "An error occurred.",
+            description: errorMessage,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting, errors, touched, isValid, dirty }) => (
         <Flex
           minH={"calc(100vh - 14rem)"}
           align={"center"}
@@ -82,114 +116,123 @@ export default function SignupCard() {
               boxShadow={"lg"}
               p={8}
             >
-              <Stack spacing={4}>
-                <Field name="fullName">
-                  {({ field }: { field: FieldInputProps<any> }) => (
-                    <FormControl
-                      id="fullName"
-                      isInvalid={Boolean(errors.fullName && touched?.fullName)}
-                    >
-                      <FormLabel>Full Name</FormLabel>
-                      <Input {...field} type="text" />
-                      <ErrorMessage
-                        name="fullName"
-                        component={(props) => (
-                          <Text color="red.500" align={"start"} {...props} />
+              <Form>
+                <Stack spacing={4}>
+                  <Field name="fullName">
+                    {({ field }: { field: FieldInputProps<any> }) => (
+                      <FormControl
+                        id="fullName"
+                        isInvalid={Boolean(
+                          errors.fullName && touched?.fullName
                         )}
-                      />
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="username">
-                  {({ field }: { field: FieldInputProps<any> }) => (
-                    <FormControl
-                      id="username"
-                      isInvalid={Boolean(errors.username && touched?.username)}
-                    >
-                      <FormLabel>Username</FormLabel>
-                      <Input {...field} type="text" />
-                      <ErrorMessage
-                        name="username"
-                        component={(props) => (
-                          <Text color="red.500" align={"start"} {...props} />
-                        )}
-                      />
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="email">
-                  {({ field }: { field: FieldInputProps<any> }) => (
-                    <FormControl
-                      id="email"
-                      isInvalid={Boolean(errors.email && touched?.email)}
-                    >
-                      <FormLabel>Email address</FormLabel>
-                      <Input {...field} type="email" />
-                      <ErrorMessage
-                        name="email"
-                        component={(props) => (
-                          <Text color="red.500" align={"start"} {...props} />
-                        )}
-                      />
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="password">
-                  {({ field }: { field: FieldInputProps<any> }) => (
-                    <FormControl
-                      id="password"
-                      isInvalid={Boolean(errors.password && touched?.password)}
-                    >
-                      <FormLabel>Password</FormLabel>
-                      <InputGroup>
-                        <Input
-                          {...field}
-                          type={showPassword ? "text" : "password"}
+                      >
+                        <FormLabel>Full Name</FormLabel>
+                        <Input {...field} type="text" />
+                        <ErrorMessage
+                          name="fullName"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
                         />
-                        <InputRightElement h={"full"}>
-                          <Button
-                            variant={"ghost"}
-                            onClick={() =>
-                              setShowPassword((showPassword) => !showPassword)
-                            }
-                          >
-                            {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                      <ErrorMessage
-                        name="password"
-                        component={(props) => (
-                          <Text color="red.500" align={"start"} {...props} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="username">
+                    {({ field }: { field: FieldInputProps<any> }) => (
+                      <FormControl
+                        id="username"
+                        isInvalid={Boolean(
+                          errors.username && touched?.username
                         )}
-                      />
-                    </FormControl>
-                  )}
-                </Field>
-                <Stack spacing={10} pt={2}>
-                  <Button
-                    type="submit"
-                    loadingText="Submitting"
-                    size="lg"
-                    bg={"blue.400"}
-                    color={"white"}
-                    _hover={{
-                      bg: "blue.500",
-                    }}
-                    isLoading={isSubmitting}
-                  >
-                    Sign up
-                  </Button>
+                      >
+                        <FormLabel>Username</FormLabel>
+                        <Input {...field} type="text" />
+                        <ErrorMessage
+                          name="username"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="email">
+                    {({ field }: { field: FieldInputProps<any> }) => (
+                      <FormControl
+                        id="email"
+                        isInvalid={Boolean(errors.email && touched?.email)}
+                      >
+                        <FormLabel>Email address</FormLabel>
+                        <Input {...field} type="email" />
+                        <ErrorMessage
+                          name="email"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="password">
+                    {({ field }: { field: FieldInputProps<any> }) => (
+                      <FormControl
+                        id="password"
+                        isInvalid={Boolean(
+                          errors.password && touched?.password
+                        )}
+                      >
+                        <FormLabel>Password</FormLabel>
+                        <InputGroup>
+                          <Input
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                          />
+                          <InputRightElement h={"full"}>
+                            <Button
+                              variant={"ghost"}
+                              onClick={() =>
+                                setShowPassword((showPassword) => !showPassword)
+                              }
+                            >
+                              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                            </Button>
+                          </InputRightElement>
+                        </InputGroup>
+                        <ErrorMessage
+                          name="password"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Stack spacing={10} pt={2}>
+                    <Button
+                      type="submit"
+                      loadingText="Submitting"
+                      size="lg"
+                      bg={"blue.400"}
+                      color={"white"}
+                      _hover={{
+                        bg: "blue.500",
+                      }}
+                      isDisabled={!isValid || !dirty}
+                      isLoading={isSubmitting}
+                    >
+                      Sign up
+                    </Button>
+                  </Stack>
+                  <Stack pt={6}>
+                    <Text align={"center"}>
+                      Already a user?{" "}
+                      <RouterLink to="/login" style={{ color: blue400 }}>
+                        Login
+                      </RouterLink>
+                    </Text>
+                  </Stack>
                 </Stack>
-                <Stack pt={6}>
-                  <Text align={"center"}>
-                    Already a user?{" "}
-                    <RouterLink to="/login" style={{ color: blue400 }}>
-                      Login
-                    </RouterLink>
-                  </Text>
-                </Stack>
-              </Stack>
+              </Form>
             </Box>
           </Stack>
         </Flex>
