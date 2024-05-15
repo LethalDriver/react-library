@@ -9,7 +9,7 @@ import LoanAdminSearchAndFilter from "./LoanAdminSearchAndFilter";
 const LoansComponent = () => {
   const [loans, setLoans] = useState<Loan[]>([]);
   const { user } = useAuth();
-  const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
+  const isAdmin = user?.role === "LIBRARIAN"
   const fetchLoans = async () => {
     const fetchedLoans = await api.fetchLoans();
     setLoans(fetchedLoans);

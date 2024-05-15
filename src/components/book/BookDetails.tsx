@@ -28,7 +28,7 @@ import EditBookModal from "./EditBookModal";
 export default function BookDetails() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
+  const isAdmin = user?.role === "LIBRARIAN";
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { bookId } = useParams();

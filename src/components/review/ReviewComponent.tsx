@@ -19,8 +19,8 @@ const ReviewComponent: React.FC<ReviewProps> = ({
   const [reviewContentState, setReviewContentState] =
     useState<string>(reviewContent);
   const { user } = useAuth();
-  const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
-  const isOwner = useMemo(() => user?.username === username, [user, username]);
+  const isAdmin = user?.role === "LIBRARIAN";
+  const isOwner = user?.username === username;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleEditReview = async (reviewContent: string) => {
     const reviewPutRequest = {
