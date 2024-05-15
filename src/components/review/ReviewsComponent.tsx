@@ -2,7 +2,13 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Review, ReviewPostRequest } from "../../types/reviewTypes";
 import { api } from "../../service/api";
-import { HStack, Textarea, useColorModeValue, VStack } from "@chakra-ui/react";
+import {
+  HStack,
+  Textarea,
+  useColorModeValue,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
 import ReviewComponent from "./ReviewComponent";
 import { Stack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
@@ -15,6 +21,7 @@ type ReviewsProps = {
 };
 
 const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
+  const toast = useToast();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(0);
@@ -39,17 +46,23 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
     setNewReviewRating(rating);
   };
 
-  const handleReviewSubmit = () => {
+  const handleReviewSubmit = async () => {
     if (newReview === "" || newReviewRating === 0) {
+      toast({
+        title: "Please fill out the review and rating",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
     const reviewPostRequest: ReviewPostRequest = {
       bookId: Number(bookId),
       rating: newReviewRating,
-      review: newReview,
+      reviewContent: newReview,
     };
-    api.postReview(reviewPostRequest);
-    fetchReviews();
+    const review = await api.postReview(reviewPostRequest);
+    setReviews([...reviews, review]);
   };
 
   useEffect(() => {
@@ -94,10 +107,8 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
         {reviews.map((review) => (
           <ReviewComponent
             key={review.id}
-            rating={review.rating}
-            review={review.review}
-            username={review.username}
-            reviewDate={review.reviewDate}
+            review={review}
+            refetchReviews={fetchReviews}
           />
         ))}
       </Stack>

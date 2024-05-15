@@ -1,6 +1,6 @@
 export type Review = {
   id: number;
-  review: string;
+  reviewContent: string;
   reviewDate: string;
   rating: number;
   bookId: number;
@@ -8,7 +8,7 @@ export type Review = {
 };
 
 export type ReviewPostRequest = {
-    review: string;
-    rating: number;
-    bookId: number;
-    };
+  reviewContent: string;
+  rating: number;
+  bookId: number;
+};
