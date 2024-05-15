@@ -31,7 +31,7 @@ import { useAuth } from "../service/authProvider";
 import api from "../service/api";
 
 const validationSchema = Yup.object().shape({
-  fullName: Yup.string()
+  name: Yup.string()
     .required("Full Name is required")
     .min(3, "Full Name should be at least 3 characters long.")
     .max(40, "Full Name should be at most 40 characters long."),
@@ -118,18 +118,16 @@ export default function SignupCard() {
             >
               <Form>
                 <Stack spacing={4}>
-                  <Field name="fullName">
+                  <Field name="name">
                     {({ field }: { field: FieldInputProps<any> }) => (
                       <FormControl
-                        id="fullName"
-                        isInvalid={Boolean(
-                          errors.name && touched?.name
-                        )}
+                        id="name"
+                        isInvalid={Boolean(errors.name && touched?.name)}
                       >
                         <FormLabel>Full Name</FormLabel>
                         <Input {...field} type="text" />
                         <ErrorMessage
-                          name="fullName"
+                          name="name"
                           component={(props) => (
                             <Text color="red.500" align={"start"} {...props} />
                           )}
