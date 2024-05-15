@@ -26,6 +26,7 @@ interface ApiInstance extends AxiosInstance {
   deleteBook: (bookId: number) => Promise<void>;
   editReview: (reviewId: number, review: Review) => Promise<Review>;
   deleteReview: (reviewId: number) => Promise<void>;
+  searchLoansByUsernames: (username: string) => Promise<Loan[]>;
 }
 
 export const api = axios.create({
@@ -121,6 +122,10 @@ api.editReview = async function (reviewId: number, review: Review) {
 
 api.deleteReview = async function (reviewId: number) {
   return await this.delete(`/reviews/${reviewId}`);
+}
+
+api.searchLoansByUsernames = async function (username: string) {
+  return (await this.get("/loans", { params: { username } })).data as Loan[];
 }
 
 api.interceptors.response.use(
