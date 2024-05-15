@@ -2,27 +2,27 @@
 
 import {
   Box,
-  Container,
-  Stack,
-  Text,
-  Image,
-  Flex,
   Button,
+  Container,
+  Flex,
   Heading,
-  SimpleGrid,
-  StackDivider,
-  useColorModeValue,
+  Image,
   List,
   ListItem,
-  useToast,
+  SimpleGrid,
+  Stack,
+  StackDivider,
+  Text,
+  useColorModeValue,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../service/api";
+import { useAuth } from "../../service/authProvider";
 import { Book } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
-import { useAuth } from "../../service/authProvider";
 import EditBookModal from "./EditBookModal";
 
 export default function BookDetails() {

@@ -1,28 +1,27 @@
+import {
+  ErrorMessage,
+  Field,
+  FieldInputProps,
+  Form,
+  Formik,
+  FormikHelpers
+} from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
 import { UserDetails } from "../types/authTypes";
-import { useNavigate } from "react-router-dom";
-import {
-  Formik,
-  Field,
-  Form,
-  ErrorMessage,
-  FieldInputProps,
-  FormikProps,
-  FormikHelpers,
-} from "formik";
 
 import {
-  Flex,
   Box,
+  Button,
+  Checkbox,
+  Flex,
   FormControl,
   FormLabel,
-  Input,
-  Checkbox,
-  Stack,
-  Button,
   Heading,
+  Input,
+  Stack,
   Text,
   useColorModeValue,
   useToast,

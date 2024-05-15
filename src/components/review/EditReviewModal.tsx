@@ -1,16 +1,15 @@
-import React from "react";
 import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Textarea,
+    Button,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface EditReviewModalProps {
   isOpen: boolean;

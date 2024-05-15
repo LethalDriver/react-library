@@ -1,10 +1,10 @@
 import { Accordion, Stack } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
-import LoanComponent from "./LoanComponent";
-import { Loan } from "../../types/loanTypes";
+import { useEffect, useState } from "react";
 import api from "../../service/api";
 import { useAuth } from "../../service/authProvider";
+import { Loan } from "../../types/loanTypes";
 import LoanAdminSearchAndFilter from "./LoanAdminSearchAndFilter";
+import LoanComponent from "./LoanComponent";
 
 const LoansComponent = () => {
   const [loans, setLoans] = useState<Loan[]>([]);

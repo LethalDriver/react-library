@@ -1,11 +1,11 @@
 import {
   Box,
   Center,
-  useColorModeValue,
   Heading,
-  Text,
-  Stack,
   Image,
+  Stack,
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 type BookCardProps = {

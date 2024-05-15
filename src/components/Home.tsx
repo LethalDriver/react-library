@@ -1,16 +1,12 @@
 import {
   Box,
-  Heading,
-  Container,
-  Text,
   Button,
+  Container,
+  Heading,
   Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
+  Text
 } from "@chakra-ui/react";
 
-import Review from "./review/ReviewComponent";
 
 export default function CallToActionWithAnnotation() {
   return (

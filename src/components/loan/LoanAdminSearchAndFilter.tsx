@@ -1,6 +1,5 @@
+import { Box, Button, Input, Select } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Box, Input, Select, Button } from "@chakra-ui/react";
-import { LoanStatus } from "../../types/loanTypes";
 
 interface LoanAdminSearchAndFilterProps {
   onSearch: (username: string, status: string) => void;

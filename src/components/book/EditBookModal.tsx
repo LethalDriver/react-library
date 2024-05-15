@@ -1,19 +1,17 @@
 import {
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   FormControl,
   FormLabel,
   Input,
-  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay
 } from "@chakra-ui/react";
+import { Field, Form, Formik } from "formik";
 import { Book } from "../../types/bookTypes";
-import { Formik, Form, Field } from "formik";
-import api from "../../service/api";
 
 interface EditBookModalProps {
   book: Book;

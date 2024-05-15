@@ -1,17 +1,16 @@
 import {
-  Stack,
-  AccordionItem,
   AccordionButton,
-  Text,
+  AccordionIcon,
+  AccordionItem,
   AccordionPanel,
   Box,
-  AccordionIcon,
+  Button,
+  Text
 } from "@chakra-ui/react";
-import { Loan, LoanStatus } from "../../types/loanTypes";
 import React, { useMemo } from "react";
-import { Button } from "@chakra-ui/react";
 import { api } from "../../service/api";
 import { useAuth } from "../../service/authProvider";
+import { Loan, LoanStatus } from "../../types/loanTypes";
 
 type LoanProps = {
   loan: Loan;

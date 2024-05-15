@@ -1,11 +1,10 @@
-import { HStack, Stack, Text, Box, Button } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import React, { useMemo, useState } from "react";
-import { useAuth } from "../../service/authProvider";
-import { useDisclosure } from "@chakra-ui/react";
-import EditReviewModal from "./EditReviewModal";
+import { Box, Button, HStack, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import React, { useState } from "react";
 import api from "../../service/api";
+import { useAuth } from "../../service/authProvider";
 import { Review } from "../../types/reviewTypes";
+import EditReviewModal from "./EditReviewModal";
 
 type ReviewProps = {
   review: Review;

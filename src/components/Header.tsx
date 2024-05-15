@@ -1,23 +1,23 @@
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Flex,
   Avatar,
+  Box,
+  Button,
+  Flex,
   HStack,
   IconButton,
-  Button,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
-  useDisclosure,
-  useColorModeValue,
+  MenuList,
   Stack,
+  useColorModeValue,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useAuth } from "../service/authProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../service/api";
+import { useAuth } from "../service/authProvider";
 
 interface Props {
   children: React.ReactNode;

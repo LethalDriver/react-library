@@ -1,29 +1,29 @@
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
-  Flex,
   Box,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   InputGroup,
   InputRightElement,
   Stack,
-  Button,
-  Heading,
   Text,
   useColorModeValue,
   useToken,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import * as Yup from "yup";
-import { Link as RouterLink } from "react-router-dom";
 import {
-  Formik,
-  Field,
   ErrorMessage,
-  FormikHelpers,
+  Field,
   FieldInputProps,
+  Formik,
+  FormikHelpers,
 } from "formik";
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
 
 const validationSchema = Yup.object().shape({
