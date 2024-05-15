@@ -64,7 +64,7 @@ export default function SignupCard() {
   return (
     <Formik
       initialValues={{
-        fullName: "",
+        name: "",
         email: "",
         password: "",
         username: "",
@@ -123,7 +123,7 @@ export default function SignupCard() {
                       <FormControl
                         id="fullName"
                         isInvalid={Boolean(
-                          errors.fullName && touched?.fullName
+                          errors.name && touched?.name
                         )}
                       >
                         <FormLabel>Full Name</FormLabel>

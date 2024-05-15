@@ -18,7 +18,7 @@ export type UserDetails = {
 };
 
 export type RegisterRequest = {
-  fullName: string;
+  name: string;
   email: string;
   password: string;
   username: string;
