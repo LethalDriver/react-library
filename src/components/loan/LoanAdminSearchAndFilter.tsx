@@ -1,5 +1,6 @@
 import { Box, Button, Input, Select } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { Loan, LoanStatus } from "../../types/loanTypes";
 
 interface LoanAdminSearchAndFilterProps {
   onSearch: (username: string, status: string) => void;
@@ -10,6 +11,15 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
 }) => {
   const [username, setUsername] = useState("");
   const [status, setStatus] = useState("");
+
+  const statuses: Record<LoanStatus, string> = {
+    PENDING_APPROVAL: "Pending Approval",
+    APPROVED: "Approved",
+    REJECTED: "Rejected",
+    RETURNED: "Returned",
+    RETURNED_ACCEPTED: "Returned Accepted",
+    RETURNED_REJECTED: "Returned Rejected",
+  };
 
   const handleSearch = () => {
     onSearch(username, status);
@@ -27,9 +37,11 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
         value={status}
         onChange={(e) => setStatus(e.target.value)}
       >
-        <option value="pending">Pending</option>
-        <option value="approved">Approved</option>
-        <option value="rejected">Rejected</option>
+        {Object.entries(statuses).map(([key, value]) => (
+          <option key={key} value={key}>
+            {value}
+          </option>
+        ))}
       </Select>
       <Button onClick={handleSearch}>Search</Button>
     </Box>
