@@ -16,7 +16,7 @@ type LoanProps = {
   loan: Loan;
   refetch: () => void;
 };
-const status: Record<LoanStatus, string> = {
+const statuses: Record<LoanStatus, string> = {
   PENDING_APPROVAL: "Pending Approval",
   APPROVED: "Approved",
   REJECTED: "Rejected",
@@ -40,6 +40,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
     await api.approveReturn(loan.id);
     refetch();
   };
+
   return (
     <AccordionItem>
       <h2>
@@ -66,7 +67,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
         <Text>Loan Date: {loan.loanDate}</Text>
         <Text>Return Date: {loan.returnDate}</Text>
         <Text>Due Date: {loan.dueDate}</Text>
-        <Text>Status: {status[loan.status]}</Text>
+        <Text>Status: {statuses[loan.status]}</Text>
         <Box
           display="flex"
           flexDirection="column"

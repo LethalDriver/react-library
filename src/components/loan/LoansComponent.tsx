@@ -8,23 +8,42 @@ import LoanComponent from "./LoanComponent";
 
 const LoansComponent = () => {
   const [loans, setLoans] = useState<Loan[]>([]);
+  const [search, setSearch] = useState<string>("");
   const { user } = useAuth();
-  const isAdmin = user?.role === "LIBRARIAN"
+  const isAdmin = user?.role === "LIBRARIAN";
   const fetchLoans = async () => {
-    const fetchedLoans = await api.fetchLoans();
-    setLoans(fetchedLoans);
+    if (search) {
+      const fetchedLoans = await api.searchLoansByUsernames(search);
+      setLoans(fetchedLoans);
+      return;
+    } else {
+      const fetchedLoans = await api.fetchLoans();
+      setLoans(fetchedLoans);
+    }
   };
   const onSearch = async (username: string) => {
-    const fetchedLoans = await api.searchLoansByUsernames(username);
-    setLoans(fetchedLoans);
+    setSearch(username);
+    fetchLoans();
   };
+  const onFilter = (status: string | null) => {
+    console.log(status);
+    if (!status) {
+      fetchLoans();
+      return;
+    }
+    const filteredLoans = loans.filter((loan) => loan.status === status);
+    setLoans(filteredLoans);
+  };
+
   useEffect(() => {
     fetchLoans();
   }, []);
 
   return (
     <Stack spacing={4}>
-      {isAdmin && <LoanAdminSearchAndFilter onSearch={onSearch} />}
+      {isAdmin && (
+        <LoanAdminSearchAndFilter onSearch={onSearch} onFilter={onFilter} />
+      )}
       <Accordion allowToggle>
         {loans.map((loan) => (
           <LoanComponent key={loan.id} loan={loan} refetch={fetchLoans} />

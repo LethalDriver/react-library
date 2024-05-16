@@ -1,18 +1,25 @@
-import { Box, Button, Input, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  filter,
+  Flex,
+  Input,
+  Select,
+  Stack,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { LoanStatus } from "../../types/loanTypes";
 
 interface LoanAdminSearchAndFilterProps {
-  onSearch: (username: string, status: string) => void;
+  onSearch: (username: string) => void;
+  onFilter: (status: LoanStatus | null) => void;
 }
 
 const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
   onSearch,
+  onFilter,
 }) => {
-  const [username, setUsername] = useState("");
-  const [status, setStatus] = useState("");
-
-  const statuses: Record<LoanStatus, string> = {
+  const filterOptions: Record<string, string> = {
     PENDING_APPROVAL: "Pending Approval",
     APPROVED: "Approved",
     REJECTED: "Rejected",
@@ -21,30 +28,54 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
     RETURNED_REJECTED: "Returned Rejected",
   };
 
+  const [username, setUsername] = useState("");
+  const [status, setStatus] = useState<string>("ALL");
+
   const handleSearch = () => {
-    onSearch(username, status);
+    onSearch(username);
+  };
+
+  const handleFilter = (status: string) => {
+    setStatus(status);
+    if (status === "") {
+      onFilter(null);
+    } else {
+      onFilter(status as LoanStatus);
+    }
   };
 
   return (
-    <Box>
-      <Input
-        placeholder="Search by username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+    <Flex
+      gap={4}
+      direction={{ base: "column", md: "row" }}
+      boxShadow="base"
+      borderRadius="md"
+      p={4}
+    >
+      <Box flex="5">
+        <Input
+          placeholder="Search by username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          size="md"
+        />
+      </Box>
       <Select
         placeholder="Filter by status"
         value={status}
-        onChange={(e) => setStatus(e.target.value)}
+        onChange={(e) => handleFilter(e.target.value)}
+        flex="1"
       >
-        {Object.entries(statuses).map(([key, value]) => (
+        {Object.entries(filterOptions).map(([key, value]) => (
           <option key={key} value={key}>
             {value}
           </option>
         ))}
       </Select>
-      <Button onClick={handleSearch}>Search</Button>
-    </Box>
+      <Button bg={"blue.400"} textColor={"white"} onClick={handleSearch}>
+        Search
+      </Button>
+    </Flex>
   );
 };
 
