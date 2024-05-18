@@ -14,7 +14,9 @@ import {
   useColorModeValue,
   useDisclosure,
   useToast,
+  Text,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
@@ -117,13 +119,9 @@ export default function Simple() {
                   variant={"link"}
                   cursor={"pointer"}
                   minW={0}
+                  rightIcon={<ChevronDownIcon />}
                 >
-                  <Avatar
-                    size={"sm"}
-                    src={
-                      "https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
-                    }
-                  />
+                  <Text>{user.email}</Text>
                 </MenuButton>
                 <MenuList>
                   <MenuItem>{user.email}</MenuItem>
