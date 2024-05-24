@@ -14,6 +14,7 @@ interface ApiInstance extends AxiosInstance {
   login: (data: LoginRequest) => Promise<UserDetails>;
   logout: () => Promise<void>;
   register: (data: RegisterRequest) => Promise<UserDetails>;
+  updateUser: (data: RegisterRequest) => Promise<UserDetails>;
   userInfo: () => Promise<UserDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
   fetchBookDetails: (bookId: number) => Promise<Book>;
@@ -59,6 +60,10 @@ api.register = async function (data: RegisterRequest) {
   api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
   return response.user;
 };
+
+api.updateUser = async function (data: RegisterRequest) {
+  return (await this.put("/users", data)).data as UserDetails;
+}
 
 api.userInfo = async function () {
   try {

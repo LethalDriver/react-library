@@ -4,13 +4,14 @@ import {
   FieldInputProps,
   Form,
   Formik,
-  FormikHelpers
+  FormikHelpers,
 } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
 import { UserDetails } from "../types/authTypes";
+import { getErrorMessage } from "../service/utils";
 
 import {
   Box,
@@ -33,13 +34,6 @@ const validationSchema = Yup.object().shape({
     .email("Invalid email address."),
   password: Yup.string().required("Password is required"),
 });
-
-const getErrorMessage = (error: any): string => {
-  if (error.response && error.response.data && error.response.data.detail) {
-    return error.response.data.detail;
-  }
-  return "Unknown error occurred.";
-};
 
 export default function SimpleCard() {
   const { setUser } = useAuth();

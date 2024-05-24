@@ -85,6 +85,10 @@ export default function Simple() {
     }
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile");
+  }
+
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -124,7 +128,7 @@ export default function Simple() {
                   <Text>{user.email}</Text>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>{user.email}</MenuItem>
+                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
                 </MenuList>
               </Menu>

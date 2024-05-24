@@ -1,116 +1,68 @@
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
   Input,
-  InputGroup,
-  InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
-  useColorModeValue,
+  FormControl,
+  FormLabel,
+  InputGroup,
+  InputRightElement,
   useToken,
   useToast,
 } from "@chakra-ui/react";
-import {
-  ErrorMessage,
-  Field,
-  FieldInputProps,
-  Formik,
-  FormikHelpers,
-  Form,
-} from "formik";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import * as Yup from "yup";
-import { RegisterRequest } from "../types/authTypes";
-import { useAuth } from "../service/authProvider";
-import api from "../service/api";
-import { getErrorMessage } from "../service/utils";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import React, { useState } from "react";
+import { Field, Form, Formik, FieldInputProps, ErrorMessage } from "formik";
+import { validationSchema } from "../Register";
+import { RegisterRequest, UserDetails } from "../../types/authTypes";
+import { getErrorMessage } from "../../service/utils";
+import api from "../../service/api";
+import { useAuth } from "../../service/authProvider";
 
-export const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required("Full Name is required")
-    .min(3, "Full Name should be at least 3 characters long.")
-    .max(40, "Full Name should be at most 40 characters long."),
-  email: Yup.string()
-    .required("Email is required")
-    .email("Invalid email address."),
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password should be at least 8 characters long.")
-    .max(20, "Password should be at most 20 characters long."),
-  username: Yup.string()
-    .required("Username is required")
-    .min(3, "Username should be at least 3 characters long.")
-    .max(20, "Username should be at most 20 characters long."),
-});
+interface EditUserDataModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  handleEditUser: (user: RegisterRequest) => void;
+}
 
-export default function SignupCard() {
+const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
+  isOpen,
+  onClose,
+  handleEditUser,
+}) => {
+  const { user, setUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [blue400] = useToken("colors", ["blue.400"]);
-  const { setUser } = useAuth();
   const toast = useToast();
-
   return (
-    <Formik
-      initialValues={{
-        name: "",
-        email: "",
-        password: "",
-        username: "",
-      }}
-      validationSchema={validationSchema}
-      onSubmit={async (
-        values: RegisterRequest,
-        { setSubmitting }: FormikHelpers<RegisterRequest>
-      ) => {
-        console.log("triggered");
-        try {
-          const userDetails = await api.register(values);
-          setUser(userDetails);
-          toast({
-            title: "Account created.",
-            description: "Your account has been created.",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-        } catch (error) {
-          const errorMessage = getErrorMessage(error);
-          toast({
-            title: "An error occurred.",
-            description: errorMessage,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        } finally {
-          setSubmitting(false);
-        }
-      }}
-    >
-      {({ isSubmitting, errors, touched, isValid, dirty }) => (
-        <Flex
-          minH={"calc(100vh - 14rem)"}
-          align={"center"}
-          justify={"center"}
-          bg={useColorModeValue("gray.50", "gray.800")}
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <Formik
+          initialValues={{
+            name: user?.name || "",
+            email: user?.email || "",
+            username: user?.username || "",
+            password: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={async (values: RegisterRequest) => {
+            await handleEditUser(values);
+            onClose();
+          }}
         >
-          <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-            <Stack align={"center"}>
-              <Heading fontSize={"4xl"}>Sign up for your account</Heading>
-            </Stack>
-            <Box
-              rounded={"lg"}
-              bg={useColorModeValue("white", "gray.700")}
-              boxShadow={"lg"}
-              p={8}
-            >
-              <Form>
+          {({ errors, touched }) => (
+            <Form>
+              <ModalHeader>Edit User Data</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
                 <Stack spacing={4}>
                   <Field name="name">
                     {({ field }: { field: FieldInputProps<any> }) => (
@@ -199,36 +151,23 @@ export default function SignupCard() {
                       </FormControl>
                     )}
                   </Field>
-                  <Stack spacing={10} pt={2}>
-                    <Button
-                      type="submit"
-                      loadingText="Submitting"
-                      size="lg"
-                      bg={"blue.400"}
-                      color={"white"}
-                      _hover={{
-                        bg: "blue.500",
-                      }}
-                      isDisabled={!isValid || !dirty}
-                      isLoading={isSubmitting}
-                    >
-                      Sign up
-                    </Button>
-                  </Stack>
-                  <Stack pt={6}>
-                    <Text align={"center"}>
-                      Already a user?{" "}
-                      <RouterLink to="/login" style={{ color: blue400 }}>
-                        Login
-                      </RouterLink>
-                    </Text>
-                  </Stack>
                 </Stack>
-              </Form>
-            </Box>
-          </Stack>
-        </Flex>
-      )}
-    </Formik>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} type="submit">
+                  Save
+                </Button>
+                <Button variant="ghost" onClick={onClose}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
+      </ModalContent>
+    </Modal>
   );
-}
+};
+
+export default EditUserDataModal;
