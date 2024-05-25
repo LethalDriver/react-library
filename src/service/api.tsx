@@ -36,19 +36,11 @@ export const api = axios.create({
   baseURL: "http://localhost:8080",
 }) as ApiInstance;
 
-export const initializeAxios = () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    api.defaults.headers.common["Authorization"] = "Bearer " + token;
-  }
-};
-
 api.login = async function (data: LoginRequest) {
   const response = (await this.post("/auth/login", data))
     .data as AuthenticationResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
-  api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
   return response.user;
 };
 
@@ -57,13 +49,12 @@ api.register = async function (data: RegisterRequest) {
     .data as AuthenticationResponse;
   localStorage.setItem("token", response.token);
   localStorage.setItem("refreshToken", response.refreshToken);
-  api.defaults.headers.common["Authorization"] = "Bearer " + response.token;
   return response.user;
 };
 
 api.updateUser = async function (data: RegisterRequest) {
   return (await this.put("/users", data)).data as UserDetails;
-}
+};
 
 api.userInfo = async function () {
   try {
@@ -101,7 +92,6 @@ api.logout = async function () {
   await this.post("/auth/logout", logoutRequest);
   localStorage.removeItem("token");
   localStorage.removeItem("refreshToken");
-  delete this.defaults.headers.common["Authorization"];
   return;
 };
 
@@ -145,6 +135,26 @@ api.searchLoansByUsernames = async function (username: string) {
   return (await this.get("/loans", { params: { username } })).data as Loan[];
 };
 
+//Append jwt to auth header, whenever the request is not to send to the authentication controller
+api.interceptors.request.use(
+  (config) => {
+    // If the URL does not begin with /auth, add the Authorization header
+    if (!config.url?.startsWith("/auth")) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+    }
+
+    return config;
+  },
+  (error) => {
+    // If there's an error in the request configuration, just throw it back to axios
+    return Promise.reject(error);
+  }
+);
+
+//Refresh token when jwt is expired
 api.interceptors.response.use(
   (response) => {
     // If the request succeeds, we don't have to do anything and just return the response
@@ -153,7 +163,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If the server returns a 403 error (Forbidden) and the error message is 'jwt expired'
+    // If the server returns a 401 error (Unauthorized) and the error message is 'jwt expired'
     if (
       error.response &&
       error.response.status === 401 &&
@@ -175,9 +185,7 @@ api.interceptors.response.use(
         api.defaults.headers.common["Authorization"] =
           "Bearer " + res.data.token;
 
-        originalRequest.headers["Authorization"] = "Bearer " + res.data.token;
-
-        // Retry the original request
+        // Retry the original request. The interceptor will add the new token to the Authorization header.
         return api(originalRequest);
       } else if (error.response && error.response.status === 401) {
         localStorage.removeItem("token");
@@ -190,5 +198,4 @@ api.interceptors.response.use(
   }
 );
 
-initializeAxios();
 export default api;

@@ -1,15 +1,16 @@
 import { Accordion, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import api from "../../service/api";
 import { useAuth } from "../../service/authProvider";
 import { Loan } from "../../types/loanTypes";
 import LoanAdminSearchAndFilter from "./LoanAdminSearchAndFilter";
 import LoanComponent from "./LoanComponent";
+import { useApi } from "../../service/apiProvider";
 
 const LoansComponent = () => {
   const [loans, setLoans] = useState<Loan[]>([]);
   const [search, setSearch] = useState<string>("");
   const { user } = useAuth();
+  const api = useApi();
   const isAdmin = user?.role === "LIBRARIAN";
   const fetchLoans = async () => {
     if (search) {

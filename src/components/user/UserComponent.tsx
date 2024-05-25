@@ -20,11 +20,12 @@ import {
 import EditUserDataModal from "./EditUserDataModal";
 import { useAuth } from "../../service/authProvider";
 import { RegisterRequest } from "../../types/authTypes";
-import { api } from "../../service/api";
+import { useApi } from "../../service/apiProvider";
 
 const UserComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, setUser } = useAuth();
+  const api = useApi();
 
   const handleUserEdit = async (user: RegisterRequest) => {
     api.updateUser(user);

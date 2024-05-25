@@ -8,7 +8,6 @@ import {
 } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
 import { UserDetails } from "../types/authTypes";
 import { getErrorMessage } from "../service/utils";
@@ -27,6 +26,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { useApi } from "../service/apiProvider";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -39,6 +39,7 @@ export default function SimpleCard() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
+  const api = useApi();
 
   return (
     <Formik

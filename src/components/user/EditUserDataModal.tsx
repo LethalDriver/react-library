@@ -22,8 +22,6 @@ import React, { useState } from "react";
 import { Field, Form, Formik, FieldInputProps, ErrorMessage } from "formik";
 import { validationSchema } from "../Register";
 import { RegisterRequest, UserDetails } from "../../types/authTypes";
-import { getErrorMessage } from "../../service/utils";
-import api from "../../service/api";
 import { useAuth } from "../../service/authProvider";
 
 interface EditUserDataModalProps {

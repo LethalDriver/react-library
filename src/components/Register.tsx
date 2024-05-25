@@ -28,7 +28,7 @@ import { Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
 import { useAuth } from "../service/authProvider";
-import api from "../service/api";
+import { useApi } from "../service/apiProvider";
 import { getErrorMessage } from "../service/utils";
 
 export const validationSchema = Yup.object().shape({
@@ -53,6 +53,7 @@ export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [blue400] = useToken("colors", ["blue.400"]);
   const { setUser } = useAuth();
+  const api = useApi();
   const toast = useToast();
 
   return (

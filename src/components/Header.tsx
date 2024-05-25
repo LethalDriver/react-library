@@ -18,8 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
+import { useApi } from "../service/apiProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -50,6 +50,7 @@ export default function Simple() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
+  const api = useApi();
 
   const links = ["Home"];
   if (user) {
@@ -87,7 +88,7 @@ export default function Simple() {
 
   const handleProfileClick = () => {
     navigate("/profile");
-  }
+  };
 
   return (
     <>
