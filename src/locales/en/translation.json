@@ -42,5 +42,10 @@
   "returned accepted": "Returned Accepted",
   "returned rejected": "Returned Rejected",
   "search by username": "Search by username",
-  "filter by status": "Filter by status"
+  "filter by status": "Filter by status",
+  "submit review": "Submit review",
+  "add a review": "Add a review",
+  "please fill out the review and rating": "Please fill out the review and rating",
+  "edit": "Edit",
+  "delete": "Delete"
 }

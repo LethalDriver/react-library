@@ -1,10 +1,18 @@
 import { StarIcon } from "@chakra-ui/icons";
-import { Box, Button, HStack, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useApi } from "../../service/apiProvider";
 import { useAuth } from "../../service/authProvider";
 import { Review } from "../../types/reviewTypes";
 import EditReviewModal from "./EditReviewModal";
+import { useTranslation } from "react-i18next";
 
 type ReviewProps = {
   review: Review;
@@ -19,6 +27,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
     useState<string>(reviewContent);
   const { user } = useAuth();
   const api = useApi();
+  const { t } = useTranslation();
   const isAdmin = user?.role === "LIBRARIAN";
   const isOwner = user?.username === username;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,12 +78,12 @@ const ReviewComponent: React.FC<ReviewProps> = ({
         <HStack spacing={4}>
           {isOwner && (
             <Button colorScheme="blue" onClick={onOpen}>
-              Edit
+              {t("edit")}
             </Button>
           )}
           {isAdmin && (
             <Button colorScheme="red" onClick={handleDeleteReview}>
-              Delete
+              {t("delete")}
             </Button>
           )}
         </HStack>

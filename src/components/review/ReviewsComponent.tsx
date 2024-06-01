@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { Review, ReviewPostRequest } from "../../types/reviewTypes";
 import ReviewComponent from "./ReviewComponent";
 import { useApi } from "../../service/apiProvider";
+import { useTranslation } from "react-i18next";
 
 type ReviewsProps = {
   bookId: number;
@@ -25,6 +26,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(0);
+  const { t } = useTranslation();
   const StackComponent =
     useBreakpointValue({ base: VStack, md: HStack }) ?? Stack;
   const fetchReviews = async () => {
@@ -49,7 +51,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   const handleReviewSubmit = async () => {
     if (newReview === "" || newReviewRating === 0) {
       toast({
-        title: "Please fill out the review and rating",
+        title: t('please fill out the review and rating'),
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -82,7 +84,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
         <Textarea
           value={newReview}
           onChange={handleReviewChange}
-          placeholder="Add a review"
+          placeholder={t("add a review")}
           borderColor={useColorModeValue("gray.200", "whiteAlpha.900")} // Set the border color explicitly
         />
         <VStack>
@@ -98,7 +100,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
             ))}
           </Stack>
           <Button onClick={handleReviewSubmit} w="full">
-            Submit Review
+            {t("submit review")}
           </Button>
         </VStack>
       </StackComponent>
