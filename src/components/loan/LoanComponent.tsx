@@ -11,24 +11,27 @@ import React, { useMemo } from "react";
 import { useAuth } from "../../service/authProvider";
 import { Loan, LoanStatus } from "../../types/loanTypes";
 import { useApi } from "../../service/apiProvider";
+import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 type LoanProps = {
   loan: Loan;
   refetch: () => void;
 };
 const statuses: Record<LoanStatus, string> = {
-  PENDING_APPROVAL: "Pending Approval",
-  APPROVED: "Approved",
-  REJECTED: "Rejected",
-  RETURNED: "Returned",
-  RETURNED_ACCEPTED: "Returned Accepted",
-  RETURNED_REJECTED: "Returned Rejected",
+  PENDING_APPROVAL: t("pending approval"),
+  APPROVED: t("approved"),
+  REJECTED: t("rejected"),
+  RETURNED: t("returned"),
+  RETURNED_ACCEPTED: t("returned accepted"),
+  RETURNED_REJECTED: t("returned rejected"),
 };
 
 const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
   const { user } = useAuth();
   const api = useApi();
   const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
+  const { t } = useTranslation();
   const handleReturn = async () => {
     await api.returnBookLoan(loan.id);
     refetch();
@@ -49,8 +52,12 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
           <Box flex="1" textAlign="left">
             {isAdmin ? (
               <React.Fragment>
-                <Text>Loan id: {loan.id}</Text>
-                <Text>User: {loan.user.name}</Text>
+                <Text>
+                  {t("loan id")}: {loan.id}
+                </Text>
+                <Text>
+                  {t("user")}: {loan.user.name}
+                </Text>
               </React.Fragment>
             ) : (
               <Text>{loan.book.title}</Text>
@@ -61,14 +68,26 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
       </h2>
       <AccordionPanel pb={4}>
         {isAdmin ? (
-          <Text>Book title: {loan.book.title}</Text>
+          <Text>
+            {t("book title")}: {loan.book.title}
+          </Text>
         ) : (
-          <Text>Loan ID: {loan.id}</Text>
+          <Text>
+            {t("loan id")}: {loan.id}
+          </Text>
         )}
-        <Text>Loan Date: {loan.loanDate}</Text>
-        <Text>Return Date: {loan.returnDate}</Text>
-        <Text>Due Date: {loan.dueDate}</Text>
-        <Text>Status: {statuses[loan.status]}</Text>
+        <Text>
+          {t("loan date")}: {loan.loanDate}
+        </Text>
+        <Text>
+          {t("return date")}: {loan.returnDate}
+        </Text>
+        <Text>
+          {t("due date")}: {loan.dueDate}
+        </Text>
+        <Text>
+          {t("status")}: {statuses[loan.status]}
+        </Text>
         <Box
           display="flex"
           flexDirection="column"
@@ -81,7 +100,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
                 return (
                   !isAdmin && (
                     <Button colorScheme="blue" size="sm" onClick={handleReturn}>
-                      Return
+                      {t("return book")}
                     </Button>
                   )
                 );
@@ -89,7 +108,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
                 return (
                   isAdmin && (
                     <Button colorScheme="green" size="sm" onClick={approveLoan}>
-                      Approve Loan
+                      {t("approve loan")}
                     </Button>
                   )
                 );
@@ -101,7 +120,7 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
                       size="sm"
                       onClick={approveReturn}
                     >
-                      Approve Return
+                      {t("approve return")}
                     </Button>
                   )
                 );
