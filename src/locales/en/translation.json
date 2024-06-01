@@ -47,5 +47,8 @@
   "add a review": "Add a review",
   "please fill out the review and rating": "Please fill out the review and rating",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+  "save": "Save",
+  "cancel": "Cancel",
+  "edit review": "Edit review",
 }

@@ -10,6 +10,7 @@ import {
     Textarea,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface EditReviewModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({
   handleEditReview,
 }) => {
     const [reviewContent, setReviewContent] = useState<string>(review);
+    const { t } = useTranslation();
     const handleEditChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setReviewContent(event.target.value);
     };
@@ -37,7 +39,9 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Edit Review</ModalHeader>
+        <ModalHeader>
+          {t("edit review")}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Textarea value={reviewContent} onChange={handleEditChange} />
@@ -45,10 +49,10 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({
 
         <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={handleEditSubmit}>
-            Save
+            {t("submit")}
           </Button>
           <Button variant="ghost" onClick={onClose}>
-            Cancel
+            {t("cancel")}
           </Button>
         </ModalFooter>
       </ModalContent>
