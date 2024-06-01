@@ -23,6 +23,7 @@ import { Field, Form, Formik, FieldInputProps, ErrorMessage } from "formik";
 import { validationSchema } from "../Register";
 import { RegisterRequest, UserDetails } from "../../types/authTypes";
 import { useAuth } from "../../service/authProvider";
+import { useTranslation } from "react-i18next";
 
 interface EditUserDataModalProps {
   isOpen: boolean;
@@ -39,6 +40,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [blue400] = useToken("colors", ["blue.400"]);
   const toast = useToast();
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -58,7 +60,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
         >
           {({ errors, touched }) => (
             <Form>
-              <ModalHeader>Edit User Data</ModalHeader>
+              <ModalHeader>{t("edit user data")}</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <Stack spacing={4}>
@@ -68,7 +70,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
                         id="name"
                         isInvalid={Boolean(errors.name && touched?.name)}
                       >
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>{t("full name")}</FormLabel>
                         <Input {...field} type="text" />
                         <ErrorMessage
                           name="name"
@@ -87,7 +89,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
                           errors.username && touched?.username
                         )}
                       >
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>{t("username")}</FormLabel>
                         <Input {...field} type="text" />
                         <ErrorMessage
                           name="username"
@@ -104,7 +106,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
                         id="email"
                         isInvalid={Boolean(errors.email && touched?.email)}
                       >
-                        <FormLabel>Email address</FormLabel>
+                        <FormLabel>{t("email")}</FormLabel>
                         <Input {...field} type="email" />
                         <ErrorMessage
                           name="email"
@@ -123,7 +125,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
                           errors.password && touched?.password
                         )}
                       >
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{t("password")}</FormLabel>
                         <InputGroup>
                           <Input
                             {...field}
@@ -154,10 +156,10 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
 
               <ModalFooter>
                 <Button colorScheme="blue" mr={3} type="submit">
-                  Save
+                  {t("save")}
                 </Button>
                 <Button variant="ghost" onClick={onClose}>
-                  Cancel
+                  {t("cancel")}
                 </Button>
               </ModalFooter>
             </Form>

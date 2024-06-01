@@ -131,8 +131,12 @@ export default function Simple() {
                   <Text>{user.email}</Text>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-                  <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+                  <MenuItem onClick={handleProfileClick}>
+                    {t("profile")}
+                  </MenuItem>
+                  <MenuItem onClick={handleLogoutClick}>
+                    {t("logout")}
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

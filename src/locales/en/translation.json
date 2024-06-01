@@ -52,5 +52,14 @@
   "cancel": "Cancel",
   "edit review": "Edit review",
   "cover img url": "Cover image URL",
-  "summary": "Summary"
+  "summary": "Summary",
+  "role": "Role",
+  "librarian": "Librarian",
+  "reader": "Reader",
+  "profile": "Profile",
+  "edit user data": "Edit user data",
+  "logout": "Logout",
+  "home": "Home",
+  "books": "Books",
+  "loans": "Loans"
 }
