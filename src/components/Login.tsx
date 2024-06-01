@@ -4,7 +4,7 @@ import {
   FieldInputProps,
   Form,
   Formik,
-  FormikHelpers
+  FormikHelpers,
 } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -26,6 +26,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -45,6 +46,7 @@ export default function SimpleCard() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -78,7 +80,7 @@ export default function SimpleCard() {
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
-              <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+              <Heading fontSize={"4xl"}>{t("sign in account")}</Heading>
             </Stack>
             <Box
               rounded={"lg"}
@@ -94,7 +96,7 @@ export default function SimpleCard() {
                         id="email"
                         isInvalid={Boolean(errors.email && touched?.email)}
                       >
-                        <FormLabel>Email address</FormLabel>
+                        <FormLabel>{t("email")}</FormLabel>
                         <Input {...field} type="email" />
                         <ErrorMessage
                           name="email"
@@ -113,7 +115,7 @@ export default function SimpleCard() {
                           errors.password && touched?.password
                         )}
                       >
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{t("password")}</FormLabel>
                         <Input {...field} type="password" />
                         <ErrorMessage
                           name="password"
@@ -130,8 +132,8 @@ export default function SimpleCard() {
                       align={"start"}
                       justify={"space-between"}
                     >
-                      <Checkbox>Remember me</Checkbox>
-                      <Text color={"blue.400"}>Forgot password?</Text>
+                      <Checkbox>{t("remember me")}</Checkbox>
+                      <Text color={"blue.400"}>{t("forgot password")}</Text>
                     </Stack>
                     <Button
                       type="submit"
@@ -143,7 +145,7 @@ export default function SimpleCard() {
                       isDisabled={!isValid || !dirty}
                       isLoading={isSubmitting}
                     >
-                      Sign in
+                      {t("sign in")}
                     </Button>
                   </Stack>
                 </Stack>

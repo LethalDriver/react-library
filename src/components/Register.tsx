@@ -29,6 +29,7 @@ import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
 import { useAuth } from "../service/authProvider";
 import api from "../service/api";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -60,6 +61,7 @@ export default function SignupCard() {
   const [blue400] = useToken("colors", ["blue.400"]);
   const { setUser } = useAuth();
   const toast = useToast();
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -108,7 +110,7 @@ export default function SignupCard() {
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
-              <Heading fontSize={"4xl"}>Sign up for your account</Heading>
+              <Heading fontSize={"4xl"}>{t("sign up account")}</Heading>
             </Stack>
             <Box
               rounded={"lg"}
@@ -124,7 +126,7 @@ export default function SignupCard() {
                         id="name"
                         isInvalid={Boolean(errors.name && touched?.name)}
                       >
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>{t("full name")}</FormLabel>
                         <Input {...field} type="text" />
                         <ErrorMessage
                           name="name"
@@ -143,7 +145,7 @@ export default function SignupCard() {
                           errors.username && touched?.username
                         )}
                       >
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>{t("username")}</FormLabel>
                         <Input {...field} type="text" />
                         <ErrorMessage
                           name="username"
@@ -160,7 +162,7 @@ export default function SignupCard() {
                         id="email"
                         isInvalid={Boolean(errors.email && touched?.email)}
                       >
-                        <FormLabel>Email address</FormLabel>
+                        <FormLabel>{t("email")}</FormLabel>
                         <Input {...field} type="email" />
                         <ErrorMessage
                           name="email"
@@ -179,7 +181,7 @@ export default function SignupCard() {
                           errors.password && touched?.password
                         )}
                       >
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{t("password")}</FormLabel>
                         <InputGroup>
                           <Input
                             {...field}
@@ -218,14 +220,14 @@ export default function SignupCard() {
                       isDisabled={!isValid || !dirty}
                       isLoading={isSubmitting}
                     >
-                      Sign up
+                      {t("sign up")}
                     </Button>
                   </Stack>
                   <Stack pt={6}>
                     <Text align={"center"}>
-                      Already a user?{" "}
+                      {t("already have account")}{" "}
                       <RouterLink to="/login" style={{ color: blue400 }}>
-                        Login
+                        {t("sign in")}
                       </RouterLink>
                     </Text>
                   </Stack>

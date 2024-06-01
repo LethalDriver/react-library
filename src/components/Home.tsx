@@ -1,14 +1,8 @@
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Stack,
-  Text
-} from "@chakra-ui/react";
-
+import { Box, Button, Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 export default function CallToActionWithAnnotation() {
+  const { t } = useTranslation();
   return (
     <>
       <Container maxW={"3xl"}>
@@ -23,9 +17,9 @@ export default function CallToActionWithAnnotation() {
             fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
             lineHeight={"110%"}
           >
-            Borrow amazing books <br />
+            {t("welcome1")} <br />
             <Text as={"span"} color={"blue.400"}>
-              at our library
+              {t("welcome2")}
             </Text>
           </Heading>
           <Text color={"gray.500"}>

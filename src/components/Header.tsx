@@ -18,6 +18,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   children: React.ReactNode;
@@ -48,6 +49,7 @@ export default function Simple() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
+  const { t } = useTranslation();
 
   const links = ["Home"];
   if (user) {
@@ -146,7 +148,7 @@ export default function Simple() {
                 href={"#"}
                 onClick={handleSignInClick}
               >
-                Sign In
+                {t("sign in")}
               </Button>
               <Button
                 display={{ base: "none", md: "inline-flex" }}
@@ -159,7 +161,7 @@ export default function Simple() {
                 }}
                 onClick={handleSignUpClick}
               >
-                Sign Up
+                {t("sign up")}
               </Button>
             </Stack>
           )}
