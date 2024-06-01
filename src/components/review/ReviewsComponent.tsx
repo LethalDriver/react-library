@@ -11,9 +11,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { api } from "../../service/api";
 import { Review, ReviewPostRequest } from "../../types/reviewTypes";
 import ReviewComponent from "./ReviewComponent";
+import { useApi } from "../../service/apiProvider";
 
 type ReviewsProps = {
   bookId: number;
@@ -21,6 +21,7 @@ type ReviewsProps = {
 
 const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   const toast = useToast();
+  const api = useApi();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(0);

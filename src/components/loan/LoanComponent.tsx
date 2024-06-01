@@ -5,12 +5,12 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
-import { api } from "../../service/api";
 import { useAuth } from "../../service/authProvider";
 import { Loan, LoanStatus } from "../../types/loanTypes";
+import { useApi } from "../../service/apiProvider";
 
 type LoanProps = {
   loan: Loan;
@@ -27,6 +27,7 @@ const statuses: Record<LoanStatus, string> = {
 
 const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
   const { user } = useAuth();
+  const api = useApi();
   const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
   const handleReturn = async () => {
     await api.returnBookLoan(loan.id);

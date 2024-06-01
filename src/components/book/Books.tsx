@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { api } from "../../service/api";
 import {
   Button,
   Grid,
@@ -13,8 +12,10 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Book } from "../../types/bookTypes";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useApi } from "../../service/apiProvider";
 
 const Books = () => {
+  const api = useApi();
   const [books, setBooks] = useState<Book[]>([]);
   const [search, setSearch] = useState<string>("");
   const fetchBooks = async () => {

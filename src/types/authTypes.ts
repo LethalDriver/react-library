@@ -24,6 +24,8 @@ export type RegisterRequest = {
   username: string;
 };
 
+
+
 export type LogoutRequest = {
   token: string;
   refreshToken: string;

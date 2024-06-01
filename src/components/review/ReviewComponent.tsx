@@ -1,7 +1,7 @@
 import { StarIcon } from "@chakra-ui/icons";
 import { Box, Button, HStack, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
-import api from "../../service/api";
+import { useApi } from "../../service/apiProvider";
 import { useAuth } from "../../service/authProvider";
 import { Review } from "../../types/reviewTypes";
 import EditReviewModal from "./EditReviewModal";
@@ -18,6 +18,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
   const [reviewContentState, setReviewContentState] =
     useState<string>(reviewContent);
   const { user } = useAuth();
+  const api = useApi();
   const isAdmin = user?.role === "LIBRARIAN";
   const isOwner = user?.username === username;
   const { isOpen, onOpen, onClose } = useDisclosure();

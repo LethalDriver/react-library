@@ -5,12 +5,13 @@ import {
   Form,
   Formik,
   FormikHelpers,
+  FormikHelpers,
 } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
 import { UserDetails } from "../types/authTypes";
+import { getErrorMessage } from "../service/utils";
 
 import {
   Box,
@@ -26,6 +27,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { useApi } from "../service/apiProvider";
 import { useTranslation } from "react-i18next";
 
 const validationSchema = Yup.object().shape({
@@ -35,17 +37,11 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
-const getErrorMessage = (error: any): string => {
-  if (error.response && error.response.data && error.response.data.detail) {
-    return error.response.data.detail;
-  }
-  return "Unknown error occurred.";
-};
-
 export default function SimpleCard() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
+  const api = useApi();
   const { t } = useTranslation();
 
   return (

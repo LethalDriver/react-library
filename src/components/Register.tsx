@@ -28,10 +28,11 @@ import { Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
 import { useAuth } from "../service/authProvider";
-import api from "../service/api";
+import { useApi } from "../service/apiProvider";
+import { getErrorMessage } from "../service/utils";
 import { useTranslation } from "react-i18next";
 
-const validationSchema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required("Full Name is required")
     .min(3, "Full Name should be at least 3 characters long.")
@@ -49,17 +50,11 @@ const validationSchema = Yup.object().shape({
     .max(20, "Username should be at most 20 characters long."),
 });
 
-const getErrorMessage = (error: any): string => {
-  if (error.response && error.response.data && error.response.data.detail) {
-    return error.response.data.detail;
-  }
-  return "Unknown error occurred.";
-};
-
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [blue400] = useToken("colors", ["blue.400"]);
   const { setUser } = useAuth();
+  const api = useApi();
   const toast = useToast();
   const { t } = useTranslation();
 

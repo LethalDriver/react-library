@@ -19,14 +19,15 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../service/api";
 import { useAuth } from "../../service/authProvider";
 import { Book } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
 import EditBookModal from "./EditBookModal";
+import { useApi } from "../../service/apiProvider";
 
 export default function BookDetails() {
   const { user } = useAuth();
+  const api = useApi();
   const navigate = useNavigate();
   const isAdmin = user?.role === "LIBRARIAN";
   const toast = useToast();

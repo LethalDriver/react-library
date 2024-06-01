@@ -14,10 +14,12 @@ import {
   useColorModeValue,
   useDisclosure,
   useToast,
+  Text,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../service/api";
 import { useAuth } from "../service/authProvider";
+import { useApi } from "../service/apiProvider";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -49,6 +51,7 @@ export default function Simple() {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
+  const api = useApi();
   const { t } = useTranslation();
 
   const links = ["Home"];
@@ -85,6 +88,10 @@ export default function Simple() {
     }
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -119,16 +126,12 @@ export default function Simple() {
                   variant={"link"}
                   cursor={"pointer"}
                   minW={0}
+                  rightIcon={<ChevronDownIcon />}
                 >
-                  <Avatar
-                    size={"sm"}
-                    src={
-                      "https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
-                    }
-                  />
+                  <Text>{user.email}</Text>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>{user.email}</MenuItem>
+                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
                 </MenuList>
               </Menu>
