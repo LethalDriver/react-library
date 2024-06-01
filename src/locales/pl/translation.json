@@ -40,5 +40,7 @@
   "rejected": "Odrzucona",
   "returned": "Zwrócona",
   "returned accepted": "Zwrot zaakceptowany",
-  "returned rejected": "Zwrot odrzucony"
+  "returned rejected": "Zwrot odrzucony",
+  "search by username": "Szukaj po nazwie użytkownika",
+  "filter by status": "Filtruj po statusie"
 }

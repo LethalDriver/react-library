@@ -40,5 +40,7 @@
   "rejected": "Rejected",
   "returned": "Returned",
   "returned accepted": "Returned Accepted",
-  "returned rejected": "Returned Rejected"
+  "returned rejected": "Returned Rejected",
+  "search by username": "Search by username",
+  "filter by status": "Filter by status"
 }

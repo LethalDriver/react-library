@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { LoanStatus } from "../../types/loanTypes";
+import { useTranslation } from "react-i18next";
 
 interface LoanAdminSearchAndFilterProps {
   onSearch: (username: string) => void;
@@ -19,13 +20,14 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
   onSearch,
   onFilter,
 }) => {
+  const { t } = useTranslation();
   const filterOptions: Record<string, string> = {
-    PENDING_APPROVAL: "Pending Approval",
-    APPROVED: "Approved",
-    REJECTED: "Rejected",
-    RETURNED: "Returned",
-    RETURNED_ACCEPTED: "Returned Accepted",
-    RETURNED_REJECTED: "Returned Rejected",
+    PENDING_APPROVAL: t("pending approval"),
+    APPROVED: t("approved"),
+    REJECTED: t("rejected"),
+    RETURNED: t("returned"),
+    RETURNED_ACCEPTED: t("returned accepted"),
+    RETURNED_REJECTED: t("returned rejected"),
   };
 
   const [username, setUsername] = useState("");
@@ -54,14 +56,14 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
     >
       <Box flex="5">
         <Input
-          placeholder="Search by username"
+          placeholder={t("search by username")}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           size="md"
         />
       </Box>
       <Select
-        placeholder="Filter by status"
+        placeholder={t("filter by status")}
         value={status}
         onChange={(e) => handleFilter(e.target.value)}
         flex="1"
@@ -73,7 +75,7 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
         ))}
       </Select>
       <Button bg={"blue.400"} textColor={"white"} onClick={handleSearch}>
-        Search
+        {t("search")}
       </Button>
     </Flex>
   );
