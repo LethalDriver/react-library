@@ -24,6 +24,7 @@ import { Book } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
 import EditBookModal from "./EditBookModal";
 import { useApi } from "../../service/apiProvider";
+import { useTranslation } from "react-i18next";
 
 export default function BookDetails() {
   const { user } = useAuth();
@@ -38,6 +39,7 @@ export default function BookDetails() {
     const response = await api.fetchBookDetails(Number(bookId));
     setBook(response);
   };
+  const { t } = useTranslation();
 
   const handleBookDelete = async () => {
     try {
@@ -164,37 +166,37 @@ export default function BookDetails() {
                 textTransform={"uppercase"}
                 mb={"4"}
               >
-                Book Details
+                {t("book details")}
               </Text>
 
               <List spacing={2}>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Author:
+                    {t("author")}:
                   </Text>{" "}
                   {book?.author}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Genre:
+                    {t("genre")}:
                   </Text>{" "}
                   {book?.bookDetails.genre}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Publisher:
+                    {t("publisher")}:
                   </Text>{" "}
                   {book?.publisher}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Isbn:
+                    {t("isbn")}:
                   </Text>{" "}
                   {book?.isbn}
                 </ListItem>
                 <ListItem>
                   <Text as={"span"} fontWeight={"bold"}>
-                    Avaiable copies:
+                    {t("available copies")}:
                   </Text>{" "}
                   {book?.availableCopies}
                 </ListItem>
@@ -216,7 +218,7 @@ export default function BookDetails() {
                 }}
                 onClick={onOpen}
               >
-                Edit Book
+                {t("edit book")}
               </Button>
               {book && (
                 <EditBookModal
@@ -239,7 +241,7 @@ export default function BookDetails() {
                 }}
                 onClick={handleBookDelete}
               >
-                Delete Book
+                {t("delete book")}
               </Button>
             </Stack>
           ) : (
@@ -258,7 +260,7 @@ export default function BookDetails() {
               }}
               onClick={requestLoan}
             >
-              Borrow book
+              {t("borrow book")}
             </Button>
           )}
         </Stack>

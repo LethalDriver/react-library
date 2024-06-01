@@ -12,5 +12,18 @@
   "full name": "Imię i nazwisko",
   "username": "Nazwa użytkownika",
   "confirm password": "Potwierdź hasło",
-  "already have account": "Masz już konto?"
+  "already have account": "Masz już konto?",
+  "book details": "Szczegóły książki",
+  "author": "Autor",
+  "genre": "Gatunek",
+  "publisher": "Wydawca",
+  "isbn": "ISBN",
+  "available copies": "Dostępne kopie",
+  "edit book": "Edytuj książkę",
+  "delete book": "Usuń książkę",
+  "borrow book": "Wypożycz książkę",
+  "return book": "Zwróć książkę",
+  "add book": "Dodaj książkę",
+  "search": "Szukaj",
+  "search books": "Szukaj książek"
 }

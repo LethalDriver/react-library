@@ -13,11 +13,13 @@ import { Book } from "../../types/bookTypes";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useApi } from "../../service/apiProvider";
+import { useTranslation } from "react-i18next";
 
 const Books = () => {
   const api = useApi();
   const [books, setBooks] = useState<Book[]>([]);
   const [search, setSearch] = useState<string>("");
+  const { t } = useTranslation();
   const fetchBooks = async () => {
     const fetchedBooks = await api.fetchBooks(search);
     setBooks(fetchedBooks);
@@ -64,7 +66,7 @@ const Books = () => {
           <Input
             value={search}
             onChange={onSearchChange}
-            placeholder="Search books"
+            placeholder={t("search books")}
           />
         </InputGroup>
         <Button
@@ -72,7 +74,7 @@ const Books = () => {
           textColor={"white"}
           onClick={onSearchButtonClick}
         >
-          Search
+          {t("search")}
         </Button>
       </Stack>
       <Grid

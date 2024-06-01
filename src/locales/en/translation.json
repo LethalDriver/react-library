@@ -12,5 +12,18 @@
   "full name": "Full name",
   "username": "Username",
   "confirm password": "Confirm password",
-  "already have account": "Already have an account?"
+  "already have account": "Already have an account?",
+  "book details": "Book details",
+  "author": "Author",
+  "genre": "Genre",
+  "publisher": "Publisher",
+  "isbn": "ISBN",
+  "available copies": "Available copies",
+  "edit book": "Edit book",
+  "delete book": "Delete book",
+  "borrow book": "Borrow book",
+  "return book": "Return book",
+  "add book": "Add book",
+  "search": "Search",
+  "search books": "Search books"
 }
