@@ -112,7 +112,7 @@ export default function Simple() {
             >
               {links.map((link) => (
                 <Link key={link} to={`/${link.toLowerCase()}`}>
-                  <NavLink>{link}</NavLink>
+                  <NavLink>{t(link.toLowerCase())}</NavLink>
                 </Link>
               ))}
             </HStack>
@@ -134,9 +134,7 @@ export default function Simple() {
                   <MenuItem onClick={handleProfileClick}>
                     {t("profile")}
                   </MenuItem>
-                  <MenuItem onClick={handleLogoutClick}>
-                    {t("logout")}
-                  </MenuItem>
+                  <MenuItem onClick={handleLogoutClick}>{t("logout")}</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
@@ -179,7 +177,7 @@ export default function Simple() {
             <Stack as={"nav"} spacing={4}>
               {links.map((link) => (
                 <Link key={link} to={`/${link.toLowerCase()}`}>
-                  <NavLink key={link}>{link}</NavLink>
+                  <NavLink key={link}>{t(link.toLowerCase())}</NavLink>
                 </Link>
               ))}
             </Stack>
