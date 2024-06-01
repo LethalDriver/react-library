@@ -49,7 +49,7 @@ export default function EditBookModal({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Edit Book</ModalHeader>
+        <ModalHeader>{t("edit book")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
