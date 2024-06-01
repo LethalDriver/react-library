@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { Book } from "../../types/bookTypes";
+import { useTranslation } from "react-i18next";
 
 interface EditBookModalProps {
   book: Book;
@@ -26,6 +27,7 @@ export default function EditBookModal({
   onClose,
   updateBook,
 }: EditBookModalProps) {
+  const { t } = useTranslation();
   const handleSubmit = async (values: any) => {
     const updatedBook: Book = {
       id: book.id,
@@ -67,7 +69,7 @@ export default function EditBookModal({
               <Field name="title">
                 {({ field }: any) => (
                   <FormControl id="title">
-                    <FormLabel>Book Title</FormLabel>
+                    <FormLabel>{t("title")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
@@ -75,7 +77,7 @@ export default function EditBookModal({
               <Field name="author">
                 {({ field }: any) => (
                   <FormControl id="author">
-                    <FormLabel>Author</FormLabel>
+                    <FormLabel>{t("author")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
@@ -83,7 +85,7 @@ export default function EditBookModal({
               <Field name="isbn">
                 {({ field }: any) => (
                   <FormControl id="isbn">
-                    <FormLabel>ISBN</FormLabel>
+                    <FormLabel>{t("isbn")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
@@ -91,7 +93,7 @@ export default function EditBookModal({
               <Field name="publisher">
                 {({ field }: any) => (
                   <FormControl id="publisher">
-                    <FormLabel>Publisher</FormLabel>
+                    <FormLabel>{t("publisher")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
@@ -99,7 +101,7 @@ export default function EditBookModal({
               <Field name="availableCopies">
                 {({ field }: any) => (
                   <FormControl id="availableCopies">
-                    <FormLabel>Available Copies</FormLabel>
+                    <FormLabel>{t("available copies")}</FormLabel>
                     <Input type="number" {...field} />
                   </FormControl>
                 )}
@@ -107,7 +109,7 @@ export default function EditBookModal({
               <Field name="genre">
                 {({ field }: any) => (
                   <FormControl id="genre">
-                    <FormLabel>Genre</FormLabel>
+                    <FormLabel>{t("genre")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
@@ -115,7 +117,7 @@ export default function EditBookModal({
               <Field name="imageUrl">
                 {({ field }: any) => (
                   <FormControl id="imageUrl">
-                    <FormLabel>Cover Image URL</FormLabel>
+                    <FormLabel>{t("cover image url")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
@@ -123,13 +125,13 @@ export default function EditBookModal({
               <Field name="summary">
                 {({ field }: any) => (
                   <FormControl id="summary">
-                    <FormLabel>Summary</FormLabel>
+                    <FormLabel>{t("summary")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}
               </Field>
               <Button mt={4} colorScheme="teal" type="submit">
-                Submit
+                {t("save")}
               </Button>
             </Form>
           </Formik>
