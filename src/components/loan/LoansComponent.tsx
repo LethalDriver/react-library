@@ -12,13 +12,19 @@ const LoansComponent = () => {
   const { user } = useAuth();
   const api = useApi();
   const isAdmin = user?.role === "LIBRARIAN";
+  console.log(user);
   const fetchLoans = async () => {
-    if (search) {
-      const fetchedLoans = await api.searchLoansByUsernames(search);
-      setLoans(fetchedLoans);
-      return;
+    if (isAdmin) {
+      if (!search) {
+        const fetchedLoans = await api.fetchAllLoans();
+        setLoans(fetchedLoans);
+      } else {
+        console.log(search);
+        const fetchedLoans = await api.searchLoansByUsernames(search);
+        setLoans(fetchedLoans);
+      }
     } else {
-      const fetchedLoans = await api.fetchLoans();
+      const fetchedLoans = await api.fetchUserLoans();
       setLoans(fetchedLoans);
     }
   };
@@ -38,7 +44,7 @@ const LoansComponent = () => {
 
   useEffect(() => {
     fetchLoans();
-  }, []);
+  }, [user]);
 
   return (
     <Stack spacing={4}>

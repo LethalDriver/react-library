@@ -20,7 +20,8 @@ interface ApiInstance extends AxiosInstance {
   fetchBookDetails: (bookId: number) => Promise<Book>;
   fetchReviewsForBook: (bookId: number) => Promise<Review[]>;
   postReview: (reviewPostRequest: ReviewPostRequest) => Promise<Review>;
-  fetchLoans: () => Promise<Loan[]>;
+  fetchUserLoans: () => Promise<Loan[]>;
+  fetchAllLoans: () => Promise<Loan[]>;
   requestBookLoan: (bookId: number) => Promise<Loan>;
   returnBookLoan: (loanId: number) => Promise<Loan>;
   approveLoan: (loanId: number) => Promise<Loan>;
@@ -95,8 +96,12 @@ api.logout = async function () {
   return;
 };
 
-api.fetchLoans = async function () {
-  return (await this.get("/loans/user")).data as Loan[];
+api.fetchUserLoans = async function () {
+  return (await this.get("/loans/user/current")).data as Loan[];
+};
+
+api.fetchAllLoans = async function () {
+  return (await this.get("/loans")).data as Loan[];
 };
 
 api.requestBookLoan = async function (bookId: number) {

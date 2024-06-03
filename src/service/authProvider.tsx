@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
-import { api } from "./api";
 import { UserDetails } from "../types/authTypes";
+import { useApi } from "./apiProvider";
 
 type AuthContextType = {
   user: UserDetails | null;
@@ -16,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserDetails | null>(null);
+  const api = useApi();
 
   useEffect(() => {
     const fetchUser = async () => {
