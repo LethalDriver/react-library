@@ -124,7 +124,11 @@ export default function BookDetails() {
           <Image
             rounded={"md"}
             alt={"product image"}
-            src={book?.bookDetails.coverImageUrl.replace(/zoom=1/, "zoom=0")}
+            src={
+              book?.bookDetails.coverImageUrl
+                ? book?.bookDetails.coverImageUrl.replace(/zoom=1/, "zoom=0")
+                : "https://placehold.co/588x882/D3D3D3/FFFFFF/?text=?"
+            }
             maxW={"100%"}
             maxH={"100%"}
             objectFit="contain"

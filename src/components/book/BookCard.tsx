@@ -41,6 +41,7 @@ export default function BookCard({ title, author, imageUrl }: BookCardProps) {
             objectFit={"cover"}
             src={imageUrl}
             alt="#"
+            fallbackSrc="https://placehold.co/128x192/D3D3D3/FFFFFF/?text=?"
           />
         </Center>
         <Stack pt={10} align={"center"} height={"148px"} overflow={"hidden"}>
