@@ -182,8 +182,6 @@ api.interceptors.response.use(
       // If refresh is successful, update the token in localStorage and in the axios headers
       if (res.status === 200) {
         localStorage.setItem("token", res.data.token);
-        api.defaults.headers.common["Authorization"] =
-          "Bearer " + res.data.token;
 
         // Retry the original request. The interceptor will add the new token to the Authorization header.
         return api(originalRequest);

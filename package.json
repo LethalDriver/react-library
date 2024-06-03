@@ -22,6 +22,7 @@
     "i18next-http-backend": "^2.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-graceful-image": "^1.5.0",
     "react-i18next": "^14.1.2",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.22.3",
