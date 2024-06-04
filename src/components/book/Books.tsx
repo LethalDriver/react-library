@@ -6,6 +6,8 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
+  Box,
+  useDisclosure,
 } from "@chakra-ui/react";
 import BookCard from "./BookCard";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -14,9 +16,14 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useApi } from "../../service/apiProvider";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../service/authProvider";
+import AddBookModal from "./AddBookModal";
 
 const Books = () => {
+  const { onOpen, isOpen, onClose } = useDisclosure();
   const api = useApi();
+  const { user } = useAuth();
+  const isAdmin = user?.role === "LIBRARIAN";
   const [books, setBooks] = useState<Book[]>([]);
   const [search, setSearch] = useState<string>("");
   const { t } = useTranslation();
@@ -39,6 +46,7 @@ const Books = () => {
 
   return (
     <Stack spacing={4}>
+      <AddBookModal isOpen={isOpen} onClose={onClose} />
       <Stack
         direction="row"
         spacing={4}
@@ -62,6 +70,11 @@ const Books = () => {
         >
           {t("search")}
         </Button>
+        {isAdmin && (
+          <Button bg={"green.400"} textColor={"white"} onClick={onOpen}>
+            {t("add book")}
+          </Button>
+        )}
       </Stack>
       <Grid
         templateColumns={{

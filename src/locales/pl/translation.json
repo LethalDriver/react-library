@@ -18,6 +18,7 @@
   "genre": "Gatunek",
   "publisher": "Wydawca",
   "isbn": "ISBN",
+  "image url": "URL obrazka",
   "available copies": "Dostępne kopie",
   "edit book": "Edytuj książkę",
   "delete book": "Usuń książkę",
@@ -63,5 +64,6 @@
   "books": "Książki",
   "loans": "Wypożyczenia",
   "not returned yet": "Nie zwrócona",
-  "overdue": "Po terminie"
+  "overdue": "Po terminie",
+  "book added": "Książka dodana"
 }

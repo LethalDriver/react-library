@@ -11,17 +11,18 @@ import {
   ModalOverlay,
   Flex,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { Book } from "../../types/bookTypes";
+import { Book, BookPostRequest } from "../../types/bookTypes";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
+import { useApi } from "../../service/apiProvider";
+import { getErrorMessage } from "../../service/utils";
 
-interface EditBookModalProps {
-  book: Book;
+interface AddBookModalProps {
   isOpen: boolean;
   onClose: () => void;
-  updateBook: (book: Book) => void;
 }
 
 const validationSchema = Yup.object().shape({
@@ -30,16 +31,12 @@ const validationSchema = Yup.object().shape({
   availableCopies: Yup.number().required("Available copies is required"),
 });
 
-export default function EditBookModal({
-  book,
-  isOpen,
-  onClose,
-  updateBook,
-}: EditBookModalProps) {
+export default function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
   const { t } = useTranslation();
+  const toast = useToast();
+  const api = useApi();
   const handleSubmit = async (values: any) => {
-    const updatedBook: Book = {
-      id: book.id,
+    const newBook: BookPostRequest = {
       title: values.title,
       author: values.author,
       isbn: values.isbn,
@@ -51,26 +48,44 @@ export default function EditBookModal({
         summary: values.summary,
       },
     };
-    await updateBook(updatedBook);
+    try {
+      await api.addBook(newBook);
+      toast({
+        title: t("book added"),
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+      toast({
+        title: t("error"),
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{t("edit book")}</ModalHeader>
+        <ModalHeader>{t("add book")}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
             initialValues={{
-              title: book.title,
-              author: book.author,
-              isbn: book.isbn,
-              publisher: book.publisher,
-              availableCopies: book.availableCopies,
-              genre: book.bookDetails.genre,
-              imageUrl: book.bookDetails.coverImageUrl,
-              summary: book.bookDetails.summary,
+              title: "",
+              author: "",
+              isbn: "",
+              publisher: "",
+              availableCopies: 0,
+              genre: "",
+              imageUrl: "",
+              summary: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -127,7 +142,7 @@ export default function EditBookModal({
               <Field name="imageUrl">
                 {({ field }: any) => (
                   <FormControl id="imageUrl">
-                    <FormLabel>{t("cover image url")}</FormLabel>
+                    <FormLabel>{t("image url")}</FormLabel>
                     <Input type="text" {...field} />
                   </FormControl>
                 )}

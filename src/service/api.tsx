@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Book } from "../types/bookTypes";
+import { Book, BookPostRequest } from "../types/bookTypes";
 import {
   LoginRequest,
   AuthenticationResponse,
@@ -27,6 +27,7 @@ interface ApiInstance extends AxiosInstance {
   returnBookLoan: (loanId: number) => Promise<Loan>;
   approveLoan: (loanId: number) => Promise<Loan>;
   approveReturn: (loanId: number) => Promise<Loan>;
+  addBook: (book: BookPostRequest) => Promise<Book>;
   editBook: (bookId: number, book: Book) => Promise<Book>;
   deleteBook: (bookId: number) => Promise<void>;
   editReview: (reviewId: number, review: Review) => Promise<Review>;
@@ -123,6 +124,10 @@ api.approveLoan = async function (loanId: number) {
 
 api.approveReturn = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/approve-return`)).data as Loan;
+};
+
+api.addBook = async function (book: BookPostRequest) {
+  return (await this.post("/books", book)).data as Book;
 };
 
 api.editBook = async function (bookId: number, book: Book) {

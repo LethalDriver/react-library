@@ -18,6 +18,7 @@
   "genre": "Genre",
   "publisher": "Publisher",
   "isbn": "ISBN",
+  "image url": "Image url",
   "available copies": "Available copies",
   "edit book": "Edit book",
   "delete book": "Delete book",
@@ -63,5 +64,6 @@
   "books": "Books",
   "loans": "Loans",
   "not returned yet": "Not returned yet",
-  "overdue": "Overdue"
+  "overdue": "Overdue",
+  "book added": "Book added"
 }
