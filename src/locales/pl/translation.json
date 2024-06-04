@@ -61,5 +61,6 @@
   "logout": "Wyloguj się",
   "home": "Strona główna",
   "books": "Książki",
-  "loans": "Wypożyczenia"
+  "loans": "Wypożyczenia",
+  "not returned yet": "Nie zwrócona"
 }

@@ -61,5 +61,6 @@
   "logout": "Logout",
   "home": "Home",
   "books": "Books",
-  "loans": "Loans"
+  "loans": "Loans",
+  "not returned yet": "Not returned yet"
 }

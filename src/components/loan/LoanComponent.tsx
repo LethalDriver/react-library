@@ -18,20 +18,20 @@ type LoanProps = {
   loan: Loan;
   refetch: () => void;
 };
-const statuses: Record<LoanStatus, string> = {
-  PENDING_APPROVAL: t("pending approval"),
-  APPROVED: t("approved"),
-  REJECTED: t("rejected"),
-  RETURNED: t("returned"),
-  RETURNED_ACCEPTED: t("returned accepted"),
-  RETURNED_REJECTED: t("returned rejected"),
-};
 
 const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
   const { user } = useAuth();
   const api = useApi();
   const isAdmin = useMemo(() => user?.role === "LIBRARIAN", [user]);
   const { t } = useTranslation();
+  const statuses: Record<LoanStatus, string> = {
+    PENDING_APPROVAL: t("pending approval"),
+    APPROVED: t("approved"),
+    REJECTED: t("rejected"),
+    RETURNED: t("returned"),
+    RETURNED_ACCEPTED: t("returned accepted"),
+    RETURNED_REJECTED: t("returned rejected"),
+  };
   const handleReturn = async () => {
     await api.returnBookLoan(loan.id);
     refetch();
@@ -50,37 +50,29 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
       <h2>
         <AccordionButton>
           <Box flex="1" textAlign="left">
-            {isAdmin ? (
-              <React.Fragment>
-                <Text>
-                  {t("loan id")}: {loan.id}
-                </Text>
-                <Text>
-                  {t("user")}: {loan.user.name}
-                </Text>
-              </React.Fragment>
-            ) : (
-              <Text>{loan.book.title}</Text>
+            {isAdmin && (
+              <Text>
+                <strong>{t("user")}: </strong> {loan.user.username}
+              </Text>
             )}
+            <Text>
+              <strong>{t("book title")}: </strong>
+              {loan.book.title}
+            </Text>
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
       <AccordionPanel pb={4}>
-        {isAdmin ? (
-          <Text>
-            {t("book title")}: {loan.book.title}
-          </Text>
-        ) : (
-          <Text>
-            {t("loan id")}: {loan.id}
-          </Text>
-        )}
+        <Text>
+          {t("loan id")}: {loan.id}
+        </Text>
         <Text>
           {t("loan date")}: {loan.loanDate}
         </Text>
         <Text>
-          {t("return date")}: {loan.returnDate}
+          {t("return date")}:{" "}
+          {loan.returnDate ? loan.returnDate : t("not returned yet")}
         </Text>
         <Text>
           {t("due date")}: {loan.dueDate}
