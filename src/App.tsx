@@ -13,6 +13,7 @@ import BookDetails from "./components/book/BookDetails";
 import { Container } from "@chakra-ui/react";
 import LoansComponent from "./components/loan/LoansComponent";
 import UserComponent from "./components/user/UserComponent";
+import { ProtectedRoutes } from "./components/routing/ProtectedRoutes";
 
 function App() {
   return (
@@ -24,11 +25,13 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="*" element={<Navigate to="/home" replace />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/books" element={<Books />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/books/:bookId" element={<BookDetails />} />
-          <Route path="/loans" element={<LoansComponent />} />
-          <Route path="/profile" element={<UserComponent />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/books" element={<Books />} />
+            <Route path="/books/:bookId" element={<BookDetails />} />
+            <Route path="/loans" element={<LoansComponent />} />
+            <Route path="/profile" element={<UserComponent />} />
+          </Route>
         </Routes>
       </Container>
     </Router>
