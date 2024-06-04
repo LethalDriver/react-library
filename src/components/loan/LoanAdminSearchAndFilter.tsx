@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 interface LoanAdminSearchAndFilterProps {
   onSearch: (username: string) => void;
-  onFilter: (status: LoanStatus | null) => void;
+  onFilter: (status: string | null) => void;
 }
 
 const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
@@ -28,6 +28,7 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
     RETURNED: t("returned"),
     RETURNED_ACCEPTED: t("returned accepted"),
     RETURNED_REJECTED: t("returned rejected"),
+    OVERDUE: t("overdue"),
   };
 
   const [username, setUsername] = useState("");
@@ -42,7 +43,7 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
     if (status === "") {
       onFilter(null);
     } else {
-      onFilter(status as LoanStatus);
+      onFilter(status);
     }
   };
 

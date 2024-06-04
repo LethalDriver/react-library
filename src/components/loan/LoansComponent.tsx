@@ -1,7 +1,7 @@
 import { Accordion, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../service/authProvider";
-import { Loan } from "../../types/loanTypes";
+import { Loan, LoanStatus } from "../../types/loanTypes";
 import LoanAdminSearchAndFilter from "./LoanAdminSearchAndFilter";
 import LoanComponent from "./LoanComponent";
 import { useApi } from "../../service/apiProvider";
@@ -28,18 +28,30 @@ const LoansComponent = () => {
       setLoans(fetchedLoans);
     }
   };
+  const fetchOverdueLoans = async () => {
+    const fetchedLoans = await api.fetchOverdueLoans();
+    setLoans(fetchedLoans);
+  };
+  const fetchAndFilterLoans = async (status: string) => {
+    const fetchedLoans = await api.fetchAllLoans();
+    const filteredLoans = fetchedLoans.filter((loan) => loan.status === status);
+    setLoans(filteredLoans);
+  };
   const onSearch = async (username: string) => {
     setSearch(username);
     fetchLoans();
   };
   const onFilter = (status: string | null) => {
-    console.log(status);
-    if (!status) {
-      fetchLoans();
-      return;
+    switch (status) {
+      case null:
+        fetchLoans();
+        break;
+      case "OVERDUE":
+        fetchOverdueLoans();
+        break;
+      default:
+        fetchAndFilterLoans(status);
     }
-    const filteredLoans = loans.filter((loan) => loan.status === status);
-    setLoans(filteredLoans);
   };
 
   useEffect(() => {

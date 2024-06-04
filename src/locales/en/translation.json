@@ -62,5 +62,6 @@
   "home": "Home",
   "books": "Books",
   "loans": "Loans",
-  "not returned yet": "Not returned yet"
+  "not returned yet": "Not returned yet",
+  "overdue": "Overdue"
 }

@@ -62,5 +62,6 @@
   "home": "Strona główna",
   "books": "Książki",
   "loans": "Wypożyczenia",
-  "not returned yet": "Nie zwrócona"
+  "not returned yet": "Nie zwrócona",
+  "overdue": "Po terminie"
 }
