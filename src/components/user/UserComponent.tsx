@@ -29,10 +29,6 @@ const UserComponent = () => {
   const api = useApi();
   const { t } = useTranslation();
 
-  const handleUserEdit = async (user: RegisterRequest) => {
-    api.updateUser(user);
-  };
-
   return (
     <Flex minH={"calc(100vh - 14rem)"} align={"center"} justify={"center"}>
       <Stack
@@ -72,7 +68,6 @@ const UserComponent = () => {
         <EditUserDataModal
           isOpen={isOpen}
           onClose={onClose}
-          handleEditUser={handleUserEdit}
         />
       </Stack>
     </Flex>

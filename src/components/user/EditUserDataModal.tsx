@@ -14,33 +14,53 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
-  useToken,
   useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
 import { Field, Form, Formik, FieldInputProps, ErrorMessage } from "formik";
 import { validationSchema } from "../Register";
-import { RegisterRequest, UserDetails } from "../../types/authTypes";
+import { RegisterRequest } from "../../types/authTypes";
 import { useAuth } from "../../service/authProvider";
 import { useTranslation } from "react-i18next";
+import { getErrorMessage } from "../../service/utils";
+import { useApi } from "../../service/apiProvider";
 
 interface EditUserDataModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleEditUser: (user: RegisterRequest) => void;
 }
 
 const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
   isOpen,
   onClose,
-  handleEditUser,
 }) => {
   const { user, setUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [blue400] = useToken("colors", ["blue.400"]);
   const toast = useToast();
+  const api = useApi();
   const { t } = useTranslation();
+  const handleUserEdit = async (values: RegisterRequest) => {
+    try {
+      const updatedUser = await api.updateUser(values);
+      setUser(updatedUser);
+      toast({
+        title: t("user data updated"),
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      const errorMessage = getErrorMessage(error);
+      toast({
+        title: t("error"),
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -54,7 +74,7 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
           }}
           validationSchema={validationSchema}
           onSubmit={async (values: RegisterRequest) => {
-            await handleEditUser(values);
+            await handleUserEdit(values);
             onClose();
           }}
         >
