@@ -37,18 +37,7 @@ const Books = () => {
   };
 
   useEffect(() => {
-    // Check if there's any data in localStorage for the books and search input
-    const cachedBooks = localStorage.getItem("books");
-    const cachedSearch = localStorage.getItem("search");
-
-    if (cachedBooks && cachedSearch) {
-      // If there is, use that data to set the state
-      setBooks(JSON.parse(cachedBooks));
-      setSearch(cachedSearch);
-    } else {
-      // If there isn't, fetch the books from the API
-      fetchBooks();
-    }
+    fetchBooks();
   }, []);
 
   return (

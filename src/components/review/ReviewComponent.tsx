@@ -56,7 +56,6 @@ const ReviewComponent: React.FC<ReviewProps> = ({
         review={reviewContent}
         handleEditReview={handleEditReview}
       />
-
       <Stack spacing={1}>
         <Text fontWeight="bold">{username}</Text>
         <Text fontSize="sm" color="gray.500">
@@ -64,7 +63,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
         </Text>
         <HStack spacing={1}>
           {[1, 2, 3, 4, 5].map((n) => (
-            <StarIcon key={n} color={n <= rating ? "teal.500" : "gray.300"} />
+            <StarIcon key={n} color={n <= rating ? "yellow.500" : "gray.300"} />
           ))}
         </HStack>
       </Stack>
