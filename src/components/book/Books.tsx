@@ -23,9 +23,6 @@ const Books = () => {
   const fetchBooks = async () => {
     const fetchedBooks = await api.fetchBooks(search);
     setBooks(fetchedBooks);
-    // Save the books and search input to localStorage
-    localStorage.setItem("books", JSON.stringify(fetchedBooks));
-    localStorage.setItem("search", search);
   };
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
