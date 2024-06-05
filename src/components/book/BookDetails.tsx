@@ -20,11 +20,11 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../service/authProvider";
-import { Book } from "../../types/bookTypes";
+import { Book, BookPostRequest } from "../../types/bookTypes";
 import ReviewsComponent from "../review/ReviewsComponent";
-import EditBookModal from "./EditBookModal";
 import { useApi } from "../../service/apiProvider";
 import { useTranslation } from "react-i18next";
+import BookModal from "./BookModal";
 
 export default function BookDetails() {
   const { user } = useAuth();
@@ -63,27 +63,9 @@ export default function BookDetails() {
     }
   };
 
-  const handleBookEdit = async (book: Book) => {
-    try {
-      await api.editBook(Number(bookId), book);
-      fetchBookDetails();
-      toast({
-        title: t("book updated"),
-        description: t("book updated description"),
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        title: t("error occured"),
-        description: t("failed to update book"),
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    } finally {
-      onClose();
+  const handleBookEdit = async (book: Book | BookPostRequest) => {
+    if (book && "id" in book) {
+      setBook(await api.editBook(book.id, book));
     }
   };
 
@@ -225,11 +207,12 @@ export default function BookDetails() {
                 {t("edit book")}
               </Button>
               {book && (
-                <EditBookModal
-                  book={book}
+                <BookModal
                   isOpen={isOpen}
                   onClose={onClose}
-                  updateBook={handleBookEdit}
+                  onConfirm={handleBookEdit}
+                  isEditing={true}
+                  book={book}
                 />
               )}
               <Button

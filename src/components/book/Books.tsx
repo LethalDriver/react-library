@@ -8,16 +8,17 @@ import {
   Stack,
   Box,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import BookCard from "./BookCard";
 import { SearchIcon } from "@chakra-ui/icons";
-import { Book } from "../../types/bookTypes";
+import { Book, BookPostRequest } from "../../types/bookTypes";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useApi } from "../../service/apiProvider";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../service/authProvider";
-import AddBookModal from "./AddBookModal";
+import BookModal from "./BookModal";
 
 const Books = () => {
   const { onOpen, isOpen, onClose } = useDisclosure();
@@ -27,6 +28,7 @@ const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [search, setSearch] = useState<string>("");
   const { t } = useTranslation();
+  const toast = useToast();
   const fetchBooks = async () => {
     const fetchedBooks = await api.fetchBooks(search);
     setBooks(fetchedBooks);
@@ -40,13 +42,22 @@ const Books = () => {
     fetchBooks();
   };
 
+  const handleAddBook = async (values: BookPostRequest) => {
+    api.addBook(values);
+  };
+
   useEffect(() => {
     fetchBooks();
   }, []);
 
   return (
     <Stack spacing={4}>
-      <AddBookModal isOpen={isOpen} onClose={onClose} />
+      <BookModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleAddBook}
+        isEditing={false}
+      />
       <Stack
         direction="row"
         spacing={4}
