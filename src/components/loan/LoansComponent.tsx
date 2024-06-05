@@ -12,22 +12,20 @@ const LoansComponent = () => {
   const { user } = useAuth();
   const api = useApi();
   const isAdmin = user?.role === "LIBRARIAN";
-  console.log(user);
   const fetchLoans = async () => {
+    let fetchedLoans;
+
     if (isAdmin) {
-      if (!search) {
-        const fetchedLoans = await api.fetchAllLoans();
-        setLoans(fetchedLoans);
-      } else {
-        console.log(search);
-        const fetchedLoans = await api.searchLoansByUsernames(search);
-        setLoans(fetchedLoans);
-      }
+      fetchedLoans = search
+        ? await api.searchLoansByUsernames(search)
+        : await api.fetchAllLoans();
     } else {
-      const fetchedLoans = await api.fetchUserLoans();
-      setLoans(fetchedLoans);
+      fetchedLoans = await api.fetchUserLoans();
     }
+
+    setLoans(fetchedLoans);
   };
+
   const fetchOverdueLoans = async () => {
     const fetchedLoans = await api.fetchOverdueLoans();
     setLoans(fetchedLoans);
