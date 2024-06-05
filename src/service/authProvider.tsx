@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { UserDetails } from "../types/authTypes";
 import { useApi } from "./apiProvider";
-import { bool } from "yup";
 
 type AuthContextType = {
   user: UserDetails | null;

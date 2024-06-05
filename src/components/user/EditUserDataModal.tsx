@@ -41,14 +41,14 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
   const api = useApi();
   const { t } = useTranslation();
   const validationSchema = useMemo(() => {
-    Yup.object().shape({
+    return Yup.object().shape({
       name: Yup.string().required(t("full name is required")),
       email: Yup.string()
         .required(t("email is required"))
         .email(t("email is invalid")),
       password: Yup.string()
         .required(t("password is required"))
-        .min(8, t("password should be at least 8 characters long")),
+        .min(8, t("password min 8 characters")),
       username: Yup.string().required(t("username is required")),
     });
   }, []);
