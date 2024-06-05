@@ -51,7 +51,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
   const handleReviewSubmit = async () => {
     if (newReview === "" || newReviewRating === 0) {
       toast({
-        title: t('please fill out the review and rating'),
+        title: t("please fill out the review and rating"),
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -93,7 +93,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
               <IconButton
                 key={rating}
                 icon={<StarIcon />}
-                colorScheme={rating <= newReviewRating ? "teal" : "gray"}
+                colorScheme={rating <= newReviewRating ? "yellow" : "gray"}
                 onClick={() => handleStarClick(rating)}
                 aria-label={`Rate ${rating}`}
               />

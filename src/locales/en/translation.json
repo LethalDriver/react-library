@@ -65,5 +65,20 @@
   "loans": "Loans",
   "not returned yet": "Not returned yet",
   "overdue": "Overdue",
-  "book added": "Book added"
+  "book added": "Book  added.",
+  "book added description": "The book has been added successfully.",
+  "failed to add book": "Failed to add book",
+  "loan request sent": "Loan request sent",
+  "request sent description": "Your loan request has been sent to the librarian for approval.",
+  "error occured": "An error occurred",
+  "failed to request loan": "Failed to request loan",
+  "book updated": "Book updated",
+  "book updated description": "The book has been updated successfully.",
+  "failed to update book": "Failed to update book",
+  "email is required": "Email is required",
+  "email is invalid": "Email is invalid",
+  "password is required": "Password is required",
+  "username is required": "Username is required",
+  "full name is required": "Full name is required",
+  "password min 8 characters": "Password must be at least 8 characters long"
 }

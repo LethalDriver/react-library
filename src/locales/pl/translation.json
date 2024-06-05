@@ -65,5 +65,20 @@
   "loans": "Wypożyczenia",
   "not returned yet": "Nie zwrócona",
   "overdue": "Po terminie",
-  "book added": "Książka dodana"
+  "book added": "Książka dodana",
+  "book added description": "Książka została dodana pomyślnie.",
+  "failed to add book": "Nie udało się dodać książki",
+  "loan request sent": "Wysłano prośbę o wypożyczenie",
+  "request sent description": "Twoja prośba o wypożyczenie została wysłana do bibliotekarza w celu zatwierdzenia.",
+  "error occured": "Wystąpił błąd",
+  "failed to request loan": "Nie udało się złożyć prośby o wypożyczenie",
+  "book updated": "Książka zaktualizowana",
+  "book updated description": "Książka została zaktualizowana pomyślnie.",
+  "failed to update book": "Nie udało się zaktualizować książki",
+  "email is required": "Email jest wymagany",
+  "email is invalid": "Email jest nieprawidłowy",
+  "password is required": "Hasło jest wymagane",
+  "username is required": "Nazwa użytkownika jest wymagana",
+  "full name is required": "Imię i nazwisko są wymagane",
+  "password min 8 characters": "Hasło musi mieć co najmniej 8 znaków"
 }

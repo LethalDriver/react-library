@@ -68,16 +68,16 @@ export default function BookDetails() {
       await api.editBook(Number(bookId), book);
       fetchBookDetails();
       toast({
-        title: "Book updated",
-        description: "The book has been updated",
+        title: t("book updated"),
+        description: t("book updated description"),
         status: "success",
         duration: 9000,
         isClosable: true,
       });
     } catch (error) {
       toast({
-        title: "An error occurred.",
-        description: "Failed to update book",
+        title: t("error occured"),
+        description: t("failed to update book"),
         status: "error",
         duration: 9000,
         isClosable: true,
@@ -91,16 +91,16 @@ export default function BookDetails() {
     try {
       await api.requestBookLoan(Number(bookId));
       toast({
-        title: "Loan request sent",
-        description: "Your request has been sent to the librarian",
+        title: t("loan request sent"),
+        description: t("request sent description"),
         status: "success",
         duration: 9000,
         isClosable: true,
       });
     } catch (error) {
       toast({
-        title: "An error occurred.",
-        description: "Failed to request loan",
+        title: t("error occured"),
+        description: t("failed to request loan"),
         status: "error",
         duration: 9000,
         isClosable: true,

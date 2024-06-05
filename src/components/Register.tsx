@@ -23,7 +23,7 @@ import {
   FormikHelpers,
   Form,
 } from "formik";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
@@ -32,24 +32,6 @@ import { useApi } from "../service/apiProvider";
 import { getErrorMessage } from "../service/utils";
 import { useTranslation } from "react-i18next";
 
-export const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required("Full Name is required")
-    .min(3, "Full Name should be at least 3 characters long.")
-    .max(40, "Full Name should be at most 40 characters long."),
-  email: Yup.string()
-    .required("Email is required")
-    .email("Invalid email address."),
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password should be at least 8 characters long.")
-    .max(20, "Password should be at most 20 characters long."),
-  username: Yup.string()
-    .required("Username is required")
-    .min(3, "Username should be at least 3 characters long.")
-    .max(20, "Username should be at most 20 characters long."),
-});
-
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [blue400] = useToken("colors", ["blue.400"]);
@@ -57,6 +39,19 @@ export default function SignupCard() {
   const api = useApi();
   const toast = useToast();
   const { t } = useTranslation();
+
+  const validationSchema = useMemo(() => {
+    Yup.object().shape({
+      name: Yup.string().required(t("full name is required")),
+      email: Yup.string()
+        .required(t("email is required"))
+        .email(t("email is invalid")),
+      password: Yup.string()
+        .required(t("password is required"))
+        .min(8, t("password should be at least 8 characters long")),
+      username: Yup.string().required(t("username is required")),
+    });
+  }, []);
 
   return (
     <Formik

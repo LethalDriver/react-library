@@ -28,13 +28,9 @@ import {
 } from "@chakra-ui/react";
 import { useApi } from "../service/apiProvider";
 import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .required("Email is required")
-    .email("Invalid email address."),
-  password: Yup.string().required("Password is required"),
-});
+
 
 export default function SimpleCard() {
   const { setUser } = useAuth();
@@ -42,6 +38,16 @@ export default function SimpleCard() {
   const toast = useToast();
   const api = useApi();
   const { t } = useTranslation();
+
+  const validationSchema = useMemo(() => {
+    return Yup.object().shape({
+      email: Yup.string()
+        .required(t("email is required"))
+        .email(t("email is invalid")),
+      password: Yup.string().required(t("password is required")),
+    });
+  }
+  , []);
 
   return (
     <Formik
@@ -55,7 +61,7 @@ export default function SimpleCard() {
         } catch (error) {
           const errorMessage = getErrorMessage(error);
           toast({
-            title: "An error occurred.",
+            title: t("error occurred"),
             description: errorMessage,
             status: "error",
             duration: 9000,

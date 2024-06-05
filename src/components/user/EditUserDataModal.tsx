@@ -17,14 +17,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Field, Form, Formik, FieldInputProps, ErrorMessage } from "formik";
-import { validationSchema } from "../Register";
 import { RegisterRequest } from "../../types/authTypes";
 import { useAuth } from "../../service/authProvider";
 import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "../../service/utils";
 import { useApi } from "../../service/apiProvider";
+import * as Yup from "yup";
 
 interface EditUserDataModalProps {
   isOpen: boolean;
@@ -40,6 +40,18 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
   const toast = useToast();
   const api = useApi();
   const { t } = useTranslation();
+  const validationSchema = useMemo(() => {
+    Yup.object().shape({
+      name: Yup.string().required(t("full name is required")),
+      email: Yup.string()
+        .required(t("email is required"))
+        .email(t("email is invalid")),
+      password: Yup.string()
+        .required(t("password is required"))
+        .min(8, t("password should be at least 8 characters long")),
+      username: Yup.string().required(t("username is required")),
+    });
+  }, []);
   const handleUserEdit = async (values: RegisterRequest) => {
     try {
       const updatedUser = await api.updateUser(values);

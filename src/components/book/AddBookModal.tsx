@@ -52,16 +52,16 @@ export default function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
       await api.addBook(newBook);
       toast({
         title: t("book added"),
+        description: t("book added description"),
         status: "success",
         duration: 5000,
         isClosable: true,
       });
       onClose();
     } catch (error) {
-      const errorMessage = getErrorMessage(error);
       toast({
-        title: t("error"),
-        description: errorMessage,
+        title: t("error occured"),
+        description: t("failed to add book"),
         status: "error",
         duration: 5000,
         isClosable: true,
