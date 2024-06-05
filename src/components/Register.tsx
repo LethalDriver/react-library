@@ -24,7 +24,7 @@ import {
   Form,
 } from "formik";
 import { useState, useMemo } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { RegisterRequest } from "../types/authTypes";
 import { useAuth } from "../service/authProvider";
@@ -39,6 +39,7 @@ export default function SignupCard() {
   const api = useApi();
   const toast = useToast();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const validationSchema = useMemo(() => {
     return Yup.object().shape({
@@ -66,7 +67,6 @@ export default function SignupCard() {
         values: RegisterRequest,
         { setSubmitting }: FormikHelpers<RegisterRequest>
       ) => {
-        console.log("triggered");
         try {
           const userDetails = await api.register(values);
           setUser(userDetails);
@@ -77,6 +77,7 @@ export default function SignupCard() {
             duration: 9000,
             isClosable: true,
           });
+          navigate("/books");
         } catch (error) {
           const errorMessage = getErrorMessage(error);
           toast({
