@@ -82,5 +82,8 @@
   "password is required": "Password is required",
   "username is required": "Username is required",
   "full name is required": "Full name is required",
-  "password min 8 characters": "Password must be at least 8 characters long"
+  "password min 8 characters": "Password must be at least 8 characters long",
+  "title required": "Title is required",
+  "author required": "Author is required",
+  "available copies required": "Available copies is required"
 }

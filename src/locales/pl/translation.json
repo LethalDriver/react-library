@@ -82,5 +82,8 @@
   "password is required": "Hasło jest wymagane",
   "username is required": "Nazwa użytkownika jest wymagana",
   "full name is required": "Imię i nazwisko są wymagane",
-  "password min 8 characters": "Hasło musi mieć co najmniej 8 znaków"
+  "password min 8 characters": "Hasło musi mieć co najmniej 8 znaków",
+  "title required": "Tytuł jest wymagany",
+  "author required": "Autor jest wymagany",
+  "available copies required": "Dostępne kopie są wymagane"
 }

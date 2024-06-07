@@ -12,13 +12,15 @@ import {
   Flex,
   Textarea,
   useToast,
+  Text,
+  Stack,
 } from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Book, BookPostRequest } from "../../types/bookTypes";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useApi } from "../../service/apiProvider";
-import { getErrorMessage } from "../../service/utils";
+import { useMemo } from "react";
 
 interface BookModalProps {
   book?: Book;
@@ -27,12 +29,6 @@ interface BookModalProps {
   onConfirm: (book: Book | BookPostRequest) => void;
   isEditing: boolean;
 }
-
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  author: Yup.string().required("Author is required"),
-  availableCopies: Yup.number().required("Available copies is required"),
-});
 
 export default function BookModal({
   book,
@@ -44,6 +40,14 @@ export default function BookModal({
   const { t } = useTranslation();
   const toast = useToast();
   const api = useApi();
+
+  const validationSchema = useMemo(() => {
+    return Yup.object().shape({
+      title: Yup.string().required(t("title required")),
+      author: Yup.string().required(t("author required")),
+      availableCopies: Yup.number().required(t("available copies required")),
+    });
+  }, []);
 
   const handleSubmit = async (values: any) => {
     const bookData: Book | BookPostRequest = {
@@ -123,77 +127,103 @@ export default function BookModal({
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            <Form>
-              <Field name="title">
-                {({ field }: any) => (
-                  <FormControl id="title">
-                    <FormLabel>{t("book title")}</FormLabel>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="author">
-                {({ field }: any) => (
-                  <FormControl id="author">
-                    <FormLabel>{t("author")}</FormLabel>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="isbn">
-                {({ field }: any) => (
-                  <FormControl id="isbn">
-                    <FormLabel>{t("isbn")}</FormLabel>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="publisher">
-                {({ field }: any) => (
-                  <FormControl id="publisher">
-                    <FormLabel>{t("publisher")}</FormLabel>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="availableCopies">
-                {({ field }: any) => (
-                  <FormControl id="availableCopies">
-                    <FormLabel>{t("available copies")}</FormLabel>
-                    <Input type="number" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="genre">
-                {({ field }: any) => (
-                  <FormControl id="genre">
-                    <FormLabel>{t("genre")}</FormLabel>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="imageUrl">
-                {({ field }: any) => (
-                  <FormControl id="imageUrl">
-                    <FormLabel>{t("cover image url")}</FormLabel>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="summary">
-                {({ field }: any) => (
-                  <FormControl id="summary">
-                    <FormLabel>{t("summary")}</FormLabel>
-                    <Textarea {...field} />
-                  </FormControl>
-                )}
-              </Field>
-              <Flex justifyContent="center">
-                <Button mt={4} colorScheme="green" type="submit">
-                  {t("save")}
-                </Button>
-              </Flex>
-            </Form>
+            {({ errors, touched, dirty, isValid }) => (
+              <Form>
+                <Stack direction="column" spacing={4}>
+                  <Field name="title">
+                    {({ field }: any) => (
+                      <FormControl
+                        id="title"
+                        isInvalid={Boolean(errors.title && touched?.title)}
+                      >
+                        <FormLabel>{t("book title")}</FormLabel>
+                        <Input type="text" {...field} />
+                        <ErrorMessage
+                          name="title"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="author">
+                    {({ field }: any) => (
+                      <FormControl
+                        id="author"
+                        isInvalid={Boolean(errors.author && touched?.author)}
+                      >
+                        <FormLabel>{t("author")}</FormLabel>
+                        <Input type="text" {...field} />
+                        <ErrorMessage
+                          name="author"
+                          component={(props) => (
+                            <Text color="red.500" align={"start"} {...props} />
+                          )}
+                        />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="isbn">
+                    {({ field }: any) => (
+                      <FormControl id="isbn">
+                        <FormLabel>{t("isbn")}</FormLabel>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="publisher">
+                    {({ field }: any) => (
+                      <FormControl id="publisher">
+                        <FormLabel>{t("publisher")}</FormLabel>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="availableCopies">
+                    {({ field }: any) => (
+                      <FormControl id="availableCopies">
+                        <FormLabel>{t("available copies")}</FormLabel>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="genre">
+                    {({ field }: any) => (
+                      <FormControl id="genre">
+                        <FormLabel>{t("genre")}</FormLabel>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="imageUrl">
+                    {({ field }: any) => (
+                      <FormControl id="imageUrl">
+                        <FormLabel>{t("image url")}</FormLabel>
+                        <Input type="text" {...field} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="summary">
+                    {({ field }: any) => (
+                      <FormControl id="summary">
+                        <FormLabel>{t("summary")}</FormLabel>
+                        <Textarea {...field} />
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Flex justifyContent="center">
+                    <Button
+                      colorScheme="green"
+                      type="submit"
+                      isDisabled={!isValid || !dirty}
+                    >
+                      {t("save")}
+                    </Button>
+                  </Flex>
+                </Stack>
+              </Form>
+            )}
           </Formik>
         </ModalBody>
       </ModalContent>
