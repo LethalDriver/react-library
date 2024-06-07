@@ -1,33 +1,25 @@
-import { useState } from "react";
 import {
   Box,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
   Flex,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import EditUserDataModal from "./EditUserDataModal";
-import { useAuth } from "../../service/authProvider";
-import { RegisterRequest } from "../../types/authTypes";
-import { useApi } from "../../service/apiProvider";
 import { useTranslation } from "react-i18next";
+import { useApi } from "../../service/apiProvider";
+import { useAuth } from "../../service/authProvider";
+import EditUserDataModal from "./EditUserDataModal";
 
 const UserComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, setUser } = useAuth();
-  const api = useApi();
+  const { user } = useAuth();
   const { t } = useTranslation();
+
+  const roles: Record<string, string> = {
+    READER: t("reader"),
+    LIBRARIAN: t("librarian"),
+  };
 
   return (
     <Flex minH={"calc(100vh - 14rem)"} align={"center"} justify={"center"}>
@@ -41,9 +33,7 @@ const UserComponent = () => {
         bg={"white"}
         boxShadow={"lg"}
       >
-        <Text fontSize={"4xl"}>
-          {t("profile")}
-        </Text>
+        <Text fontSize={"4xl"}>{t("profile")}</Text>
 
         <Box>
           <Stack spacing={4}>
@@ -57,18 +47,13 @@ const UserComponent = () => {
               <strong>{t("username")}:</strong> {user?.username}
             </Text>
             <Text>
-              <strong>{t("role")}:</strong> {user?.role}
+              <strong>{t("role")}:</strong> {roles[user?.role || "READER"]}
             </Text>
           </Stack>
         </Box>
 
-        <Button onClick={onOpen}>
-          {t("edit")}
-        </Button>
-        <EditUserDataModal
-          isOpen={isOpen}
-          onClose={onClose}
-        />
+        <Button onClick={onOpen}>{t("edit")}</Button>
+        <EditUserDataModal isOpen={isOpen} onClose={onClose} />
       </Stack>
     </Flex>
   );
