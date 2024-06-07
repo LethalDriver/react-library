@@ -5,6 +5,7 @@ import {
   AccordionPanel,
   Box,
   Button,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
@@ -40,8 +41,19 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
     await api.approveLoan(loan.id);
     refetch();
   };
+
+  const rejectLoan = async () => {
+    await api.rejectLoan(loan.id);
+    refetch();
+  };
+
   const approveReturn = async () => {
     await api.approveReturn(loan.id);
+    refetch();
+  };
+
+  const rejectReturn = async () => {
+    await api.rejectReturn(loan.id);
     refetch();
   };
 
@@ -82,9 +94,11 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
         </Text>
         <Box
           display="flex"
-          flexDirection="column"
-          justifyContent="flex-end"
-          alignItems="flex-end"
+          justifyContent={{
+            base: "center",
+            md: "flex-end",
+          }}
+          mt={4}
         >
           {(() => {
             switch (loan.status) {
@@ -99,21 +113,49 @@ const LoanComponent: React.FC<LoanProps> = ({ loan, refetch }) => {
               case "PENDING_APPROVAL":
                 return (
                   isAdmin && (
-                    <Button colorScheme="green" size="sm" onClick={approveLoan}>
-                      {t("approve loan")}
-                    </Button>
+                    <Stack
+                      direction={{
+                        base: "column",
+                        md: "row",
+                      }}
+                      spacing={4}
+                      width={{
+                        base: "100%",
+                        md: "auto",
+                      }}
+                    >
+                      <Button
+                        colorScheme="green"
+                        size="sm"
+                        onClick={approveLoan}
+                      >
+                        {t("approve loan")}
+                      </Button>
+                      <Button colorScheme="red" size="sm" onClick={rejectLoan}>
+                        {t("reject loan")}
+                      </Button>
+                    </Stack>
                   )
                 );
               case "RETURNED":
                 return (
                   isAdmin && (
-                    <Button
-                      colorScheme="green"
-                      size="sm"
-                      onClick={approveReturn}
-                    >
-                      {t("approve return")}
-                    </Button>
+                    <Stack direction="row" spacing={4}>
+                      <Button
+                        colorScheme="green"
+                        size="sm"
+                        onClick={approveReturn}
+                      >
+                        {t("approve return")}
+                      </Button>
+                      <Button
+                        colorScheme="red"
+                        size="sm"
+                        onClick={rejectReturn}
+                      >
+                        {t("reject return")}
+                      </Button>
+                    </Stack>
                   )
                 );
               default:

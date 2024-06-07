@@ -26,7 +26,9 @@ interface ApiInstance extends AxiosInstance {
   requestBookLoan: (bookId: number) => Promise<Loan>;
   returnBookLoan: (loanId: number) => Promise<Loan>;
   approveLoan: (loanId: number) => Promise<Loan>;
+  rejectLoan: (loanId: number) => Promise<Loan>;
   approveReturn: (loanId: number) => Promise<Loan>;
+  rejectReturn: (loanId: number) => Promise<Loan>;
   addBook: (book: BookPostRequest) => Promise<Book>;
   editBook: (bookId: number, book: Book) => Promise<Book>;
   deleteBook: (bookId: number) => Promise<void>;
@@ -122,8 +124,16 @@ api.approveLoan = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/approve`)).data as Loan;
 };
 
+api.rejectLoan = async function (loanId: number) {
+  return (await this.patch(`/loans/${loanId}/reject`)).data as Loan;
+};
+
 api.approveReturn = async function (loanId: number) {
   return (await this.patch(`/loans/${loanId}/approve-return`)).data as Loan;
+};
+
+api.rejectReturn = async function (loanId: number) {
+  return (await this.patch(`/loans/${loanId}/reject-return`)).data as Loan;
 };
 
 api.addBook = async function (book: BookPostRequest) {

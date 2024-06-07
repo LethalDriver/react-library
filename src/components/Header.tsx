@@ -15,12 +15,14 @@ import {
   useDisclosure,
   useToast,
   Text,
+  Image,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../service/authProvider";
 import { useApi } from "../service/apiProvider";
 import { useTranslation } from "react-i18next";
+import book from "../assets/book.png";
 
 interface Props {
   children: React.ReactNode;
@@ -104,7 +106,9 @@ export default function Simple() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
+            <Box>
+              <Image src={book} alt={"logo"} width={50} />
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}

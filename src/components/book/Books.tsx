@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SearchIcon } from "@chakra-ui/icons";
 import {
   Button,
   Grid,
@@ -6,18 +6,15 @@ import {
   InputGroup,
   InputLeftElement,
   Stack,
-  Box,
-  useDisclosure,
-  useToast,
+  useDisclosure
 } from "@chakra-ui/react";
-import BookCard from "./BookCard";
-import { SearchIcon } from "@chakra-ui/icons";
-import { Book, BookPostRequest } from "../../types/bookTypes";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useApi } from "../../service/apiProvider";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { useApi } from "../../service/apiProvider";
 import { useAuth } from "../../service/authProvider";
+import { Book, BookPostRequest } from "../../types/bookTypes";
+import BookCard from "./BookCard";
 import BookModal from "./BookModal";
 
 const Books = () => {
@@ -28,7 +25,6 @@ const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [search, setSearch] = useState<string>("");
   const { t } = useTranslation();
-  const toast = useToast();
   const fetchBooks = async () => {
     const fetchedBooks = await api.fetchBooks(search);
     setBooks(fetchedBooks);
