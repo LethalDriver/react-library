@@ -85,5 +85,7 @@
   "password min 8 characters": "Hasło musi mieć co najmniej 8 znaków",
   "title required": "Tytuł jest wymagany",
   "author required": "Autor jest wymagany",
-  "available copies required": "Dostępne kopie są wymagane"
+  "available copies required": "Dostępne kopie są wymagane",
+  "account created": "Konto utworzone",
+  "account created description": "Twoje konto zostało utworzone pomyślnie."
 }

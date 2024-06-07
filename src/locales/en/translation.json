@@ -85,5 +85,7 @@
   "password min 8 characters": "Password must be at least 8 characters long",
   "title required": "Title is required",
   "author required": "Author is required",
-  "available copies required": "Available copies is required"
+  "available copies required": "Available copies is required",
+  "account created": "Account created",
+  "account created description": "Your account has been created successfully. Please sign in to continue."
 }

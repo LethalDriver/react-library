@@ -71,8 +71,8 @@ export default function SignupCard() {
           const userDetails = await api.register(values);
           setUser(userDetails);
           toast({
-            title: "Account created.",
-            description: "Your account has been created.",
+            title: t("account created"),
+            description: t("account created description"),
             status: "success",
             duration: 9000,
             isClosable: true,
@@ -81,7 +81,7 @@ export default function SignupCard() {
         } catch (error) {
           const errorMessage = getErrorMessage(error);
           toast({
-            title: "An error occurred.",
+            title: t("error"),
             description: errorMessage,
             status: "error",
             duration: 9000,
