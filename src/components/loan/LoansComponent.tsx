@@ -8,21 +8,16 @@ import { useApi } from "../../service/apiProvider";
 
 const LoansComponent = () => {
   const [loans, setLoans] = useState<Loan[]>([]);
-  const [search, setSearch] = useState<string>("");
   const { user } = useAuth();
   const api = useApi();
   const isAdmin = user?.role === "LIBRARIAN";
   const fetchLoans = async () => {
-    let fetchedLoans;
-
+    let fetchedLoans: Loan[] = [];
     if (isAdmin) {
-      fetchedLoans = search
-        ? await api.searchLoansByUsernames(search)
-        : await api.fetchAllLoans();
+      fetchedLoans = await api.fetchAllLoans();
     } else {
       fetchedLoans = await api.fetchUserLoans();
     }
-
     setLoans(fetchedLoans);
   };
 
@@ -36,8 +31,12 @@ const LoansComponent = () => {
     setLoans(filteredLoans);
   };
   const onSearch = async (username: string) => {
-    setSearch(username);
-    fetchLoans();
+    if (username === "") {
+      fetchLoans();
+      return;
+    }
+    const fetchedLoans = await api.searchLoansByUsernames(username);
+    setLoans(fetchedLoans);
   };
   const onFilter = (status: string | null) => {
     switch (status) {

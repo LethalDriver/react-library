@@ -108,6 +108,11 @@ api.fetchAllLoans = async function () {
   return (await this.get("/loans")).data as Loan[];
 };
 
+api.searchLoansByUsernames = async function (username: string) {
+  return (await this.get("/loans/user", { params: { username } }))
+    .data as Loan[];
+};
+
 api.fetchOverdueLoans = async function () {
   return (await this.get("/loans/overdue")).data as Loan[];
 };
@@ -154,10 +159,6 @@ api.editReview = async function (reviewId: number, review: Review) {
 
 api.deleteReview = async function (reviewId: number) {
   return await this.delete(`/reviews/${reviewId}`);
-};
-
-api.searchLoansByUsernames = async function (username: string) {
-  return (await this.get("/loans", { params: { username } })).data as Loan[];
 };
 
 //Append jwt to auth header, whenever the request is not to send to the authentication controller
