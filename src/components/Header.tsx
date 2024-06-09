@@ -84,7 +84,7 @@ export default function Simple() {
     } catch (error) {
       if (error instanceof Error) {
         toast({
-          title: "An error occurred.",
+          title: t("error occurred"),
           description: error.message,
           status: "error",
           duration: 9000,

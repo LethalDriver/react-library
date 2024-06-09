@@ -1,5 +1,5 @@
 {
-  "welcome1": "Przeglądaj zajebiste książki",
+  "welcome1": "Wypożyczaj książki",
   "welcome2": "w naszej bibliotece!",
   "sign in": "Zaloguj się",
   "sign up": "Zarejestruj się",
@@ -96,5 +96,7 @@
   "register": "Zarejestruj się",
   "failed to delete book": "Nie udało się usunąć książki",
   "book deleted": "Książka usunięta",
-  "book deleted description": "Książka została usunięta pomyślnie."
+  "book deleted description": "Książka została usunięta pomyślnie.",
+  "site description": "Przeglądaj pośród tysięcy fascynujących książek w naszej cyfrowej bibliotece. Zarejestruj się już dziś, aby zacząć korzystać z naszych usług!",
+  "get started": "Zaczynajmy"
 }

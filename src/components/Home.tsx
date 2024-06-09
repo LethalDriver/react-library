@@ -22,11 +22,7 @@ export default function CallToActionWithAnnotation() {
               {t("welcome2")}
             </Text>
           </Heading>
-          <Text color={"gray.500"}>
-            Monetize your content by charging your most loyal readers and reward
-            them loyalty points. Give back to your loyal readers by granting
-            them access to your pre-releases and sneak-peaks.
-          </Text>
+          <Text color={"gray.500"}>{t("site description")}</Text>
           <Stack
             direction={"column"}
             spacing={3}
@@ -43,10 +39,7 @@ export default function CallToActionWithAnnotation() {
                 bg: "blue.500",
               }}
             >
-              Get Started
-            </Button>
-            <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
-              Learn more
+              {t("get started")}
             </Button>
           </Stack>
         </Stack>

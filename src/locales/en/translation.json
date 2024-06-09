@@ -96,5 +96,7 @@
   "register": "Register",
   "failed to delete book": "Failed to delete book",
   "book deleted": "Book deleted",
-  "book deleted description": "The book has been deleted successfully."
+  "book deleted description": "The book has been deleted successfully.",
+  "site description": "Browse and borrow thousands of fascinating books from our digital library management system. Sign up for an account to get started!",
+  "get started": "Get started"
 }
