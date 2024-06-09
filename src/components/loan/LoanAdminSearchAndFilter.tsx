@@ -1,15 +1,15 @@
 import {
   Box,
   Button,
-  filter,
   Flex,
   Input,
+  InputGroup,
+  InputLeftElement,
   Select,
-  Stack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { LoanStatus } from "../../types/loanTypes";
 import { useTranslation } from "react-i18next";
+import { SearchIcon } from "@chakra-ui/icons";
 
 interface LoanAdminSearchAndFilterProps {
   onSearch: (username: string) => void;
@@ -56,12 +56,15 @@ const LoanAdminSearchAndFilter: React.FC<LoanAdminSearchAndFilterProps> = ({
       p={4}
     >
       <Box flex="5">
-        <Input
-          placeholder={t("search by username")}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          size="md"
-        />
+        <InputGroup>
+          <InputLeftElement children={<SearchIcon />} />
+          <Input
+            placeholder={t("search by username")}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            size="md"
+          />
+        </InputGroup>
       </Box>
       <Select
         placeholder={t("filter by status")}
