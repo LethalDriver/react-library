@@ -93,5 +93,8 @@
   "users": "Users",
   "make reader": "Make reader",
   "don't have account": "Don't have an account?",
-  "register": "Register"
+  "register": "Register",
+  "failed to delete book": "Failed to delete book",
+  "book deleted": "Book deleted",
+  "book deleted description": "The book has been deleted successfully."
 }

@@ -76,16 +76,16 @@ const ReviewsComponent: React.FC<ReviewsProps> = ({ bookId }) => {
       <StackComponent
         spacing={4}
         borderRadius="lg"
-        boxShadow="base" // Increase boxShadow to "xl" for a larger shadow
+        boxShadow="base"
         p={4}
-        border="1px" // Add a border
-        borderColor={useColorModeValue("gray.900", "whiteAlpha.300")}
+        border="1px"
+        borderColor="gray.900"
       >
         <Textarea
           value={newReview}
           onChange={handleReviewChange}
           placeholder={t("add a review")}
-          borderColor={useColorModeValue("gray.200", "whiteAlpha.900")} // Set the border color explicitly
+          borderColor="gray.200"
         />
         <VStack>
           <Stack direction="row">

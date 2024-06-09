@@ -9,11 +9,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useApi } from "../../service/apiProvider";
 import { useAuth } from "../../service/authProvider";
 import { Loan, LoanStatus } from "../../types/loanTypes";
-import { useApi } from "../../service/apiProvider";
-import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 
 type LoanProps = {
   loan: Loan;

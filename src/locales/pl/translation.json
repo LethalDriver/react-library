@@ -93,5 +93,8 @@
   "users": "Użytkownicy",
   "make reader": "Ustaw jako czytelnika",
   "don't have an account": "Nie masz konta?",
-  "register": "Zarejestruj się"
+  "register": "Zarejestruj się",
+  "failed to delete book": "Nie udało się usunąć książki",
+  "book deleted": "Książka usunięta",
+  "book deleted description": "Książka została usunięta pomyślnie."
 }

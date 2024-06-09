@@ -39,7 +39,6 @@ export default function BookModal({
 }: BookModalProps) {
   const { t } = useTranslation();
   const toast = useToast();
-  const api = useApi();
 
   const validationSchema = useMemo(() => {
     return Yup.object().shape({

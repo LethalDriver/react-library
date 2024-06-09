@@ -45,8 +45,8 @@ export default function BookDetails() {
     try {
       await api.deleteBook(Number(bookId));
       toast({
-        title: "Book deleted",
-        description: "The book has been deleted",
+        title: t("book deleted"),
+        description: t("book deleted description"),
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -54,8 +54,8 @@ export default function BookDetails() {
       navigate("/books");
     } catch (error) {
       toast({
-        title: "An error occurred.",
-        description: "Failed to delete book",
+        title: t("error occured"),
+        description: t("failed to delete book"),
         status: "error",
         duration: 9000,
         isClosable: true,

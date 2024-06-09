@@ -8,11 +8,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useApi } from "../../service/apiProvider";
 import { useAuth } from "../../service/authProvider";
 import { Review } from "../../types/reviewTypes";
 import EditReviewModal from "./EditReviewModal";
-import { useTranslation } from "react-i18next";
 
 type ReviewProps = {
   review: Review;
