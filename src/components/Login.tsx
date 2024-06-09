@@ -6,11 +6,12 @@ import {
   Formik,
   FormikHelpers,
 } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 import { useAuth } from "../service/authProvider";
-import { UserDetails } from "../types/authTypes";
 import { getErrorMessage } from "../service/utils";
+import { UserDetails } from "../types/authTypes";
+import { useState } from "react";
 
 import {
   Box,
@@ -25,14 +26,18 @@ import {
   Text,
   useColorModeValue,
   useToast,
+  InputGroup,
+  InputRightElement,
+  useToken,
 } from "@chakra-ui/react";
-import { useApi } from "../service/apiProvider";
-import { useTranslation } from "react-i18next";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useMemo } from "react";
-
-
+import { useTranslation } from "react-i18next";
+import { useApi } from "../service/apiProvider";
 
 export default function SimpleCard() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [blue400] = useToken("colors", ["blue.400"]);
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
@@ -46,8 +51,7 @@ export default function SimpleCard() {
         .email(t("email is invalid")),
       password: Yup.string().required(t("password is required")),
     });
-  }
-  , []);
+  }, []);
 
   return (
     <Formik
@@ -117,25 +121,32 @@ export default function SimpleCard() {
                         )}
                       >
                         <FormLabel>{t("password")}</FormLabel>
-                        <Input {...field} type="password" />
+                        <InputGroup>
+                          <Input
+                            {...field}
+                            type={showPassword ? "text" : "password"}
+                          />
+                          <InputRightElement h={"full"}>
+                            <Button
+                              variant={"ghost"}
+                              onClick={() =>
+                                setShowPassword((showPassword) => !showPassword)
+                              }
+                            >
+                              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                            </Button>
+                          </InputRightElement>
+                        </InputGroup>
                         <ErrorMessage
                           name="password"
                           component={(props) => (
-                            <Text color="red.500" align="start" {...props} />
+                            <Text color="red.500" align={"start"} {...props} />
                           )}
                         />
                       </FormControl>
                     )}
                   </Field>
                   <Stack spacing={10}>
-                    <Stack
-                      direction={{ base: "column", sm: "row" }}
-                      align={"start"}
-                      justify={"space-between"}
-                    >
-                      <Checkbox>{t("remember me")}</Checkbox>
-                      <Text color={"blue.400"}>{t("forgot password")}</Text>
-                    </Stack>
                     <Button
                       type="submit"
                       bg={"blue.400"}
@@ -148,6 +159,14 @@ export default function SimpleCard() {
                     >
                       {t("sign in")}
                     </Button>
+                  </Stack>
+                  <Stack pt={6}>
+                    <Text align={"center"}>
+                      {t("don't have an account")}{" "}
+                      <RouterLink to="/register" style={{ color: blue400 }}>
+                        {t("register")}
+                      </RouterLink>
+                    </Text>
                   </Stack>
                 </Stack>
               </Form>

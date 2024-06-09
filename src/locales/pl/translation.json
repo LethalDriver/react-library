@@ -91,5 +91,7 @@
   "make admin": "Ustaw jako bibliotekarza",
   "search users": "Szukaj użytkowników",
   "users": "Użytkownicy",
-  "make reader": "Ustaw jako czytelnika"
+  "make reader": "Ustaw jako czytelnika",
+  "don't have an account": "Nie masz konta?",
+  "register": "Zarejestruj się"
 }

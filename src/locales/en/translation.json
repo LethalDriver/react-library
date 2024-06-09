@@ -91,5 +91,7 @@
   "make admin": "Make librarian",
   "search users": "Search users",
   "users": "Users",
-  "make reader": "Make reader"
+  "make reader": "Make reader",
+  "don't have account": "Don't have an account?",
+  "register": "Register"
 }
