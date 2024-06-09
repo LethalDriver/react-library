@@ -100,7 +100,7 @@ export default function BookDetails() {
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 0, lg: 8 }}
+        py={{ base: 4, lg: 8 }}
       >
         <Flex justifyContent="center" alignItems="center">
           <Image
