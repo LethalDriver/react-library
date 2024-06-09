@@ -79,9 +79,15 @@ export default function SignupCard() {
           });
           navigate("/books");
         } catch (error) {
-          const errorMessage = getErrorMessage(error);
+          let errorMessage = getErrorMessage(error);
+          if (
+            errorMessage === "User already exists" ||
+            errorMessage === "Username already exists"
+          ) {
+            errorMessage = t("user already exists");
+          }
           toast({
-            title: t("error"),
+            title: t("error occured"),
             description: errorMessage,
             status: "error",
             duration: 9000,

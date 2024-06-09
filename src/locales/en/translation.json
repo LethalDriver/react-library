@@ -88,7 +88,7 @@
   "available copies required": "Available copies is required",
   "account created": "Account created",
   "account created description": "Your account has been created successfully. Please sign in to continue.",
-  "make admin": "Make librarian",
+  "make librarian": "Make librarian",
   "search users": "Search users",
   "users": "Users",
   "make reader": "Make reader",
@@ -98,5 +98,6 @@
   "book deleted": "Book deleted",
   "book deleted description": "The book has been deleted successfully.",
   "site description": "Browse and borrow thousands of fascinating books from our digital library management system. Sign up for an account to get started!",
-  "get started": "Get started"
+  "get started": "Get started",
+  "user already exists": "User already exists"
 }

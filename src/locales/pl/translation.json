@@ -88,7 +88,7 @@
   "available copies required": "Dostępne kopie są wymagane",
   "account created": "Konto utworzone",
   "account created description": "Twoje konto zostało utworzone pomyślnie.",
-  "make admin": "Ustaw jako bibliotekarza",
+  "make librarian": "Ustaw jako bibliotekarza",
   "search users": "Szukaj użytkowników",
   "users": "Użytkownicy",
   "make reader": "Ustaw jako czytelnika",
@@ -98,5 +98,6 @@
   "book deleted": "Książka usunięta",
   "book deleted description": "Książka została usunięta pomyślnie.",
   "site description": "Przeglądaj pośród tysięcy fascynujących książek w naszej cyfrowej bibliotece. Zarejestruj się już dziś, aby zacząć korzystać z naszych usług!",
-  "get started": "Zaczynajmy"
+  "get started": "Zaczynajmy",
+  "user already exists": "Użytkownik już istnieje"
 }
