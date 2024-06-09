@@ -25,17 +25,24 @@ import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "../../service/utils";
 import { useApi } from "../../service/apiProvider";
 import * as Yup from "yup";
+import { UserDetails } from "../../types/authTypes";
 
 interface EditUserDataModalProps {
+  user: UserDetails | null;
+  isOwner: boolean;
   isOpen: boolean;
   onClose: () => void;
+  refetch?: () => void;
 }
 
 const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
+  user,
+  isOwner,
   isOpen,
   onClose,
+  refetch,
 }) => {
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
   const api = useApi();
@@ -53,24 +60,49 @@ const EditUserDataModal: React.FC<EditUserDataModalProps> = ({
     });
   }, []);
   const handleUserEdit = async (values: RegisterRequest) => {
-    try {
-      const updatedUser = await api.updateUser(values);
-      setUser(updatedUser);
-      toast({
-        title: t("user data updated"),
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    } catch (error) {
-      const errorMessage = getErrorMessage(error);
-      toast({
-        title: t("error"),
-        description: errorMessage,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+    if (isOwner) {
+      try {
+        const updatedUser = await api.updateCurrentUser(values);
+        setUser(updatedUser);
+        toast({
+          title: t("user data updated"),
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        toast({
+          title: t("error"),
+          description: errorMessage,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } else {
+      try {
+        const updatedUser = await api.updateUser(user?.id || 0, values);
+        setUser(updatedUser);
+        toast({
+          title: t("user data updated"),
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        toast({
+          title: t("error"),
+          description: errorMessage,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+    if (refetch) {
+      refetch();
     }
   };
   return (

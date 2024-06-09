@@ -51,6 +51,7 @@ const NavLink = (props: Props) => {
 export default function Simple() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, setUser } = useAuth();
+  const isAdmin = user?.role === "LIBRARIAN";
   const navigate = useNavigate();
   const toast = useToast();
   const api = useApi();
@@ -59,6 +60,9 @@ export default function Simple() {
   const links = ["Home"];
   if (user) {
     links.push("Books", "Loans");
+    if (isAdmin) {
+      links.push("Users");
+    }
   }
 
   const handleSignInClick = () => {

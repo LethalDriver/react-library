@@ -14,7 +14,14 @@ interface ApiInstance extends AxiosInstance {
   login: (data: LoginRequest) => Promise<UserDetails>;
   logout: () => Promise<void>;
   register: (data: RegisterRequest) => Promise<UserDetails>;
-  updateUser: (data: RegisterRequest) => Promise<UserDetails>;
+  updateCurrentUser: (data: RegisterRequest) => Promise<UserDetails>;
+  updateUser: (id: number, data: RegisterRequest) => Promise<UserDetails>;
+  deleteUser: (id: number) => Promise<void>;
+  deleteCurrentUser: () => Promise<void>;
+  fetchUsers: () => Promise<UserDetails[]>;
+  searchUsers: (username: string) => Promise<UserDetails[]>;
+  makeAdmin: (id: number) => Promise<UserDetails>;
+  makeReader: (id: number) => Promise<UserDetails>;
   userInfo: () => Promise<UserDetails | null>;
   fetchBooks: (title: string) => Promise<Book[]>;
   fetchBookDetails: (bookId: number) => Promise<Book>;
@@ -57,8 +64,20 @@ api.register = async function (data: RegisterRequest) {
   return response.user;
 };
 
-api.updateUser = async function (data: RegisterRequest) {
+api.updateCurrentUser = async function (data: RegisterRequest) {
   return (await this.put("/users", data)).data as UserDetails;
+};
+
+api.updateUser = async function (id: number, data: RegisterRequest) {
+  return (await this.put(`/users/${id}`, data)).data as UserDetails;
+};
+
+api.deleteUser = async function (id: number) {
+  return await this.delete(`/users/${id}`);
+};
+
+api.deleteCurrentUser = async function () {
+  return await this.delete("/users");
 };
 
 api.userInfo = async function () {
@@ -67,6 +86,23 @@ api.userInfo = async function () {
   } catch (error) {
     return null;
   }
+};
+
+api.fetchUsers = async function () {
+  return (await this.get("/users/all")).data as UserDetails[];
+};
+
+api.searchUsers = async function (username: string) {
+  return (await this.get("/users/search", { params: { username } }))
+    .data as UserDetails[];
+};
+
+api.makeAdmin = async function (id: number) {
+  return (await this.patch(`/users/${id}/promote`)).data as UserDetails;
+};
+
+api.makeReader = async function (id: number) {
+  return (await this.patch(`/users/${id}/demote`)).data as UserDetails;
 };
 
 api.fetchBooks = async function (title: string) {

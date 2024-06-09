@@ -87,5 +87,9 @@
   "author required": "Autor jest wymagany",
   "available copies required": "Dostępne kopie są wymagane",
   "account created": "Konto utworzone",
-  "account created description": "Twoje konto zostało utworzone pomyślnie."
+  "account created description": "Twoje konto zostało utworzone pomyślnie.",
+  "make admin": "Ustaw jako bibliotekarza",
+  "search users": "Szukaj użytkowników",
+  "users": "Użytkownicy",
+  "make reader": "Ustaw jako czytelnika"
 }

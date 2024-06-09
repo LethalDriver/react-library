@@ -87,5 +87,9 @@
   "author required": "Author is required",
   "available copies required": "Available copies is required",
   "account created": "Account created",
-  "account created description": "Your account has been created successfully. Please sign in to continue."
+  "account created description": "Your account has been created successfully. Please sign in to continue.",
+  "make admin": "Make librarian",
+  "search users": "Search users",
+  "users": "Users",
+  "make reader": "Make reader"
 }
