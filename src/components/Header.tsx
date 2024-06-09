@@ -111,7 +111,12 @@ export default function Simple() {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box>
-              <Image src={book} alt={"logo"} width={50} />
+              <Image
+                src={book}
+                alt={"logo"}
+                width={50}
+                display={{ base: "none", md: "block" }}
+              />
             </Box>
             <HStack
               as={"nav"}
