@@ -1,8 +1,10 @@
 import { Box, Button, Container, Heading, Stack, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export default function CallToActionWithAnnotation() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <>
       <Container maxW={"3xl"}>
@@ -37,6 +39,9 @@ export default function CallToActionWithAnnotation() {
               px={6}
               _hover={{
                 bg: "blue.500",
+              }}
+              onClick={() => {
+                navigate("/books");
               }}
             >
               {t("get started")}
